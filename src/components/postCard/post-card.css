@@ -1,4 +1,19 @@
 /* Custom CSS class for a specific modal width */
 .custom-modal-width {
-  max-width: 80%;
+  min-width: 70% !important;
+  height: 90vh !important;
+}
+.icon-size {
+  cursor: pointer;
+  font-size: 1.5rem;
+}
+.icon-size:hover {
+  color: grey;
+}
+.hide-scroll-bar::-webkit-scrollbar {
+  display: none;
+}
+.comment-input::placeholder {
+  padding-top: 0.3rem;
+  font-size: 0.9rem;
 }
