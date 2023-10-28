@@ -188,11 +188,17 @@ const PostCard = () => {
               paddingBlockStart: 0,
             }}
           >
-            <Flex gap="1rem">
+            <Flex>
               {" "}
               <Image src={post.image} maxHeight={"90vh"} />
               <Box mt="0.5rem" mb="0.5rem">
-                <Flex flex="1" gap="2" alignItems="center" flexWrap="wrap">
+                <Flex
+                  flex="1"
+                  gap="2"
+                  alignItems="center"
+                  flexWrap="wrap"
+                  ml={"1rem"}
+                >
                   <Avatar
                     name={userDetails.userName}
                     src={userDetails.image}
@@ -212,7 +218,7 @@ const PostCard = () => {
                   </Box>
                 </Flex>
                 <hr></hr>
-                <Box paddingRight={"1rem"}>
+                <Box paddingRight={"1rem"} ml="1rem">
                   <VStack>
                     <Box
                       className="hide-scroll-bar"
@@ -241,7 +247,7 @@ const PostCard = () => {
                     </Box>
                   </VStack>
                 </Box>
-                <Box>
+                <Box ml="1rem">
                   <Flex width="95%" pt="0.6rem" m="auto" alignItems={"center"}>
                     <Flex gap="1rem">
                       {likeButtonClicked ? (
@@ -301,7 +307,7 @@ const PostCard = () => {
                   variant={"unstyled"}
                   width="100%"
                   padding={"0"}
-                  ml="-2%"
+                  ml="0.3rem"
                   outline={"none"}
                   border={"none"}
                   placeholder="Write your comment"
