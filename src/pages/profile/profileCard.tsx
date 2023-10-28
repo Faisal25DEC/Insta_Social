@@ -1,48 +1,118 @@
-import React from 'react'
+import React from "react";
 import {
-    Box,
-    Button,
-    Container,
-    Flex,
-    HStack,
-    Image,
-    Spacer,
-    Text,
-    VStack,
-  } from "@chakra-ui/react";
+  Box,
+  Button,
+  Container,
+  Flex,
+  HStack,
+  Image,
+  Spacer,
+  Text,
+  VStack,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  Input,
+  Heading,
+  Divider,
+} from "@chakra-ui/react";
+import PopUp from "./popup";
+import UserSmallCard from "./userSmallCard";
 const ProfileCard = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   return (
-    <Flex justifyContent="space-between" w="100%" alignItems='center' >
-    <Box p="20px"   >
-      <Box maxW='180px' minW='150px' w='15%' >
-        <Image
-          borderRadius="50%"
-          src="https://i.ibb.co/rp3V5Kd/358768461-3390909287831163-5567728346172820606-n.jpg"
-        ></Image>
+    <Flex justifyContent="space-between" w="100%" alignItems="center">
+      <Box p={{ lg: "20px", base: "0px" }}>
+        <Box maxW="180px" minW={{ base: "100px", lg: "150px" }} w="15%">
+          <Image
+            borderRadius="50%"
+            src="https://i.ibb.co/rp3V5Kd/358768461-3390909287831163-5567728346172820606-n.jpg"
+          ></Image>
+        </Box>
       </Box>
-    </Box>
 
-    <Spacer />
+      <Spacer />
 
-    <VStack w="70%" align="flex-start" spacing="20px" >
-      <HStack spacing="24px" >
-        <Text>arjundangi8349</Text>
-        <Button size='sm' fontSize='sm' borderColor='green.800' borderRadius='lg' >Edit Profile</Button>
-        <Button size='sm' fontSize='sm' borderColor='green.800' borderRadius='lg'>View Article</Button>
-      </HStack>
+      <VStack w={{ lg: "70%", base: "90%" }} align="flex-start" spacing="20px">
+        <Box
+          cursor="pointer"
+          display="flex"
+          flexDirection={{ base: "column", lg: "row" }}
+          gap="3"
+        >
+          <Text>arjundangi8349</Text>
+          <Box display="flex" gap="3">
+            <Button
+              size="sm"
+              fontSize="sm"
+              borderColor="green.800"
+              borderRadius="lg"
+            >
+              Edit Profile
+            </Button>
+            <Button
+              size="sm"
+              fontSize="sm"
+              borderColor="green.800"
+              borderRadius="lg"
+            >
+              View Article
+            </Button>
+          </Box>
+        </Box>
 
-      <HStack spacing="24px" >
-        <Text>0 posts </Text>
-        <Text>1 follower</Text>
-        <Text>2 following</Text>
-      </HStack>
+        <HStack display={{base:"none",md:"flex"}} cursor="pointer" spacing="24px">
+          <Text>0 posts </Text>
+          <Text onClick={onOpen}>1 follower</Text>
+          <Text onClick={onOpen}>2 following</Text>
+        </HStack>
 
-      <VStack  >
-        <Text>Arjun Dangi</Text>
+        <VStack>
+          <Text>Arjun Dangi</Text>
+        </VStack>
       </VStack>
-    </VStack>
-  </Flex>
-  )
-}
+      {/* <PopUp onOpen={onOpen} /> */}
+      <Modal
+        isCentered
+        blockScrollOnMount={true}
+        isOpen={isOpen}
+        onClose={onClose}
+      >
+        <ModalOverlay />
+        <ModalContent borderRadius="2xl">
+          <ModalHeader paddingY="0.5rem" textAlign="center">Followers</ModalHeader>
+          <Divider />
 
-export default ProfileCard
+          <ModalCloseButton />
+          <ModalBody>
+            <Box mb="1.2rem">
+              <Input size="sm" borderRadius="md" placeholder="Search" />
+            </Box>
+            <Box overflowY="scroll" maxH="260px" paddingRight="1.5rem">
+              <UserSmallCard text={"Remove"} />
+              <Text mb="0.8rem" fontWeight="bold">
+                Suggested For You
+              </Text>
+              <UserSmallCard text={"Follow"} />
+              <UserSmallCard text={"Follow"} />
+              <UserSmallCard text={"Follow"} />
+              <UserSmallCard text={"Follow"} />
+              <UserSmallCard text={"Follow"} />
+            </Box>
+          </ModalBody>
+
+          {/* <ModalFooter>             
+             
+            </ModalFooter> */}
+        </ModalContent>
+      </Modal>
+    </Flex>
+  );
+};
+
+export default ProfileCard;

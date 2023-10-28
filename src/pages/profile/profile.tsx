@@ -13,26 +13,29 @@ import {
   Tabs,
   Text,
   VStack,
+  useDisclosure,
 } from "@chakra-ui/react";
 import React from "react";
 import ProfileCard from "./profileCard";
 import PostGrid from "./postGrid";
+import ResponsiveTab from "./responsiveTab";
 
 const Profile = () => {
+ 
   return (
     <>
       <Flex w="100%">
-        <Box w="20%" h="100vh" border="1px solid #0d27be">
+        <Box display={{base:"none",lg:"block" }} w="20%" h="100vh" border="1px solid blue">
           Side bar
         </Box>
         <Container centerContent maxW="100%">
-          <Box w="70%">
+          <Box w={{base:"100%",md:"100%",lg:"70%"}}>
             <VStack >
               <ProfileCard />
-              <Tabs>
+              <Tabs display={{base:"none",md:"block" }} >
                 <TabList w="max-content" m="auto">
-                  <Tab>POSTS</Tab>
-                  <Tab>REELS</Tab>
+                  <Tab me='2rem' >POSTS</Tab>
+                  <Tab me='2rem'>REELS</Tab>
                   <Tab>TAGS</Tab>
                 </TabList>
 
@@ -48,6 +51,9 @@ const Profile = () => {
                   </TabPanel>
                 </TabPanels>
               </Tabs>
+              <ResponsiveTab/>
+
+              
             </VStack>
           </Box>
         </Container>

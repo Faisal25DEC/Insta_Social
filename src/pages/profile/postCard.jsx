@@ -1,11 +1,24 @@
 import { Box, Image, Square } from "@chakra-ui/react";
 import React from "react";
 
-const PostCard = ({mediaUrl}) => {
+const PostCard = ({ mediaUrl }) => {
   return (
-    <Square size='sm' overflow='hidden'  >
-      <Image objectFit='cover' src={mediaUrl}  ></Image>      
-    </Square>
+    <Box
+      w="100%"
+      minW={{ base: "100%", md: "300px" }}
+     
+      minH={{ base: "100px", sm:"200px", md: "300px" }}
+      overflow="hidden"
+    >
+      <Image
+        objectFit="cover"
+        minW="100%"
+        w="100%"
+        h="100%"
+        minH={{ base: "100px", sm:"200px", md: "300px" }}
+        src={mediaUrl}
+      ></Image>
+    </Box>
   );
 };
 
