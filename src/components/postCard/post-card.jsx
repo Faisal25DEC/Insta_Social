@@ -179,7 +179,7 @@ const PostCard = () => {
         motionPreset="slideInBottom"
       >
         <ModalOverlay />
-        <ModalContent className="custom-modal-width">
+        <ModalContent className="custom-modal-width" borderRadius={"0"}>
           <ModalCloseButton />
           <ModalBody
             sx={{
