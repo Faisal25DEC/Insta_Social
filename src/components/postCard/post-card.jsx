@@ -106,7 +106,7 @@ const PostCard = () => {
         >
           <Flex width="100%" mb="1rem">
             <Flex gap="1rem">
-              {likeButtonClicked ? (
+              {!likeButtonClicked ? (
                 <FaRegHeart
                   className="reg-heart icon-size"
                   onClick={() => {
@@ -132,7 +132,11 @@ const PostCard = () => {
                 setSaveButtonClicked(!saveButtonClicked);
               }}
             >
-              <FaRegBookmark className="icon-size" />
+              {saveButtonClicked ? (
+                <FaBookmark className="icon-size" />
+              ) : (
+                <FaRegBookmark className="icon-size" />
+              )}
             </Box>
           </Flex>
           <Box mt="0.4rem">
