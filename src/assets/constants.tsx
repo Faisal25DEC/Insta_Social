@@ -159,7 +159,12 @@ export const NotificationsLogo = () => (
 );
 
 export const ExploreLogo = () => (
-	<img height={40} width={40} src="https://res.cloudinary.com/dusavcufz/image/upload/v1698564378/ukfwiiyfsxo1euyvl6cw.png" alt="explore" />
+	<svg aria-label="Explore"
+	  fill="currentColor"
+	   height="24"
+	    role="img"
+		 viewBox="0 0 24 24" 
+		 width="24"><title>Explore</title><polygon fill="none" points="13.941 13.953 7.581 16.424 10.06 10.056 16.42 7.585 13.941 13.953" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></polygon><polygon fill-rule="evenodd" points="10.06 10.056 13.949 13.945 7.581 16.424 10.06 10.056"></polygon><circle cx="12.001" cy="12.005" fill="none" r="10.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></circle></svg>
 );
 
 
@@ -241,3 +246,11 @@ export const CommentLogo = () => (
 		></path>
 	</svg>
 );
+
+export const MoreLogo=()=>(
+	<svg aria-label="Settings"  fill="currentColor" height="24" role="img" viewBox="0 0 24 24" width="24"><title>Settings</title><line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="3" x2="21" y1="4" y2="4"></line><line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="3" x2="21" y1="12" y2="12"></line><line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="3" x2="21" y1="20" y2="20"></line></svg>
+)
+
+export const Loggin=()=>(
+	<img height="24" width="24" src="https://res.cloudinary.com/dusavcufz/image/upload/v1698574983/tsqmkapdk5fps1kx3ua6.png" alt="login" />
+)
