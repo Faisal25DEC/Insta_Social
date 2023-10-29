@@ -1,11 +1,22 @@
 import { Box, Button, Flex, Image, Input, Text, VStack } from "@chakra-ui/react";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { SigningIn, SigningUp } from "../../redux/user/userAction";
+import { Dispatch } from "redux";
 
 const AuthForm = () => {
+	type InputData = {
+		email: string;
+		userName: string;
+		name: string;
+		password: string;
+	  };
+
 	const [isLogin, setIsLogin] = useState(true);
 	const navigate = useNavigate();
-	const [inputs, setInputs] = useState({
+	const dispatch:Dispatch=useDispatch();
+	const [inputs, setInputs] = useState<InputData>({
         email: "",
         userName:"",
 		name:"",
@@ -13,7 +24,14 @@ const AuthForm = () => {
 		
 	});
 
-	
+	const sign=()=>{
+		// if(isLogin){
+        //     dispatch(SigningIn(inputs));
+        // }
+        // else{
+        //     dispatch(SigningUp(inputs))
+        // }
+	}
 
 	return (
 		<>
@@ -53,7 +71,7 @@ const AuthForm = () => {
                         </>
 					) : null}
 
-					<Button w={"full"} colorScheme='blue' size={"sm"} fontSize={14}>
+					<Button w={"full"} colorScheme='blue' size={"sm"} fontSize={14} onClick={sign}>
 						{isLogin ? "Log in" : "Sign Up"}
 					</Button>
 
