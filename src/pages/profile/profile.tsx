@@ -19,6 +19,7 @@ import React from "react";
 import ProfileCard from "./profileCard";
 import PostGrid from "./postGrid";
 import ResponsiveTab from "./responsiveTab";
+import NoPost from "./noPost";
 
 const Profile = () => {
  
@@ -41,13 +42,14 @@ const Profile = () => {
 
                 <TabPanels>
                   <TabPanel>
-                    <PostGrid />
+                    <NoPost/>
+                    {/* <PostGrid /> */}
                   </TabPanel>
                   <TabPanel>
-                    <PostGrid />
+                    {/* <PostGrid /> */}
                   </TabPanel>
                   <TabPanel>
-                    <PostGrid />
+                    {/* <PostGrid /> */}
                   </TabPanel>
                 </TabPanels>
               </Tabs>

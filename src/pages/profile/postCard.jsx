@@ -7,7 +7,8 @@ const PostCard = ({ mediaUrl }) => {
       w="100%"
       minW={{ base: "100%", md: "300px" }}
      
-      minH={{ base: "100px", sm:"200px", md: "300px" }}
+      minH={{ base: "100px", sm: "200px", md: "300px" }}
+      maxH={{ base: "100px", sm:"200px", md: "300px" }}
       overflow="hidden"
     >
       <Image

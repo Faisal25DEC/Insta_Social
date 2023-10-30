@@ -28,7 +28,7 @@ const ProfileCard = () => {
   return (
     <Flex justifyContent="space-between" w="100%" alignItems="center">
       <Box p={{ lg: "20px", base: "0px" }}>
-        <Box maxW="180px" minW={{ base: "100px", lg: "150px" }} w="15%">
+        <Box maxW="180px" minW={{ base: "80px", md:"100px", lg: "150px" }} w="15%">
           <Image
             borderRadius="50%"
             src="https://i.ibb.co/rp3V5Kd/358768461-3390909287831163-5567728346172820606-n.jpg"
