@@ -10,19 +10,17 @@ const NoPost = () => {
       alignItems={"center"}
       justifyContent={"center"}
       height={"50vh"}
-    //   border="2px"
+      //   border="2px"
     >
-      <VStack alignItems={"center"} justifyContent={"center"} >
+      <VStack alignItems={"center"} justifyContent={"center"}>
         <Box border="1px" borderRadius="50%" padding={"10px"}>
           <PiCameraLight fontSize="3.5rem" />
         </Box>
-        <Heading>Share Photos</Heading>
-     
-          <Text>When you share photos, they will appear on your profile.</Text>
-        
-        
-          <Text color="darkblue">Share your first photo</Text>
-       
+        <Heading textAlign={"center"}  >Share Photos</Heading>
+
+        <Text textAlign={"center"} >When you share photos, they will appear on your profile.</Text>
+
+        <Text textAlign={"center"}  color="darkblue">Share your first photo</Text>
       </VStack>
     </Box>
   );

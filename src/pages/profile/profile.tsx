@@ -46,10 +46,10 @@ const Profile = () => {
                     {/* <PostGrid /> */}
                   </TabPanel>
                   <TabPanel>
-                    {/* <PostGrid /> */}
+                    <PostGrid />
                   </TabPanel>
                   <TabPanel>
-                    {/* <PostGrid /> */}
+                    <PostGrid />
                   </TabPanel>
                 </TabPanels>
               </Tabs>

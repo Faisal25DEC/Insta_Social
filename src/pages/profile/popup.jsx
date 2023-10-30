@@ -1,47 +1,67 @@
 import {
-    Modal,
-    ModalOverlay,
-    ModalContent,
-    ModalHeader,
-    ModalFooter,
-    ModalBody,
-    ModalCloseButton,
-    useDisclosure,
-    Button,
-    Text,
-  } from '@chakra-ui/react'
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+  Button,
+  Text,
+  Divider,
+} from "@chakra-ui/react";
+import { RiSettings5Line } from "react-icons/ri";
+import React from "react";
 
-import React from 'react'
+const SettingPopUp = ({ isSettingPopUP, setIsSettingPopUP }) => {
+  const onClose = () => setIsSettingPopUP(false);
+  const onOpen = () => setIsSettingPopUP(true);
 
-const PopUp = ({onOpen}) => {
-    const { isOpen,  onClose } = useDisclosure()
-  
-    return (
-      <>
-        {/* <Button onClick={onOpen}>Open Modal</Button> */}
-  
-        <Modal blockScrollOnMount={true} isOpen={isOpen} onClose={onClose}>
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>Modal Title</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              <Text fontWeight='bold' mb='1rem'>
-                You can scroll the content behind the modal
-              </Text>
-              
-            </ModalBody>
-  
-            <ModalFooter>
-              <Button colorScheme='blue' mr={3} onClick={onClose}>
-                Close
-              </Button>
-              <Button variant='ghost'>Secondary Action</Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
-      </>
-    )
-}
+  return (
+    <>
+      <RiSettings5Line fontSize="1.5rem" onClick={onOpen} />
+      <Modal
+        blockScrollOnMount={true}
+        isOpen={isSettingPopUP}
+        onClose={onClose}
+        isCentered
+      >
+        <ModalOverlay />
+        <ModalContent  cursor={"pointer"} maxW="96" borderRadius="2xl">
+          <ModalBody paddingX="0" textAlign="center">
+            <Text fontSize={"sm"} mb="0.5rem" mt="0.5rem">
+              Apps and websites
+            </Text>
+            <Divider />
+            <Text  fontSize={"sm"}  mb="0.5rem" mt="0.5rem">
+              QR code
+            </Text>
+            <Divider />
+            <Text fontSize={"sm"}  mb="0.5rem" mt="0.5rem">
+              Notification
+            </Text>
+            <Divider />
+            <Text  fontSize={"sm"} mb="0.5rem" mt="0.5rem">
+              Setting and privacy
+            </Text>
+            <Divider />
+            <Text  fontSize={"sm"} mb="0.5rem" mt="0.5rem">
+              Supervision
+            </Text>
+            <Divider />
+            <Text fontSize={"sm"}  mb="0.5rem" mt="0.5rem">
+              Logout
+            </Text>
+            <Divider />
+            <Text fontSize={"sm"}  onClick={onClose} mb="0.5rem" mt="0.5rem">
+              Cancel
+            </Text>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+    </>
+  );
+};
 
-export default PopUp
+export default SettingPopUp;
