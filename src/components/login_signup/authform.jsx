@@ -6,17 +6,12 @@ import { SigningIn, SigningUp } from "../../redux/user/userAction";
 import { Dispatch } from "redux";
 
 const AuthForm = () => {
-	type InputData = {
-		email: string;
-		userName: string;
-		name: string;
-		password: string;
-	  };
+	
 
 	const [isLogin, setIsLogin] = useState(true);
 	const navigate = useNavigate();
-	const dispatch:Dispatch=useDispatch();
-	const [inputs, setInputs] = useState<InputData>({
+	const dispatch=useDispatch();
+	const [inputs, setInputs] = useState({
         email: "",
         userName:"",
 		name:"",
@@ -25,12 +20,12 @@ const AuthForm = () => {
 	});
 
 	const sign=()=>{
-		// if(isLogin){
-        //     dispatch(SigningIn(inputs));
-        // }
-        // else{
-        //     dispatch(SigningUp(inputs))
-        // }
+		if(isLogin){
+            dispatch(SigningIn(inputs));
+        }
+        else{
+            dispatch(SigningUp(inputs))
+        }
 	}
 
 	return (

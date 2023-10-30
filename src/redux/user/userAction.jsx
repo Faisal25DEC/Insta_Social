@@ -1,9 +1,8 @@
 import axios from "axios"
 import { GET_LOGIN_ERROR, GET_LOGIN_REQUEST, GET_LOGIN_SUCCESS, GET_SIGNUP_ERROR, GET_SIGNUP_REQUEST, GET_SIGNUP_SUCCESS, SIGN_OUT } from "./userType"
 import { Alert, AlertIcon } from "@chakra-ui/react"
-import { Dispatch } from "redux"
 
- export const SigningUp=(data:object)=>async (dispatch:Dispatch)=>{
+ export const SigningUp=(data)=>async (dispatch)=>{
 
     dispatch({
         type:GET_SIGNUP_REQUEST
@@ -25,7 +24,7 @@ import { Dispatch } from "redux"
     }
 }
 
-export const SigningIn=(data:object)=>async (dispatch:Dispatch)=>{
+export const SigningIn=(data)=>async (dispatch)=>{
     dispatch({
         type:GET_LOGIN_REQUEST
     })
@@ -46,6 +45,6 @@ export const SigningIn=(data:object)=>async (dispatch:Dispatch)=>{
     }
 }
 
-export const SignOut=(dispatch:Dispatch)=>{
+export const SignOut=(dispatch)=>{
    dispatch({type:SIGN_OUT})
 }

@@ -1,4 +1,4 @@
-import { Avatar, Box, Flex, Link, Tooltip } from "@chakra-ui/react";
+import { Avatar, Box, Button, Flex, Input, Link, Menu, MenuButton, MenuItem, MenuList, Tooltip, useDisclosure } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 import {
 	CreatePostLogo,
@@ -11,12 +11,13 @@ import {
 	SearchLogo,
 } from "../../assets/constants";
 
+
 import { AiFillHome } from "react-icons/ai";
 import { BiLogOut } from "react-icons/bi";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 const Sidebar = () => {
-	const [state,setState]=useState(false);
+	const [state, setState] = useState(true);
 	const sidebarItems = [
 		{
 			icon: <AiFillHome size={25} />,
@@ -36,11 +37,12 @@ const Sidebar = () => {
 			icon: <CreatePostLogo />,
 			text: "Create",
 		},
-    {
-      icon:<ExploreLogo />,
-      text:"Explore"
-    }
+		{
+			icon: <ExploreLogo />,
+			text: "Explore"
+		}
 	];
+
 	return (
 		<Box
 			height={"100vh"}
@@ -55,7 +57,7 @@ const Sidebar = () => {
 			<Flex direction={"column"} gap={10} w='full' height={"full"}>
 				<Link to={"/"} as={RouterLink} pl={2} display={{ base: "none", md: "block" }} cursor='pointer'>
 					<InstagramLogo />
-					
+
 				</Link>
 				<Link
 					to={"/"}
@@ -70,7 +72,7 @@ const Sidebar = () => {
 					cursor='pointer'
 				>
 					<InstagramMobileLogo />
-					
+
 				</Link>
 
 				<Flex direction={"column"} gap={5} cursor={"pointer"}>
@@ -95,6 +97,7 @@ const Sidebar = () => {
 								p={2}
 								w={{ base: 10, md: "full" }}
 								justifyContent={{ base: "center", md: "flex-start" }}
+
 							>
 								{item.icon}
 								<Box display={{ base: "none", md: "block" }}>{item.text}</Box>
@@ -124,38 +127,60 @@ const Sidebar = () => {
 						justifyContent={{ base: "center", md: "flex-start" }}
 					>
 						{state ? <><BiLogOut size={25} />
-						<Box display={{ base: "none", md: "block" }}>Logout</Box></>: <><Loggin /><Box display={{ base: "none", md: "block" }}>Login</Box></>}
-						
+							<Box display={{ base: "none", md: "block" }}>Logout</Box></> : <><Loggin /><Box display={{ base: "none", md: "block" }}>Login</Box></>}
+
 					</Link>
-					
+
 				</Tooltip>
 				<Tooltip
-							hasArrow
-							label={"More"}
-							placement='right'
-							ml={1}
-							openDelay={500}
-							display={{ base: "block", md: "none" }}
-						>
-                         
+					hasArrow
+					label={"More"}
+					placement='right'
+					ml={1}
+					openDelay={500}
+					display={{ base: "block", md: "none" }}
+				>
 
-						  <Link
-						  display={"flex"}
-						  alignItems={"center"}
-						  gap={4}
-						  _hover={{ bg: "whiteAlpha.400" }}
-						  borderRadius={6}
-						  p={2}
-						  w={{ base: 10, md: "full" }}
-						  mt={"auto"}
-						  justifyContent={{ base: "center", md: "flex-start" }}
-						  >
-							 <MoreLogo />
-						  <Box display={{ base: "none", md: "block" }}>More</Box>
-						  </Link>
-						 
-						</Tooltip>
+
+					<Link
+						display={"flex"}
+						alignItems={"center"}
+						gap={4}
+						_hover={{ bg: "whiteAlpha.400" }}
+						borderRadius={6}
+						p={2}
+						w={{ base: 10, md: "full" }}
+						mt={"auto"}
+
+						justifyContent={{ base: "center", md: "flex-start" }}
+					>
+						<Menu>
+							<MenuButton as={Button}
+								transition='all 0.2s'
+								bg={"white"}
+								_hover={{ bg: 'white' }}
+								_expanded={{ bg: 'white' }}
+							>
+								<MoreLogo />
+								<Box display={{ base: "none", md: "block" }}>More</Box>
+							</MenuButton>
+							<MenuList
+							
+							>
+								<MenuItem>Download</MenuItem>
+								<MenuItem>Create a Copy</MenuItem>
+								<MenuItem>Mark as Draft</MenuItem>
+								<MenuItem>Delete</MenuItem>
+								<MenuItem>Attend a Workshop</MenuItem>
+							</MenuList>
+						</Menu>
+
+					</Link>
+
+				</Tooltip>
 			</Flex>
+
+
 		</Box>
 	);
 };

@@ -2,15 +2,17 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Routes from './routes/routes';
-import { Alert, AlertIcon } from '@chakra-ui/react';
+import { Alert, AlertIcon, Flex } from '@chakra-ui/react';
 import Sidebar from './components/navbar/nav';
 
 function App() {
   
   return (
     <div className="App">
+      <Flex gap={"18%"}>
       <Sidebar />
       <Routes />
+      </Flex>
     </div>
   );
 }

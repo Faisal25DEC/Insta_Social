@@ -4,7 +4,7 @@ const initialState={
        isAuth:false
 }
 
-export const UserReducer=(state=initialState,{type}:any)=>{
+ const UserReducer=(state=initialState,{type})=>{
      switch(type){
         case GET_SIGNUP_REQUEST:
             return{
@@ -40,3 +40,4 @@ export const UserReducer=(state=initialState,{type}:any)=>{
             return state
      }
 }
+export default UserReducer
