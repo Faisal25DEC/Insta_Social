@@ -4,7 +4,7 @@ import { Avatar, Box, Button,   Drawer,
 	DrawerHeader,
 	DrawerOverlay,
 	DrawerContent,
-	DrawerCloseButton, Flex, Input, Link, Menu, MenuButton, MenuItem, MenuList, Text, Tooltip, useDisclosure } from "@chakra-ui/react";
+	DrawerCloseButton, Flex, Input, Link, Menu, MenuButton, MenuItem, MenuList, Text, Tooltip, useDisclosure, Divider, Center, FocusLock } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 import {
 	CreatePostLogo,
@@ -67,6 +67,8 @@ const Sidebar = () => {
 		
 
 			<Drawer
+			size={'sm'}
+			boxShadow='xs'
         isOpen={isOpen}
         placement='left'
         onClose={onClose}
@@ -74,20 +76,18 @@ const Sidebar = () => {
       >
 	 
 		<DrawerOverlay />
-        <DrawerContent>
-          <DrawerCloseButton />
-          <DrawerHeader>Create your account</DrawerHeader>
-
-          <DrawerBody>
-            <Input placeholder='Type here...' />
-			<Flex>
+        <DrawerContent >
+          
+          <DrawerBody >
+		  <Flex flexDirection={'row'}>
+			<Flex border="1px solid #d3d3d3" w={"60px"} h={"full"} p={"0"} m={"0"} borderColor={"white #d3d3d3 white white"}>
 		<Flex>
 		<Flex direction={"column"} gap={10} w='full' height={"full"}>
 				<Link
 					to={"/"}
 					as={RouterLink}
 					p={2}
-					
+					mt={'15px'}
 					borderRadius={6}
 					_hover={{
 						bg: "whiteAlpha.200",
@@ -106,7 +106,7 @@ const Sidebar = () => {
 							hasArrow
 							label={item.text}
 							placement='right'
-							ml={1}
+							
 							openDelay={500}
 							display={{ base: "block", md: "none" }}
 						>
@@ -120,7 +120,7 @@ const Sidebar = () => {
 								borderRadius={6}
 								p={2}
 								w={{ base: 10, md: "full" }}
-								onClick={()=>( {...item.text==='Search' ? setSbar(false):""})}
+								
 								justifyContent={{ base: "center", md: "flex-start" }}
 
 							>
@@ -149,7 +149,7 @@ const Sidebar = () => {
 						p={2}
 						w={{ base: 10, md: "full" }}
 						mt={"240px"}
-						ml={"13px"}
+						ml={"5px"}
 						justifyContent={{ base: "center", md: "flex-start" }}
 					>
 						{state ? <BiLogOut size={25} />
@@ -162,7 +162,7 @@ const Sidebar = () => {
 					hasArrow
 					label={"More"}
 					placement='right'
-					ml={1}
+					
 					openDelay={500}
 					display={{ base: "block", md: "none" }}
 				>
@@ -174,7 +174,7 @@ const Sidebar = () => {
 						gap={4}
 						_hover={{ bg: "whiteAlpha.400" }}
 						borderRadius={6}
-						p={2}
+						
 						w={{ base: 10, md: "full" }}
 						mt={"auto"}
 
@@ -211,14 +211,22 @@ const Sidebar = () => {
 
 		</Flex>
 		</Flex>
+		
+
+		<Flex flexDirection={'column'} w={'500px'}>
+		<Text ml={'20px'} mt='15px' fontSize={'25px'}>Search</Text>
+		<FocusLock returnFocus persistentFocus={true}>
+		<Input focusBorderColor='#d3d3d3'  width={'340px'} _focus={true} mt='28px' ml='15px' variant='filled' placeholder="Search"/>
+		</FocusLock>
+        <Divider mt='15px' w='370px' css={{
+    backgroundColor: 'gray', 
+    height: '.5px', 
+  }}  />
+		</Flex>
+		</Flex>
           </DrawerBody>
 
-          <DrawerFooter>
-            <Button variant='outline' mr={3} onClick={onClose}>
-              Cancel
-            </Button>
-            <Button colorScheme='blue'>Save</Button>
-          </DrawerFooter>
+          
         </DrawerContent>
 	  
 	  {/* end */}
