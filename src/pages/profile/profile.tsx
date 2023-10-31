@@ -25,7 +25,7 @@ import { useDispatch } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
 import { AnyAction } from "redux";
 import { getUserAllDetailAction } from "../../redux/search_user/search_user.action";
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
 type RootState = {
   searchUserReducer: {
     // Define the structure of your reducer's state here
@@ -35,17 +35,33 @@ type RootState = {
     searchUserPosts: any[];
   };
 };
-const Profile = () => {
 
+const Profile = () => {
   const dispatch: ThunkDispatch<any, any, AnyAction> = useDispatch();
 
   useEffect(() => {
     dispatch(getUserAllDetailAction());
   }, []);
-  const searchUser = useSelector((state: RootState) => state.searchUserReducer);
+  // const {
+  //   searchUserDetail,
+  //   searchUserFollower,
+  //   searchUserFollowing,
+  //   searchUserPosts,
+  // } = useSelector((state: RootState) => state.searchUserReducer);
 
-  console.log(searchUser);
+  // console.log(searchUser);
+  // const { bio, name, profileImage, userName, _id : searchUserId } = searchUserDetail;
+  const searchUserId: string = "12";
+  const loginUserId: string = "2";
+  const searchUserFollowing: string[] = ["11", "12", "13"];
+  const isSameUser: boolean = searchUserId == loginUserId;
+  const profileButtonText1: string = isSameUser
+    ? "Edit Profile"
+    : searchUserFollowing.includes(searchUserId)
+    ? "Following"
+    : "Follow";
 
+  const profileButtonText2: string = isSameUser ? "View archive" : "Message";
   return (
     <>
       <Flex w="100%">
@@ -60,7 +76,11 @@ const Profile = () => {
         <Container centerContent maxW="100%">
           <Box w={{ base: "100%", md: "100%", lg: "70%" }}>
             <VStack>
-              <ProfileCard />
+              <ProfileCard
+                profileButtonText1={profileButtonText1}
+                profileButtonText2={profileButtonText2}
+                isSameUser={isSameUser}
+              />
               <Tabs display={{ base: "none", md: "block" }}>
                 <TabList w="max-content" m="auto">
                   <Tab me="2rem">POSTS</Tab>

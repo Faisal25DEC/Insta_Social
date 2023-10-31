@@ -1,13 +1,16 @@
-import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
-import Profile from "./pages/profile/profile";
-import AllRoutes from "./routes/routes";
+import React from 'react';
+import logo from './logo.svg';
+import './App.css';
+import AllRoutes from './routes/routes';
+import Home from './pages/home/Home';
 
 function App() {
-  return <>
-  <AllRoutes/>
-  </>;
+  return (
+    < >
+      
+      <AllRoutes/>
+    </>
+  );
 }
 
 export default App;

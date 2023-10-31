@@ -23,7 +23,16 @@ import {
 } from "@chakra-ui/react";
 import UserSmallCard from "./userSmallCard";
 import SettingPopUp from "./popup";
-const ProfileCard = () => {
+interface ProfileCardProps {
+  profileButtonText1: string;
+  profileButtonText2: string;
+  isSameUser: boolean;
+}
+const ProfileCard: React.FC<ProfileCardProps> = ({
+  profileButtonText1,
+  profileButtonText2,
+  isSameUser,
+}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isSettingPopUP, setIsSettingPopUP] = useState(false);
 
@@ -64,7 +73,7 @@ const ProfileCard = () => {
                 borderColor="green.800"
                 borderRadius="lg"
               >
-                Edit Profile
+                {profileButtonText1}
               </Button>
               <Button
                 size="sm"
@@ -72,12 +81,16 @@ const ProfileCard = () => {
                 borderColor="green.800"
                 borderRadius="lg"
               >
-                View Article
+                {profileButtonText2}
               </Button>
-              <SettingPopUp
-                isSettingPopUP={isSettingPopUP}
-                setIsSettingPopUP={setIsSettingPopUP}
-              />
+              {isSameUser ? (
+                <SettingPopUp
+                  isSettingPopUP={isSettingPopUP}
+                  setIsSettingPopUP={setIsSettingPopUP}
+                />
+              ) : (
+                ""
+              )}
             </Box>
           </Box>
 
