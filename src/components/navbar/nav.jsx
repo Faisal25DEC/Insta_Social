@@ -218,7 +218,7 @@ const Sidebar = () => {
 		<FocusLock returnFocus persistentFocus={true}>
 		<Input focusBorderColor='#d3d3d3'  width={'340px'} _focus={true} mt='28px' ml='15px' variant='filled' placeholder="Search"/>
 		</FocusLock>
-        <Divider mt='15px' w='370px' css={{
+        <Divider mt='15px' w='360px' css={{
     backgroundColor: 'gray', 
     height: '.5px', 
   }}  />
