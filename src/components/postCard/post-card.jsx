@@ -39,6 +39,7 @@ import {
   FaSave,
   FaThumbsUp,
 } from "react-icons/fa";
+import { uploadImage } from "../../utils/firebase";
 const PostCard = () => {
   const [likeButtonClicked, setLikeButtonClicked] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -318,6 +319,18 @@ const PostCard = () => {
           </ModalBody>
         </ModalContent>
       </Modal>
+      <Input
+        type="file"
+        onChange={(e) => {
+          uploadImage(e.target.files[0])
+            .then((downloadURL) => {
+              console.log(downloadURL);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }}
+      />
     </Box>
   );
 };

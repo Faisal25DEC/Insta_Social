@@ -14,6 +14,7 @@
     "@types/react": "^18.2.31",
     "@types/react-dom": "^18.2.14",
     "axios": "^1.5.1",
+    "firebase": "^10.5.2",
     "framer-motion": "^10.16.4",
     "js-cookie": "^3.0.5",
     "pretty-num": "^0.5.2",
