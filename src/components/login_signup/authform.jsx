@@ -8,7 +8,8 @@ import { Dispatch } from "redux";
 const AuthForm = () => {
 	
 
-	const [isLogin, setIsLogin] = useState(true);
+	const [isLogin, setIsLogin] = useState(false);
+	const [loading,setLoading]=useState(false);
 	const navigate = useNavigate();
 	const dispatch=useDispatch();
 	const [inputs, setInputs] = useState({
@@ -16,24 +17,37 @@ const AuthForm = () => {
         userName:"",
 		name:"",
 		password: ""
-		
 	});
 
 	const sign=()=>{
-		if(isLogin){
-            dispatch(SigningIn(inputs));
-        }
-        else{
-            dispatch(SigningUp(inputs))
-        }
+		setLoading(true)
+
+		setTimeout(()=>{
+			if(isLogin){
+				dispatch(SigningIn(inputs));
+				
+					setLoading(false)
+					navigate('/')
+				
+			}
+			else{
+				dispatch(SigningUp(inputs))
+				setLoading(false)
+				 setIsLogin(true)
+				
+				
+			}
+		},2000)
+		
 	}
 
 	return (
 		<>
-			<Box border={".4px solid gray"} borderRadius={4} padding={5}>
+			<Box border={"1px solid #d3d3d3 "} borderRadius={4} padding={5}>
 				<VStack spacing={4}>
 					<Image src='https://res.cloudinary.com/dusavcufz/image/upload/v1698468645/x6aepgng7ovirp3tor50.png' h={24} cursor={"pointer"} alt='Instagram' />
 					<Input
+					required
 						placeholder='Email'
 						fontSize={14}
 						type='email'
@@ -41,6 +55,7 @@ const AuthForm = () => {
 						onChange={(e) => setInputs({ ...inputs, email: e.target.value })}
 					/>
 					<Input
+					required
 						placeholder='Password'
 						fontSize={14}
 						type='password'
@@ -50,6 +65,7 @@ const AuthForm = () => {
 
 					{!isLogin ? (<>
 						<Input
+						required
 							placeholder='Full Name'
 							value={inputs.name}
 							onChange={(e) => setInputs({ ...inputs, name: e.target.value })}
@@ -57,6 +73,7 @@ const AuthForm = () => {
 							type='text'
 						/>
 						<Input
+						required
 							placeholder='Username'
 							value={inputs.userName}
 							onChange={(e) => setInputs({ ...inputs, userName: e.target.value })}
@@ -66,7 +83,7 @@ const AuthForm = () => {
                         </>
 					) : null}
 
-					<Button w={"full"} colorScheme='blue' size={"sm"} fontSize={14} onClick={sign}>
+					<Button isLoading={loading} w={"full"} type="submit" colorScheme='blue' size={"sm"} fontSize={14} onClick={sign}>
 						{isLogin ? "Log in" : "Sign Up"}
 					</Button>
 
@@ -87,7 +104,7 @@ const AuthForm = () => {
 				</VStack>
 			</Box>
 
-			<Box border={"1px solid gray"} borderRadius={4} padding={5}>
+			<Box border={"1px solid #d3d3d3 "} borderRadius={4} padding={5}>
 				<Flex alignItems={"center"} justifyContent={"center"}>
 					<Box mx={2} fontSize={14}>
 						{isLogin ? "Don't have an account?" : "Already have an account?"}

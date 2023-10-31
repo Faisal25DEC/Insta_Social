@@ -1,7 +1,8 @@
 import { GET_LOGIN_ERROR, GET_LOGIN_REQUEST, GET_LOGIN_SUCCESS, GET_SIGNUP_ERROR, GET_SIGNUP_REQUEST, GET_SIGNUP_SUCCESS } from "./userType"
 
 const initialState={
-       isAuth:false
+       isAuth:false,
+       error:false
 }
 
  const UserReducer=(state=initialState,{type})=>{
@@ -19,7 +20,7 @@ const initialState={
         case GET_SIGNUP_ERROR:
             return{
               ...state,
-                isAuth:false
+                isAuth:false,
             }
         case GET_LOGIN_REQUEST:
             return{

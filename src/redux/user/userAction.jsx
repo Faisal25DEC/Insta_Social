@@ -8,14 +8,10 @@ import { Alert, AlertIcon } from "@chakra-ui/react"
         type:GET_SIGNUP_REQUEST
     })
     try{
-        const res=await axios.post(`${process.env.PORT}/users/signup`,data)
+        const res=await axios.post(`${process.env.REACT_APP_PORT}/users/signup`,data)
         dispatch({
             type:GET_SIGNUP_SUCCESS
         })
-        {<Alert status='success'>
-        <AlertIcon />
-        User Registered Successfully
-      </Alert>}
     }
     catch(err){
         dispatch({
@@ -29,14 +25,10 @@ export const SigningIn=(data)=>async (dispatch)=>{
         type:GET_LOGIN_REQUEST
     })
     try{
-        const res=await axios.post(`${process.env.PORT}/users/login`,data)
+        const res=await axios.post(`${process.env.REACT_APP_PORT}/users/login`,data)
         dispatch({
             type:GET_LOGIN_SUCCESS
         })
-        {<Alert status='success'>
-        <AlertIcon />
-        User Logged In Successfully
-      </Alert>}
     }
     catch(err){
         dispatch({

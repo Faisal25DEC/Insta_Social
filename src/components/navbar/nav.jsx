@@ -1,4 +1,10 @@
-import { Avatar, Box, Button, Flex, Input, Link, Menu, MenuButton, MenuItem, MenuList, Tooltip, useDisclosure } from "@chakra-ui/react";
+import { Avatar, Box, Button,   Drawer,
+	DrawerBody,
+	DrawerFooter,
+	DrawerHeader,
+	DrawerOverlay,
+	DrawerContent,
+	DrawerCloseButton, Flex, Input, Link, Menu, MenuButton, MenuItem, MenuList, Text, Tooltip, useDisclosure } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 import {
 	CreatePostLogo,
@@ -14,10 +20,13 @@ import {
 
 import { AiFillHome } from "react-icons/ai";
 import { BiLogOut } from "react-icons/bi";
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 
 const Sidebar = () => {
 	const [state, setState] = useState(true);
+	const [sbar,setSbar]=useState(false);
+	const { isOpen, onOpen, onClose } = useDisclosure()
+  const btnRef = React.useRef()
 	const sidebarItems = [
 		{
 			icon: <AiFillHome size={25} />,
@@ -44,6 +53,7 @@ const Sidebar = () => {
 	];
 
 	return (
+
 		<Box
 			height={"100vh"}
 			borderRight={"1px solid"}
@@ -54,16 +64,30 @@ const Sidebar = () => {
 			left={0}
 			px={{ base: 2, md: 4 }}
 		>
-			<Flex direction={"column"} gap={10} w='full' height={"full"}>
-				<Link to={"/"} as={RouterLink} pl={2} display={{ base: "none", md: "block" }} cursor='pointer'>
-					<InstagramLogo />
+		
 
-				</Link>
+			<Drawer
+        isOpen={isOpen}
+        placement='left'
+        onClose={onClose}
+        finalFocusRef={btnRef}
+      >
+	 
+		<DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader>Create your account</DrawerHeader>
+
+          <DrawerBody>
+            <Input placeholder='Type here...' />
+			<Flex>
+		<Flex>
+		<Flex direction={"column"} gap={10} w='full' height={"full"}>
 				<Link
 					to={"/"}
 					as={RouterLink}
 					p={2}
-					display={{ base: "block", md: "none" }}
+					
 					borderRadius={6}
 					_hover={{
 						bg: "whiteAlpha.200",
@@ -96,6 +120,161 @@ const Sidebar = () => {
 								borderRadius={6}
 								p={2}
 								w={{ base: 10, md: "full" }}
+								onClick={()=>( {...item.text==='Search' ? setSbar(false):""})}
+								justifyContent={{ base: "center", md: "flex-start" }}
+
+							>
+								{item.icon}
+								
+							</Link>
+						</Tooltip>
+					))}
+				</Flex>
+				<Tooltip
+					hasArrow
+					label={"Logout"}
+					placement='right'
+					ml={1}
+					openDelay={500}
+					display={{ base: "block", md: "none" }}
+				>
+					<Link
+						display={"flex"}
+						to={"/auth"}
+						as={RouterLink}
+						alignItems={"center"}
+						gap={4}
+						_hover={{ bg: "whiteAlpha.400" }}
+						borderRadius={6}
+						p={2}
+						w={{ base: 10, md: "full" }}
+						mt={"240px"}
+						ml={"13px"}
+						justifyContent={{ base: "center", md: "flex-start" }}
+					>
+						{state ? <BiLogOut size={25} />
+							 : <Loggin />}
+
+					</Link>
+
+				</Tooltip>
+				<Tooltip
+					hasArrow
+					label={"More"}
+					placement='right'
+					ml={1}
+					openDelay={500}
+					display={{ base: "block", md: "none" }}
+				>
+
+
+					<Link
+						display={"flex"}
+						alignItems={"center"}
+						gap={4}
+						_hover={{ bg: "whiteAlpha.400" }}
+						borderRadius={6}
+						p={2}
+						w={{ base: 10, md: "full" }}
+						mt={"auto"}
+
+						justifyContent={{ base: "center", md: "flex-start" }}
+					>
+						<Menu>
+							<MenuButton as={Button}
+								transition='all 0.2s'
+								bg={"white"}
+								_hover={{ bg: 'white' }}
+								_expanded={{ bg: 'white' }}
+							>
+								<MoreLogo />
+								
+							</MenuButton>
+							<MenuList
+							
+							>
+								<MenuItem>Download</MenuItem>
+								<MenuItem>Create a Copy</MenuItem>
+								<MenuItem>Mark as Draft</MenuItem>
+								<MenuItem>Delete</MenuItem>
+								<MenuItem>Attend a Workshop</MenuItem>
+							</MenuList>
+						</Menu>
+
+					</Link>
+
+				</Tooltip>
+			</Flex>
+		</Flex>
+
+		<Flex>
+
+		</Flex>
+		</Flex>
+          </DrawerBody>
+
+          <DrawerFooter>
+            <Button variant='outline' mr={3} onClick={onClose}>
+              Cancel
+            </Button>
+            <Button colorScheme='blue'>Save</Button>
+          </DrawerFooter>
+        </DrawerContent>
+	  
+	  {/* end */}
+        
+      </Drawer>
+
+
+			
+		
+
+		<Flex direction={"column"} gap={10} w='full' height={"full"}>
+				<Link to={"/"} as={RouterLink} pl={2} display={{ base: "none", md: "block" }} cursor='pointer'>
+					<InstagramLogo />
+
+				</Link>
+				<Link
+					to={"/"}
+					as={RouterLink}
+					p={2}
+					display={{ base: "block", md: "none" }}
+					borderRadius={6}
+					_hover={{
+						bg: "whiteAlpha.200",
+					}}
+					w={10}
+					cursor='pointer'
+				>
+					<InstagramMobileLogo />
+
+				</Link>
+
+				<Flex direction={"column"} gap={5} cursor={"pointer"}>
+					{sidebarItems.map((item, index) => (
+						<Tooltip
+							key={index}
+							
+							
+							hasArrow
+							label={item.text}
+							placement='right'
+							ml={1}
+							openDelay={500}
+							display={{ base: "block", md: "none" }}
+						>
+							<Link
+								display={"flex"}
+								to={item.link || ""}
+								as={RouterLink}
+								alignItems={"center"}
+								gap={4}
+								_hover={{ bg: "whiteAlpha.400" }}
+								borderRadius={6}
+								p={2}
+								ref={btnRef}
+								w={{ base: 10, md: "full" }}
+								onClick={()=> {item.text==='Search' && onOpen()}}
 								justifyContent={{ base: "center", md: "flex-start" }}
 
 							>
@@ -157,12 +336,8 @@ const Sidebar = () => {
 						<Menu>
 							<MenuButton as={Button}
 								transition='all 0.2s'
-								bg={"white"}
-								_hover={{ bg: 'white' }}
-								_expanded={{ bg: 'white' }}
 							>
-								<MoreLogo />
-								<Box display={{ base: "none", md: "block" }}>More</Box>
+								More
 							</MenuButton>
 							<MenuList
 							
@@ -179,6 +354,7 @@ const Sidebar = () => {
 
 				</Tooltip>
 			</Flex>
+			
 
 
 		</Box>
