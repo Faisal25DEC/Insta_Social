@@ -1,7 +1,9 @@
 import { Box, Button, Flex, HStack, Image, Spacer, Text } from "@chakra-ui/react";
 import React from "react";
-
-const UserSmallCard = ({ text }) => {
+interface UserSmallCardProps {
+  text:string
+}
+const UserSmallCard:React.FC<UserSmallCardProps> = ({ text }) => {
   return (
     <Flex mb="1rem">
       <HStack align="center" >

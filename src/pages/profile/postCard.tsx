@@ -1,7 +1,9 @@
 import { Box, Image, Square } from "@chakra-ui/react";
 import React from "react";
-
-const PostCard = ({ mediaUrl }) => {
+interface postCardProps {
+  mediaUrl:string
+}
+const PostCard: React.FC<postCardProps> = ({ mediaUrl }) => {
   return (
     <Box
       w="100%"

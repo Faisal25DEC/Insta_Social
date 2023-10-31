@@ -26,6 +26,8 @@ import { ThunkDispatch } from "redux-thunk";
 import { AnyAction } from "redux";
 import { getUserAllDetailAction } from "../../redux/search_user/search_user.action";
 import { useSelector } from "react-redux";
+import Sidebar from "../../components/navbar/nav";
+import { useParams } from "react-router-dom";
 type RootState = {
   searchUserReducer: {
     // Define the structure of your reducer's state here
@@ -35,52 +37,34 @@ type RootState = {
     searchUserPosts: any[];
   };
 };
+interface RouteParams {
+  userId: string;
+}
 
 const Profile = () => {
   const dispatch: ThunkDispatch<any, any, AnyAction> = useDispatch();
-
+  // const { userId } = useParams<RouteParams>();
+  const { userId } = useParams();
   useEffect(() => {
     dispatch(getUserAllDetailAction());
   }, []);
-  // const {
-  //   searchUserDetail,
-  //   searchUserFollower,
-  //   searchUserFollowing,
-  //   searchUserPosts,
-  // } = useSelector((state: RootState) => state.searchUserReducer);
 
-  // console.log(searchUser);
-  // const { bio, name, profileImage, userName, _id : searchUserId } = searchUserDetail;
-  const searchUserId: string = "12";
-  const loginUserId: string = "2";
+ 
+  console.log(userId)
+  const searchUserId: any = userId;
+  const loginUserId: string = "1";
   const searchUserFollowing: string[] = ["11", "12", "13"];
   const isSameUser: boolean = searchUserId == loginUserId;
-  const profileButtonText1: string = isSameUser
-    ? "Edit Profile"
-    : searchUserFollowing.includes(searchUserId)
-    ? "Following"
-    : "Follow";
-
-  const profileButtonText2: string = isSameUser ? "View archive" : "Message";
+  
   return (
     <>
       <Flex w="100%">
-        <Box
-          display={{ base: "none", lg: "block" }}
-          w="20%"
-          h="100vh"
-          border="1px solid blue"
-        >
-          Side bar
-        </Box>
+        <Sidebar />
+
         <Container centerContent maxW="100%">
           <Box w={{ base: "100%", md: "100%", lg: "70%" }}>
             <VStack>
-              <ProfileCard
-                profileButtonText1={profileButtonText1}
-                profileButtonText2={profileButtonText2}
-                isSameUser={isSameUser}
-              />
+              <ProfileCard isSameUser={isSameUser}  />
               <Tabs display={{ base: "none", md: "block" }}>
                 <TabList w="max-content" m="auto">
                   <Tab me="2rem">POSTS</Tab>

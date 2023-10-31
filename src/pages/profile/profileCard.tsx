@@ -22,19 +22,28 @@ import {
   Divider,
 } from "@chakra-ui/react";
 import UserSmallCard from "./userSmallCard";
-import SettingPopUp from "./popup";
+import { FollowerPopUp, FollowingPopUp, SettingPopUp } from "./popup";
+import {
+  EditProfileButton,
+  FollowButton,
+  MessageButton,
+  ViewArchiveButton,
+} from "./allbutton";
+import { useParams } from "react-router-dom";
 interface ProfileCardProps {
-  profileButtonText1: string;
-  profileButtonText2: string;
   isSameUser: boolean;
 }
-const ProfileCard: React.FC<ProfileCardProps> = ({
-  profileButtonText1,
-  profileButtonText2,
-  isSameUser,
-}) => {
+interface RouteParams {
+  userId: any;
+}
+const ProfileCard: React.FC<ProfileCardProps> = ({ isSameUser }) => {
+  const { userId: searchUserId } = useParams();
+  // const searchUserId: any = userId;
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isSettingPopUP, setIsSettingPopUP] = useState(false);
+  const [isFollowerPopUP, setIsFollowerPopUP] = useState(false);
+  const [isFollowingPopUP, setIsFollowingPopUP] = useState(false);
 
   return (
     <>
@@ -67,22 +76,13 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
           >
             <Text>arjundangi8349</Text>
             <Box display="flex" gap="3" alignItems="center">
-              <Button
-                size="sm"
-                fontSize="sm"
-                borderColor="green.800"
-                borderRadius="lg"
-              >
-                {profileButtonText1}
-              </Button>
-              <Button
-                size="sm"
-                fontSize="sm"
-                borderColor="green.800"
-                borderRadius="lg"
-              >
-                {profileButtonText2}
-              </Button>
+              {isSameUser ? (
+                <EditProfileButton />
+              ) : (
+                <FollowButton _id={searchUserId} />
+              )}
+              {isSameUser ? <ViewArchiveButton /> : <MessageButton />}
+
               {isSameUser ? (
                 <SettingPopUp
                   isSettingPopUP={isSettingPopUP}
@@ -100,51 +100,20 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
             spacing="24px"
           >
             <Text>0 posts </Text>
-            <Text onClick={onOpen}>1 follower</Text>
-            <Text onClick={onOpen}>2 following</Text>
+            <FollowerPopUp
+              isFollowerPopUP={isFollowerPopUP}
+              setIsFollowerPopUP={setIsFollowerPopUP}
+            />
+            <FollowingPopUp
+              isFollowingPopUP={isFollowingPopUP}
+              setIsFollowingPopUP={setIsFollowingPopUP}
+            />
           </HStack>
 
           <VStack>
             <Text>Arjun Dangi</Text>
           </VStack>
         </VStack>
-
-        <Modal
-          isCentered
-          blockScrollOnMount={true}
-          isOpen={isOpen}
-          onClose={onClose}
-        >
-          <ModalOverlay />
-          <ModalContent borderRadius="2xl">
-            <ModalHeader paddingY="0.5rem" textAlign="center">
-              Followers
-            </ModalHeader>
-            <Divider />
-
-            <ModalCloseButton />
-            <ModalBody>
-              <Box mb="1.2rem">
-                <Input size="sm" borderRadius="md" placeholder="Search" />
-              </Box>
-              <Box overflowY="scroll" maxH="260px" paddingRight="1.5rem">
-                <UserSmallCard text={"Remove"} />
-                <Text mb="0.8rem" fontWeight="bold">
-                  Suggested For You
-                </Text>
-                <UserSmallCard text={"Follow"} />
-                <UserSmallCard text={"Follow"} />
-                <UserSmallCard text={"Follow"} />
-                <UserSmallCard text={"Follow"} />
-                <UserSmallCard text={"Follow"} />
-              </Box>
-            </ModalBody>
-
-            {/* <ModalFooter>             
-             
-            </ModalFooter> */}
-          </ModalContent>
-        </Modal>
       </Flex>
     </>
   );
