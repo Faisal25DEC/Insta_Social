@@ -24,12 +24,12 @@ const PostGrid = () => {
       maxW="100%"
       overflow={"hidden"}
     >
-      <GridItem>
-        {" "}
-        {searchUserPosts.map((ele) => (
-          <PostCard key={ele._id} mediaUrl={ele.mediaUrl} />
-        ))}
-      </GridItem>
+      {" "}
+      {searchUserPosts.map((ele) => (
+        <GridItem key={ele._id} >
+          <PostCard  mediaUrl={ele.mediaUrl} />
+        </GridItem>
+      ))}
     </Grid>
   );
 };

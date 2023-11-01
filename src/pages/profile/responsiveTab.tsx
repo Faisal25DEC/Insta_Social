@@ -6,7 +6,20 @@ import { BiBookmark } from "react-icons/bi";
 import { BiUserPin } from "react-icons/bi";
 import PostGrid from "./postGrid";
 import NoPost from "./noPost";
+import { useSelector } from "react-redux";
+type RootState = {
+  searchUserReducer: {
+    // Define the structure of your reducer's state here
+    searchUserDetail: any;
+    searchUserFollower: any[];
+    searchUserFollowing: any[];
+    searchUserPosts: any[];
+  };
+};
 const ResponsiveTab = () => {
+  const { searchUserPosts,searchUserFollower,searchUserFollowing } = useSelector(
+    (store: RootState) => store.searchUserReducer
+  );
   return (
     <Box display={{ base: "block", md: "none" }} width={"100%"}>
       <Flex
@@ -17,7 +30,8 @@ const ResponsiveTab = () => {
       >
         <Center w="33%" display="flex" flexDirection="column">
           {" "}
-          <Text>1200</Text> <Text>post</Text>{" "}
+          <Text fontSize="sm" >{searchUserPosts.length}</Text>
+          <Text fontSize="sm" >post</Text>{" "}
         </Center>
         <Spacer />
         <Center w="33%" display="flex" flexDirection="column">
@@ -29,7 +43,8 @@ const ResponsiveTab = () => {
             alignItems="center"
             flexDirection="column"
           >
-            <Text>255</Text> <Text>Followers</Text>{" "}
+            <Text fontSize="sm">{searchUserFollower.length }</Text>
+            <Text fontSize="sm" >Followers</Text>{" "}
           </Link>
         </Center>
 
@@ -43,7 +58,8 @@ const ResponsiveTab = () => {
             flexDirection="column"
             href={`/profile/following/1`}
           >
-            <Text>125</Text> <Text>Following</Text>{" "}
+            <Text fontSize="sm" >{searchUserFollowing.length}</Text>
+            <Text fontSize="sm" > Following</Text>{" "}
           </Link>
         </Center>
       </Flex>
@@ -72,8 +88,7 @@ const ResponsiveTab = () => {
       <Box
       // border="2px"
       >
-        <PostGrid />
-        {/* <NoPost /> */}
+        {searchUserPosts.length == 0 ? <NoPost /> : <PostGrid />}
       </Box>
     </Box>
   );

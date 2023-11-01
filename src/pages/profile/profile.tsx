@@ -24,7 +24,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
 import { AnyAction } from "redux";
-import { getUserAllDetailAction } from "../../redux/search_user/search_user.action";
+import { getLoginUserFollowing, getUserAllDetailAction } from "../../redux/search_user/search_user.action";
 import { useSelector } from "react-redux";
 import Sidebar from "../../components/navbar/nav";
 import { useParams } from "react-router-dom";
@@ -44,27 +44,32 @@ interface RouteParams {
 const Profile = () => {
   const dispatch: ThunkDispatch<any, any, AnyAction> = useDispatch();
   // const { userId } = useParams<RouteParams>();
+  const { searchUserPosts } = useSelector(
+    (store: RootState) => store.searchUserReducer
+  );
   const { userId } = useParams();
   useEffect(() => {
     dispatch(getUserAllDetailAction(userId));
+    dispatch(getLoginUserFollowing("6541fdace61629b35627c795"));
   }, []);
 
   console.log(userId);
   const searchUserId: any = userId;
-  const loginUserId: string = "6541fd88e61629b35627c78f";
-  const searchUserFollowing: string[] = ["11", "12", "13"];
+  const loginUserId: string = "6541fdace61629b35627c795";
   const isSameUser: boolean = searchUserId == loginUserId;
 
   return (
     <>
       <Flex w="100%">
-        <Box>
+        <Box
+          // w="20%"
+        >
           <Sidebar />
         </Box>
 
         <Spacer />
         <Container
-          border={"2px"}
+          // border={"2px"}
           // centerContent
           maxW="90%"
           // w="100%"
@@ -83,6 +88,11 @@ const Profile = () => {
 
                 <TabPanels>
                   <TabPanel>
+                    {searchUserPosts.length == 0 ? (
+                    <NoPost />
+                    ) : (
+                      <PostGrid />
+                    ) }
                     {/* <NoPost /> */}
                     {/* <PostGrid /> */}
                   </TabPanel>

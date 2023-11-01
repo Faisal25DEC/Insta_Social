@@ -1,62 +1,71 @@
 import { Button } from "@chakra-ui/react";
 import axios from "axios";
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getLoginUserFollowing,
+  getUserAllDetailAction,
+  onFollowAction,
+} from "../../redux/search_user/search_user.action";
+import { useParams } from "react-router-dom";
 // import Cookies from "js-cookie";
 interface FollowBtnProps {
   _id: any;
 }
-interface LogedInUserRootState {
-  // searchUserReducer: {
-  //   searchUserDetail: any;
-  //   searchUserFollower: any[];
-  //   searchUserFollowing: any[];
-  //   searchUserPosts: any[];
-  // };
+interface RootState {
+  searchUserReducer: {
+    // Define the structure of your reducer's state here
+    searchUserDetail: any;
+    searchUserFollower: any[];
+    searchUserFollowing: any[];
+    searchUserPosts: any[];
+    loginUserFollowing: any[];
+  };
 }
-const loginUserFollowing: string[] = ["2", "2", "3"];
-// const loginUserId = '6541fd88e61629b35627c78f'
-const loginUserId: any = "6541fd88e61629b35627c78f";
+interface RouteParams {
+  userId: string;
+}
+
+// const loginUserFollowing: string[] = ["2", "2", "3"];
+// const loginUserId = '6541fdace61629b35627c795'
+const loginUserId: any = "6541fdace61629b35627c795";
 
 // const token: string = Cookies.get("insta_token");
 
 export const FollowButton: React.FC<FollowBtnProps> = ({ _id }) => {
-  console.log("button", _id);
+  const dispatch = useDispatch();
+  const { userId } = useParams();
+
+  const { loginUserFollowing } = useSelector(
+    (store: RootState) => store.searchUserReducer
+  );
+
   const onFollow = async () => {
-    const header: { Authorization: string } = {
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTQxZmQ4OGU2MTYyOWIzNTYyN2M3OGYiLCJpYXQiOjE2OTg4MjcxNjN9.58YTwjnh3lrIWiE48C0s_Jz7tx0LaJsJLtgRDwJ_IPY",
-    };
-    // console.log(_id)
-    console.log(header);
-    try {
-      const response = await axios.post(
-        `${process.env.REACT_APP_PORT}/followers/${_id}`,
-        {},
-        {
-          headers: header,
-        }
-      );
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
+    dispatch(onFollowAction(_id) as any);
+    dispatch(getLoginUserFollowing("6541fdace61629b35627c795") as any);
+    dispatch(getUserAllDetailAction(userId) as any);
   };
-  const onUnFollow = async() => {
+
+  const onUnFollow = async () => {
     const header: { Authorization: string } = {
       Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTQxZmQ4OGU2MTYyOWIzNTYyN2M3OGYiLCJpYXQiOjE2OTg4MjcxNjN9.58YTwjnh3lrIWiE48C0s_Jz7tx0LaJsJLtgRDwJ_IPY",
+        `Bearer ${process.env.REACT_APP_TOKEN}`,
     };
     // console.log(_id)
     console.log(header);
     try {
       const response = await axios.delete(
         `${process.env.REACT_APP_PORT}/followers/${_id}`,
-      
+
         {
           headers: header,
         }
       );
       console.log(response);
+      // dispatch(onFollowAction(_id) as any);
+
+      dispatch(getLoginUserFollowing("6541fdace61629b35627c795") as any);
+      dispatch(getUserAllDetailAction(userId) as any);
     } catch (error) {
       console.log(error);
     }

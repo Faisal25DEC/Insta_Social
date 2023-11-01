@@ -19,6 +19,7 @@ const initialState = {
   searchUserFollower: [],
   searchUserFollowing: [],
   searchUserPosts: [],
+  loginUserFollowing: [],
 };
 
 export const searchUserReducer = (
@@ -33,6 +34,11 @@ export const searchUserReducer = (
         searchUserPosts: payload.postResponse,
         searchUserFollower:payload.followers,
         searchUserFollowing:payload.following,
+      };
+    case "LOGIN_USER_FOLLOWING":
+      return {
+        ...state,
+        loginUserFollowing:payload
       };
     default:
       return state;
