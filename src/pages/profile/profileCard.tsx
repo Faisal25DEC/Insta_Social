@@ -30,12 +30,30 @@ import {
   ViewArchiveButton,
 } from "./allbutton";
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 interface ProfileCardProps {
   isSameUser: boolean;
 }
 interface RouteParams {
   userId: any;
 }
+interface userObj {
+  _id: any;
+  profileImage: string;
+  userName: string;
+  name: string;
+  bio: string;
+}
+interface RootState {
+  searchUserReducer: {
+    // Define the structure of your reducer's state here
+    searchUserDetail: any;
+    searchUserFollower: any[];
+    searchUserFollowing: any[];
+    searchUserPosts: any[];
+  };
+}
+
 const ProfileCard: React.FC<ProfileCardProps> = ({ isSameUser }) => {
   const { userId: searchUserId } = useParams();
   // const searchUserId: any = userId;
@@ -44,6 +62,10 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ isSameUser }) => {
   const [isSettingPopUP, setIsSettingPopUP] = useState(false);
   const [isFollowerPopUP, setIsFollowerPopUP] = useState(false);
   const [isFollowingPopUP, setIsFollowingPopUP] = useState(false);
+  const { searchUserDetail,searchUserPosts } = useSelector(
+    (store: RootState) => store.searchUserReducer
+  );
+  const { profileImage, userName, name, bio,  } = searchUserDetail;
 
   return (
     <>
@@ -54,10 +76,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ isSameUser }) => {
             minW={{ base: "80px", md: "100px", lg: "150px" }}
             w="15%"
           >
-            <Image
-              borderRadius="50%"
-              src="https://i.ibb.co/rp3V5Kd/358768461-3390909287831163-5567728346172820606-n.jpg"
-            ></Image>
+            <Image borderRadius="50%" src={profileImage}></Image>
           </Box>
         </Box>
 
@@ -73,8 +92,9 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ isSameUser }) => {
             display="flex"
             flexDirection={{ base: "column", lg: "row" }}
             gap="3"
+            alignItems="center"
           >
-            <Text>arjundangi8349</Text>
+            <Text>{userName}</Text>
             <Box display="flex" gap="3" alignItems="center">
               {isSameUser ? (
                 <EditProfileButton />
@@ -99,7 +119,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ isSameUser }) => {
             cursor="pointer"
             spacing="24px"
           >
-            <Text>0 posts </Text>
+            <Text>{searchUserPosts.length} posts </Text>
             <FollowerPopUp
               isFollowerPopUP={isFollowerPopUP}
               setIsFollowerPopUP={setIsFollowerPopUP}
@@ -110,8 +130,9 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ isSameUser }) => {
             />
           </HStack>
 
-          <VStack>
-            <Text>Arjun Dangi</Text>
+          <VStack align={'start'} >
+            <Text>{name}</Text>
+            <Text>{bio}</Text>
           </VStack>
         </VStack>
       </Flex>

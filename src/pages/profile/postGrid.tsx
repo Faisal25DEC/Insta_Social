@@ -1,65 +1,34 @@
 import { Box, Grid, GridItem } from "@chakra-ui/react";
 import React from "react";
 import PostCard from "./postCard";
+import { useSelector } from "react-redux";
+interface RootState {
+  searchUserReducer: {
+    // Define the structure of your reducer's state here
+    searchUserDetail: any;
+    searchUserFollower: any[];
+    searchUserFollowing: any[];
+    searchUserPosts: any[];
+  };
+}
 
 const PostGrid = () => {
+  const { searchUserPosts } = useSelector(
+    (store: RootState) => store.searchUserReducer
+  );
   return (
-    <Grid templateColumns="repeat(3, 1fr)" gap={2} w="100%">
+    <Grid
+      templateColumns="repeat(3, 1fr)"
+      gap={2}
+      w="100%"
+      maxW="100%"
+      overflow={"hidden"}
+    >
       <GridItem>
         {" "}
-        <PostCard mediaUrl="https://i.ibb.co/yVGmDXT/380544489-666178575467267-8696379913885629238-n.jpg" />
-      </GridItem>
-      <GridItem>
-        {" "}
-        <PostCard mediaUrl="https://i.ibb.co/yVGmDXT/380544489-666178575467267-8696379913885629238-n.jpg" />
-      </GridItem>
-      <GridItem>
-        {" "}
-        <PostCard mediaUrl="https://i.ibb.co/RznqVDY/387685173-850450063406427-8598788894496499848-n.jpg" />
-      </GridItem>
-      <GridItem>
-        {" "}
-        <PostCard mediaUrl="https://i.ibb.co/M6yq2c7/393644712-292159127040639-6450214194359258963-n.jpg" />
-      </GridItem>
-      <GridItem>
-        {" "}
-        <PostCard mediaUrl="https://i.ibb.co/RznqVDY/387685173-850450063406427-8598788894496499848-n.jpg" />
-      </GridItem>
-      <GridItem>
-        {" "}
-        <PostCard mediaUrl="https://i.ibb.co/yVGmDXT/380544489-666178575467267-8696379913885629238-n.jpg" />
-      </GridItem>
-      <GridItem>
-        {" "}
-        <PostCard mediaUrl="https://i.ibb.co/yVGmDXT/380544489-666178575467267-8696379913885629238-n.jpg" />
-      </GridItem>
-      <GridItem>
-        {" "}
-        <PostCard mediaUrl="https://i.ibb.co/yVGmDXT/380544489-666178575467267-8696379913885629238-n.jpg" />
-      </GridItem>
-      <GridItem>
-        {" "}
-        <PostCard mediaUrl="https://i.ibb.co/yVGmDXT/380544489-666178575467267-8696379913885629238-n.jpg" />
-      </GridItem>
-      <GridItem>
-        {" "}
-        <PostCard mediaUrl="https://i.ibb.co/PMNs7Kn/383564732-280869784755038-4744856478724335887-n.jpg" />
-      </GridItem>
-      <GridItem>
-        {" "}
-        <PostCard mediaUrl="https://i.ibb.co/yVGmDXT/380544489-666178575467267-8696379913885629238-n.jpg" />
-      </GridItem>
-      <GridItem>
-        {" "}
-        <PostCard mediaUrl="https://i.ibb.co/yVGmDXT/380544489-666178575467267-8696379913885629238-n.jpg" />
-      </GridItem>
-      <GridItem>
-        {" "}
-        <PostCard mediaUrl="https://i.ibb.co/yVGmDXT/380544489-666178575467267-8696379913885629238-n.jpg" />
-      </GridItem>
-      <GridItem>
-        {" "}
-        <PostCard mediaUrl="https://i.ibb.co/yVGmDXT/380544489-666178575467267-8696379913885629238-n.jpg" />
+        {searchUserPosts.map((ele) => (
+          <PostCard key={ele._id} mediaUrl={ele.mediaUrl} />
+        ))}
       </GridItem>
     </Grid>
   );

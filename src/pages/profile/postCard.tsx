@@ -7,7 +7,7 @@ const PostCard: React.FC<postCardProps> = ({ mediaUrl }) => {
   return (
     <Box
       w="100%"
-      minW={{ base: "100%", md: "300px" }}
+      minW={{ base: "100%" }}
      
       minH={{ base: "100px", sm: "200px", md: "300px" }}
       maxH={{ base: "100px", sm:"200px", md: "300px" }}

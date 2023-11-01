@@ -1,4 +1,7 @@
-import { GET_SEARCH_USER_ALL_DETAIL_REQUEST } from "./search_user.actionTypes";
+import {
+  GET_SEARCH_USER_ALL_DETAIL_REQUEST,
+  GET_SEARCH_USER_ALL_DETAIL_REQUEST_SUCCESS,
+} from "./search_user.actionTypes";
 
 interface SearchUserAction {
   type: string;
@@ -11,7 +14,7 @@ const initialState = {
     userName: "",
     name: "",
     bio: "",
-    _id:""
+    _id: "",
   },
   searchUserFollower: [],
   searchUserFollowing: [],
@@ -20,11 +23,17 @@ const initialState = {
 
 export const searchUserReducer = (
   state = initialState,
-  action: SearchUserAction
+  { type, payload }: SearchUserAction
 ) => {
-  switch (action.type) {
-    case GET_SEARCH_USER_ALL_DETAIL_REQUEST:
-      return { ...state };
+  switch (type) {
+    case GET_SEARCH_USER_ALL_DETAIL_REQUEST_SUCCESS:
+      return {
+        ...state,
+        searchUserDetail: payload.userResponse,
+        searchUserPosts: payload.postResponse,
+        searchUserFollower:payload.followers,
+        searchUserFollowing:payload.following,
+      };
     default:
       return state;
   }

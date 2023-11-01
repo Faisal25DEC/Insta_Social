@@ -46,25 +46,34 @@ const Profile = () => {
   // const { userId } = useParams<RouteParams>();
   const { userId } = useParams();
   useEffect(() => {
-    dispatch(getUserAllDetailAction());
+    dispatch(getUserAllDetailAction(userId));
   }, []);
 
- 
-  console.log(userId)
+  console.log(userId);
   const searchUserId: any = userId;
-  const loginUserId: string = "1";
+  const loginUserId: string = "6541fd88e61629b35627c78f";
   const searchUserFollowing: string[] = ["11", "12", "13"];
   const isSameUser: boolean = searchUserId == loginUserId;
-  
+
   return (
     <>
       <Flex w="100%">
-        <Sidebar />
+        <Box>
+          <Sidebar />
+        </Box>
 
-        <Container centerContent maxW="100%">
-          <Box w={{ base: "100%", md: "100%", lg: "70%" }}>
+        <Spacer />
+        <Container
+          border={"2px"}
+          // centerContent
+          maxW="90%"
+          // w="100%"
+          minW="80%"
+          marginX='auto'
+        >
+          <Box w={{ base: "100%", md: "80%", lg: "70%" }} marginX={'auto'} >
             <VStack>
-              <ProfileCard isSameUser={isSameUser}  />
+              <ProfileCard isSameUser={isSameUser} />
               <Tabs display={{ base: "none", md: "block" }}>
                 <TabList w="max-content" m="auto">
                   <Tab me="2rem">POSTS</Tab>
@@ -74,15 +83,11 @@ const Profile = () => {
 
                 <TabPanels>
                   <TabPanel>
-                    <NoPost />
+                    {/* <NoPost /> */}
                     {/* <PostGrid /> */}
                   </TabPanel>
-                  <TabPanel>
-                    <PostGrid />
-                  </TabPanel>
-                  <TabPanel>
-                    <PostGrid />
-                  </TabPanel>
+                  <TabPanel>{/* <PostGrid /> */}</TabPanel>
+                  <TabPanel>{/* <PostGrid /> */}</TabPanel>
                 </TabPanels>
               </Tabs>
               <ResponsiveTab />
