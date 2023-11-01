@@ -9,12 +9,11 @@ import Sidebar from "./components/navbar/nav";
 
 function App() {
   return (
-    <div className="App">
-      <Flex gap={"18%"}>
-        <Sidebar />
-        <Routes />
-      </Flex>
-    </div>
+    <Box>
+      <Sidebar />
+
+      <Routes />
+    </Box>
   );
 }
 

@@ -40,8 +40,14 @@ import { AiFillHome } from "react-icons/ai";
 import { BiLogOut } from "react-icons/bi";
 import React, { useRef, useState } from "react";
 import NotificationDrawer from "../notificationDrawer/notificationDrawer";
+import CreatePost from "./../create-post/create-post";
 
 const Sidebar = () => {
+  const {
+    isOpen: isOpen2,
+    onClose: onClose2,
+    onOpen: onOpen2,
+  } = useDisclosure();
   const {
     isOpen: isOpen1,
     onClose: onClose1,
@@ -88,7 +94,7 @@ const Sidebar = () => {
       borderRight={"1px solid"}
       borderColor={"whiteAlpha.300"}
       py={8}
-      position={"sticky"}
+      position={"fixed"}
       top={0}
       left={0}
       px={{ base: 2, md: 4 }}
@@ -325,6 +331,7 @@ const Sidebar = () => {
                   toggleAnimation();
                   setDrawerIconClicked(item.text);
                   setTimeout(() => {
+                    item.text === "Create" && onOpen2();
                     item.text === "Search" && onOpen();
                     item.text === "Notifications" && onOpen1();
                   }, 100);
@@ -410,6 +417,7 @@ const Sidebar = () => {
         onClose={onClose1}
         onOpen={onOpen1}
       />
+      <CreatePost isOpen={isOpen2} onClose={onClose2} onOpen={onOpen2} />
     </Box>
   );
 };

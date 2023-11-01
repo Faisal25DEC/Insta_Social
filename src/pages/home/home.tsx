@@ -1,9 +1,13 @@
-import React from 'react'
+import { Box } from "@chakra-ui/react";
+import React from "react";
+import PostCard from "../../components/postCard/post-card";
 
 const Home = () => {
   return (
-    <div>Home</div>
-  )
-}
+    <Box>
+      <PostCard />
+    </Box>
+  );
+};
 
-export default Home
+export default Home;

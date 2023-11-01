@@ -305,11 +305,7 @@ const PostCard = () => {
                   </Text>
                 </Box>
                 <hr></hr>
-                <Flex
-                  justifyContent={"space-between"}
-                  alignItems={"center"}
-                  pr={"5px"}
-                >
+                <Flex justifyContent={"space-between"} pr={"5px"}>
                   <Input
                     className="comment-input"
                     variant={"unstyled"}
@@ -342,19 +338,6 @@ const PostCard = () => {
           </ModalBody>
         </ModalContent>
       </Modal>
-
-      <Input
-        type="file"
-        onChange={(e) => {
-          uploadImage(e.target.files[0])
-            .then((downloadURL) => {
-              console.log(downloadURL);
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        }}
-      />
     </Box>
   );
 };

@@ -1,0 +1,8 @@
+.large-modal {
+  height: 70vh !important;
+
+  max-width: 900px !important;
+}
+.large-textarea {
+  width: 18rem !important;
+}
