@@ -23,6 +23,11 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+/* .horizontal{
+  height: 5px;
+  color: black;
+  margin-top: 15px;
+} */
 
 .App-link {
   color: #61dafb;
