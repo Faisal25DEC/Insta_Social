@@ -27,7 +27,7 @@ import {
   VStack,
   useDisclosure,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   FaBookmark,
   FaComment,
@@ -41,6 +41,8 @@ import {
 } from "react-icons/fa";
 import { uploadImage } from "../../utils/firebase";
 const PostCard = () => {
+  const [commentInput, setCommentInput] = useState("");
+  const commentRef = useRef();
   const [likeButtonClicked, setLikeButtonClicked] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [saveButtonClicked, setSaveButtonClicked] = useState(false);
@@ -303,22 +305,44 @@ const PostCard = () => {
                   </Text>
                 </Box>
                 <hr></hr>
-                <Input
-                  className="comment-input"
-                  variant={"unstyled"}
-                  width="100%"
-                  padding={"0"}
-                  ml="0.3rem"
-                  outline={"none"}
-                  border={"none"}
-                  placeholder="Write your comment"
-                  borderRadius={"0"}
-                />
+                <Flex
+                  justifyContent={"space-between"}
+                  alignItems={"center"}
+                  pr={"5px"}
+                >
+                  <Input
+                    className="comment-input"
+                    variant={"unstyled"}
+                    width="100%"
+                    padding={"0"}
+                    ml="0.3rem"
+                    outline={"none"}
+                    border={"none"}
+                    placeholder="Write your comment"
+                    borderRadius={"0"}
+                    value={commentInput}
+                    onChange={(e) => {
+                      setCommentInput(e.target.value);
+                    }}
+                  />
+                  <Text
+                    onClick={() => {
+                      setCommentInput("");
+                    }}
+                    fontWeight={"medium"}
+                    fontSize={"0.8rem"}
+                    color={"blue"}
+                    display={commentInput === "" ? "none" : "block"}
+                  >
+                    Send
+                  </Text>
+                </Flex>
               </Box>
             </Flex>
           </ModalBody>
         </ModalContent>
       </Modal>
+
       <Input
         type="file"
         onChange={(e) => {
