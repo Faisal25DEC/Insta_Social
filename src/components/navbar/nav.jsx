@@ -21,10 +21,11 @@ import {
 import { AiFillHome } from "react-icons/ai";
 import { BiLogOut } from "react-icons/bi";
 import React, { useRef, useState } from "react";
+import { useDispatch } from "react-redux";
+import { searching } from "../../redux/user/userAction";
 
 const Sidebar = () => {
-	const [state, setState] = useState(true);
-	const [sbar,setSbar]=useState(false);
+	const [state, setState] = useState(false);
 	const { isOpen, onOpen, onClose } = useDisclosure()
   const btnRef = React.useRef()
 	const sidebarItems = [
@@ -51,6 +52,16 @@ const Sidebar = () => {
 			text: "Explore"
 		}
 	];
+ let time_id;
+ var dispatch=useDispatch();
+	const OnSearch=(value)=>{
+        if(time_id){
+			clearTimeout(time_id)
+		}
+		time_id=setTimeout(()=>{
+            dispatch(searching(value))
+        },500)
+	}
 
 	return (
 
@@ -59,7 +70,7 @@ const Sidebar = () => {
 			borderRight={"1px solid"}
 			borderColor={"whiteAlpha.300"}
 			py={8}
-			position={"sticky"}
+			position={"Sticky"}
 			top={0}
 			left={0}
 			px={{ base: 2, md: 4 }}
@@ -67,12 +78,13 @@ const Sidebar = () => {
 		
 
 			<Drawer
-			size={'sm'}
-			boxShadow='xs'
+			size={{base:'full',sm:'sm'}}
+			isFullHeight
         isOpen={isOpen}
         placement='left'
         onClose={onClose}
         finalFocusRef={btnRef}
+
       >
 	 
 		<DrawerOverlay />
@@ -81,14 +93,16 @@ const Sidebar = () => {
           <DrawerBody >
 		  <Flex flexDirection={'row'}>
 			<Flex border="1px solid #d3d3d3" w={"60px"} h={"full"} p={"0"} m={"0"} borderColor={"white #d3d3d3 white white"}>
-		<Flex>
-		<Flex direction={"column"} gap={10} w='full' height={"full"}>
+		<Flex >
+		<Flex direction={"column"} gap={10}   justifyContent='space-between'  height={"95vh"} >
+		<Flex flexDirection={'column'}>
 				<Link
 					to={"/"}
 					as={RouterLink}
 					p={2}
 					mt={'15px'}
 					borderRadius={6}
+					mb={'30px'}
 					_hover={{
 						bg: "whiteAlpha.200",
 					}}
@@ -130,6 +144,8 @@ const Sidebar = () => {
 						</Tooltip>
 					))}
 				</Flex>
+				</Flex>
+				<Flex flexDirection={'column'} gap={'15px'}>
 				<Tooltip
 					hasArrow
 					label={"Logout"}
@@ -204,6 +220,7 @@ const Sidebar = () => {
 					</Link>
 
 				</Tooltip>
+				</Flex>
 			</Flex>
 		</Flex>
 
@@ -213,12 +230,12 @@ const Sidebar = () => {
 		</Flex>
 		
 
-		<Flex flexDirection={'column'} w={'500px'}>
+		<Flex flexDirection={'column'} w={'100%'} >
 		<Text ml={'20px'} mt='15px' fontSize={'25px'}>Search</Text>
 		<FocusLock returnFocus persistentFocus={true}>
-		<Input focusBorderColor='#d3d3d3'  width={'340px'} _focus={true} mt='28px' ml='15px' variant='filled' placeholder="Search"/>
+		<Input onChange={(e)=>OnSearch(e.target.value)} focusBorderColor='#d3d3d3'  width={{base:'100%',sm:'340px'}} _focus={true} mt='28px' ml='15px' variant='filled' placeholder="Search"/>
 		</FocusLock>
-        <Divider mt='15px' w='360px' css={{
+        <Divider mt='15px' w={{base:'100%',sm:'360px'}} css={{
     backgroundColor: 'gray', 
     height: '.5px', 
   }}  />
@@ -237,7 +254,8 @@ const Sidebar = () => {
 			
 		
 
-		<Flex direction={"column"} gap={10} w='full' height={"full"}>
+		<Flex direction={"column"} gap={10} w='full' height={"full"}  justifyContent={'space-between'}>
+		<Flex flexDirection={'column'} >
 				<Link to={"/"} as={RouterLink} pl={2} display={{ base: "none", md: "block" }} cursor='pointer'>
 					<InstagramLogo />
 
@@ -258,7 +276,7 @@ const Sidebar = () => {
 
 				</Link>
 
-				<Flex direction={"column"} gap={5} cursor={"pointer"}>
+				<Flex direction={"column"} gap={5} cursor={"pointer"} mt={'15px'}>
 					{sidebarItems.map((item, index) => (
 						<Tooltip
 							key={index}
@@ -277,14 +295,16 @@ const Sidebar = () => {
 								as={RouterLink}
 								alignItems={"center"}
 								gap={4}
-								_hover={{ bg: "whiteAlpha.400" }}
+								
 								borderRadius={6}
 								p={2}
 								ref={btnRef}
 								w={{ base: 10, md: "full" }}
 								onClick={()=> {item.text==='Search' && onOpen()}}
 								justifyContent={{ base: "center", md: "flex-start" }}
-
+								_hover={{
+    bg: ' rgb(239,239,239)', 
+  }}
 							>
 								{item.icon}
 								<Box display={{ base: "none", md: "block" }}>{item.text}</Box>
@@ -292,12 +312,15 @@ const Sidebar = () => {
 						</Tooltip>
 					))}
 				</Flex>
+				</Flex>
+				<Flex flexDirection={'column'} gap={'10px'}>
 				<Tooltip
 					hasArrow
 					label={"Logout"}
 					placement='right'
 					ml={1}
 					openDelay={500}
+					
 					display={{ base: "block", md: "none" }}
 				>
 					<Link
@@ -306,15 +329,17 @@ const Sidebar = () => {
 						as={RouterLink}
 						alignItems={"center"}
 						gap={4}
-						_hover={{ bg: "whiteAlpha.400" }}
+						
 						borderRadius={6}
 						p={2}
 						w={{ base: 10, md: "full" }}
-						mt={60}
+						_hover={{
+    bg: ' rgb(239,239,239)', 
+  }}
 						justifyContent={{ base: "center", md: "flex-start" }}
 					>
 						{state ? <><BiLogOut size={25} />
-							<Box display={{ base: "none", md: "block" }}>Logout</Box></> : <><Loggin /><Box display={{ base: "none", md: "block" }}>Login</Box></>}
+							<Box  display={{ base: "none", md: "block" }}>Logout</Box></> : <><Loggin /><Box display={{ base: "none", md: "block" }}>Login</Box></>}
 
 					</Link>
 
@@ -337,15 +362,22 @@ const Sidebar = () => {
 						borderRadius={6}
 						p={2}
 						w={{ base: 10, md: "full" }}
-						mt={"auto"}
+						ml={'-5px'}
 
 						justifyContent={{ base: "center", md: "flex-start" }}
 					>
 						<Menu>
 							<MenuButton as={Button}
 								transition='all 0.2s'
+								backgroundColor={'white'}
+								_hover={{
+    bg: ' rgb(239,239,239)', 
+  }}
 							>
-								More
+								<Flex gap={'15px'}>
+								<Box><MoreLogo /></Box>
+								<Text mt={'3px'} display={{base:'none',lg:'block'}}>More</Text>
+								</Flex> 
 							</MenuButton>
 							<MenuList
 							
@@ -361,7 +393,9 @@ const Sidebar = () => {
 					</Link>
 
 				</Tooltip>
+				</Flex>
 			</Flex>
+			
 			
 
 

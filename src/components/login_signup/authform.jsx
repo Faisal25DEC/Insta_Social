@@ -95,7 +95,7 @@ const AuthForm = () => {
 						<Box flex={2} h={"1px"} bg={"gray.400"} />
 					</Flex>
 
-					<Flex alignItems={"center"} justifyContent={"center"} cursor={"pointer"}>
+					<Flex alignItems={"center"} justifyContent={"center"} cursor={"pointer"} onClick={()=> window.location.href='http://localhost:8080/auth/google'}>
 						<Image src='https://res.cloudinary.com/dusavcufz/image/upload/v1698468993/tcavtkjymcfeum31lbsf.png' w={5} alt='Google logo' />
 						<Text mx='2' color={"blue.500"}>
 							Log in with Google

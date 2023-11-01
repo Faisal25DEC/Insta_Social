@@ -1,6 +1,7 @@
 import axios from "axios"
-import { GET_LOGIN_ERROR, GET_LOGIN_REQUEST, GET_LOGIN_SUCCESS, GET_SIGNUP_ERROR, GET_SIGNUP_REQUEST, GET_SIGNUP_SUCCESS, SIGN_OUT } from "./userType"
-import { Alert, AlertIcon } from "@chakra-ui/react"
+import { GET_LOGIN_ERROR, GET_LOGIN_REQUEST, GET_LOGIN_SUCCESS, GET_SIGNUP_ERROR, GET_SIGNUP_REQUEST, GET_SIGNUP_SUCCESS, SEARCH, SIGN_OUT } from "./userType"
+import { Alert, AlertIcon } from "@chakra-ui/react";
+import Cookies from 'js-cookie';
 
  export const SigningUp=(data)=>async (dispatch)=>{
 
@@ -25,10 +26,17 @@ export const SigningIn=(data)=>async (dispatch)=>{
         type:GET_LOGIN_REQUEST
     })
     try{
-        const res=await axios.post(`${process.env.REACT_APP_PORT}/users/login`,data)
-        dispatch({
-            type:GET_LOGIN_SUCCESS
+        const token=Cookies.get('insta_token');
+        const res=await axios.post(`${process.env.REACT_APP_PORT}/users/login`,data,{
+            headers:{
+                Authorization:`Bearer ${token}`
+            }
         })
+        dispatch({
+            type:GET_LOGIN_SUCCESS,
+            payload:data
+        })
+    console.log(data);
     }
     catch(err){
         dispatch({
@@ -36,6 +44,22 @@ export const SigningIn=(data)=>async (dispatch)=>{
         })
     }
 }
+
+export const searching=(data)=>async (dispatch)=>{
+    console.log("sr"+data)
+    try {
+        
+        const res=await axios.get(`${process.env.REACT_APP_PORT}/users/search`,{data})
+       dispatch({
+        type:SEARCH,
+        payload:res.data
+       })
+       console.log(res.data);
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 
 export const SignOut=(dispatch)=>{
    dispatch({type:SIGN_OUT})
