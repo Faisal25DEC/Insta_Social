@@ -4,7 +4,7 @@ import { Avatar, Box, Button,   Drawer,
 	DrawerHeader,
 	DrawerOverlay,
 	DrawerContent,
-	DrawerCloseButton, Flex, Input, Link, Menu, MenuButton, MenuItem, MenuList, Text, Tooltip, useDisclosure, Divider, Center, FocusLock } from "@chakra-ui/react";
+	DrawerCloseButton, Flex, Input, Link, Menu, MenuButton, MenuItem, MenuList, Text, Tooltip, useDisclosure, Divider, Center, FocusLock, WrapItem } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 import {
 	CreatePostLogo,
@@ -21,7 +21,7 @@ import {
 import { AiFillHome } from "react-icons/ai";
 import { BiLogOut } from "react-icons/bi";
 import React, { useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { searching } from "../../redux/user/userAction";
 
 const Sidebar = () => {
@@ -54,6 +54,9 @@ const Sidebar = () => {
 	];
  let time_id;
  var dispatch=useDispatch();
+ var data=useSelector((state)=>state.UserReducer);
+ console.log(data)
+ console.log('data',data.search_results)
 	const OnSearch=(value)=>{
         if(time_id){
 			clearTimeout(time_id)
@@ -130,7 +133,7 @@ const Sidebar = () => {
 								as={RouterLink}
 								alignItems={"center"}
 								gap={4}
-								_hover={{ bg: "whiteAlpha.400" }}
+								_hover={{ bg: "rgb(239,239,239)" }}
 								borderRadius={6}
 								p={2}
 								w={{ base: 10, md: "full" }}
@@ -160,7 +163,7 @@ const Sidebar = () => {
 						as={RouterLink}
 						alignItems={"center"}
 						gap={4}
-						_hover={{ bg: "whiteAlpha.400" }}
+						_hover={{ bg: "rgb(239,239,239)" }}
 						borderRadius={6}
 						p={2}
 						w={{ base: 10, md: "full" }}
@@ -188,7 +191,7 @@ const Sidebar = () => {
 						display={"flex"}
 						alignItems={"center"}
 						gap={4}
-						_hover={{ bg: "whiteAlpha.400" }}
+						_hover={{ bg: "rgb(239,239,239)" }}
 						borderRadius={6}
 						
 						w={{ base: 10, md: "full" }}
@@ -200,7 +203,7 @@ const Sidebar = () => {
 							<MenuButton as={Button}
 								transition='all 0.2s'
 								bg={"white"}
-								_hover={{ bg: 'white' }}
+								_hover={{ bg: 'rgb(239,239,239)' }}
 								_expanded={{ bg: 'white' }}
 							>
 								<MoreLogo />
@@ -239,6 +242,23 @@ const Sidebar = () => {
     backgroundColor: 'gray', 
     height: '.5px', 
   }}  />
+ 
+  <Flex flexDirection={'column'}>
+  
+	{ data.search_results?.map((ele,idx)=>(
+		<Flex mt={'10px'} ml={'4px'} _hover={{bg:'rgb(239,239,239)'}} cursor={'pointer'} >
+		<WrapItem>
+    <Avatar size={'sm'} name={ele.name} src={ele.profileImage ? `${ele.profileImage}`:'https://bit.ly/broken-link'} />
+  </WrapItem>
+     <Box ml={'20px'} mb={'5px'}>
+		<Text fontWeight={'500'}>{ele.name}</Text>
+		<Text color={'grey'}>{ele.userName}</Text>
+	 </Box>
+
+		</Flex>))}
+        
+  </Flex>
+
 		</Flex>
 		</Flex>
           </DrawerBody>

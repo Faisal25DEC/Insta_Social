@@ -46,10 +46,12 @@ export const SigningIn=(data)=>async (dispatch)=>{
 }
 
 export const searching=(data)=>async (dispatch)=>{
-    console.log("sr"+data)
+    console.log(data)
     try {
-        
-        const res=await axios.get(`${process.env.REACT_APP_PORT}/users/search`,{data})
+        const obj={
+            input:data
+        }
+        const res=await axios.get(`${process.env.REACT_APP_PORT}/users/search/${data}`)
        dispatch({
         type:SEARCH,
         payload:res.data
