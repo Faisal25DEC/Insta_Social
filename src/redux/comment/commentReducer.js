@@ -1,7 +1,7 @@
 import {
-  BLOG_COMMENTS_FAILURE,
-  BLOG_COMMENTS_LOADING,
-  BLOG_COMMENTS_SUCCESS,
+  POST_COMMENTS_FAILURE,
+  POST_COMMENTS_LOADING,
+  POST_COMMENTS_SUCCESS,
 } from "./commentTypes";
 
 const initialState = {
@@ -12,13 +12,13 @@ const initialState = {
 
 export const commentReducer = (state = initialState, { type, payload }) => {
   switch (type) {
-    case BLOG_COMMENTS_LOADING: {
+    case POST_COMMENTS_LOADING: {
       return {
         ...state,
         blogCommentsLoading: true,
       };
     }
-    case BLOG_COMMENTS_SUCCESS: {
+    case POST_COMMENTS_SUCCESS: {
       return {
         ...state,
         blogCommentsLoading: false,
@@ -26,7 +26,7 @@ export const commentReducer = (state = initialState, { type, payload }) => {
         blogComments: [...payload],
       };
     }
-    case BLOG_COMMENTS_FAILURE: {
+    case POST_COMMENTS_FAILURE: {
       return {
         ...state,
         blogCommentsError: true,

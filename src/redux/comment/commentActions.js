@@ -1,23 +1,23 @@
 import axios from "axios";
 import { createAction } from "./../util";
 import {
-  BLOG_COMMENTS_FAILURE,
-  BLOG_COMMENTS_LOADING,
-  BLOG_COMMENTS_SUCCESS,
+  POST_COMMENTS_FAILURE,
+  POST_COMMENTS_LOADING,
+  POST_COMMENTS_SUCCESS,
 } from "./commentTypes";
 import { getCookie } from "../../utils/cookies";
 
 const baseUrl = process.env.REACT_APP_BASE_URL;
 
-export const getBlogComments = (blogId) => async (dispatch) => {
+export const getPostComments = (blogId) => async (dispatch) => {
   console.log(blogId);
-  dispatch(createAction(BLOG_COMMENTS_LOADING));
+  dispatch(createAction(POST_COMMENTS_LOADING));
   try {
     const res = await axios.get(`${baseUrl}/comments/${blogId}`);
     console.log(res);
-    dispatch(createAction(BLOG_COMMENTS_SUCCESS, res.data));
+    dispatch(createAction(POST_COMMENTS_SUCCESS, res.data));
   } catch (err) {
-    dispatch(createAction(BLOG_COMMENTS_FAILURE));
+    dispatch(createAction(POST_COMMENTS_FAILURE));
   }
 };
 
@@ -33,6 +33,6 @@ export const postComment = (comment, blogId) => async (dispatch) => {
         },
       }
     );
-    dispatch(getBlogComments(blogId));
+    dispatch(getPostComments(blogId));
   } catch (err) {}
 };
