@@ -40,16 +40,15 @@ import {
   FaThumbsUp,
 } from "react-icons/fa";
 import { uploadImage } from "../../utils/firebase";
-const PostCard = () => {
+const PostCard = ({ mediaUrl, caption }) => {
   const [commentInput, setCommentInput] = useState("");
   const commentRef = useRef();
   const [likeButtonClicked, setLikeButtonClicked] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [saveButtonClicked, setSaveButtonClicked] = useState(false);
   const [post, setPost] = useState({
-    image:
-      "https://pbs.twimg.com/media/F8_TYjsXoAAiFLH?format=jpg&name=900x900",
-    description: "I am hrithik roshan",
+    image: mediaUrl,
+    caption: caption,
     likes: 35632,
     comments: 3252,
   });

@@ -6,9 +6,11 @@ import {
   GET_SIGNUP_ERROR,
   GET_SIGNUP_REQUEST,
   GET_SIGNUP_SUCCESS,
+  SEARCH,
   SIGN_OUT,
 } from "./userType";
 import { Alert, AlertIcon } from "@chakra-ui/react";
+import Cookies from "js-cookie";
 
 export const SigningUp = (data) => async (dispatch) => {
   dispatch({
@@ -21,6 +23,7 @@ export const SigningUp = (data) => async (dispatch) => {
     );
     dispatch({
       type: GET_SIGNUP_SUCCESS,
+      payload: data,
     });
   } catch (err) {
     dispatch({
@@ -34,20 +37,44 @@ export const SigningIn = (data) => async (dispatch) => {
     type: GET_LOGIN_REQUEST,
   });
   try {
+    const token = Cookies.get("insta_token");
     const res = await axios.post(
       `${process.env.REACT_APP_PORT}/users/login`,
       data,
       {
-        withCredentials: "include",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }
     );
     dispatch({
       type: GET_LOGIN_SUCCESS,
+      payload: data,
     });
+    console.log(data);
   } catch (err) {
     dispatch({
       type: GET_LOGIN_ERROR,
     });
+  }
+};
+
+export const searching = (data) => async (dispatch) => {
+  console.log(data);
+  try {
+    const obj = {
+      input: data,
+    };
+    const res = await axios.get(
+      `${process.env.REACT_APP_PORT}/users/search/${data}`
+    );
+    dispatch({
+      type: SEARCH,
+      payload: res.data,
+    });
+    console.log(res.data);
+  } catch (error) {
+    console.log(error);
   }
 };
 

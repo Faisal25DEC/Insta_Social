@@ -22,8 +22,9 @@ import {
   Divider,
   Center,
   FocusLock,
+  WrapItem,
+  Image,
 } from "@chakra-ui/react";
-import "./nav.css";
 import { Link as RouterLink } from "react-router-dom";
 import {
   CreatePostLogo,
@@ -38,9 +39,12 @@ import {
 
 import { AiFillHome } from "react-icons/ai";
 import { BiLogOut } from "react-icons/bi";
-import React, { useRef, useState } from "react";
-import NotificationDrawer from "../notificationDrawer/notificationDrawer";
+import React, { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { searching } from "../../redux/user/userAction";
+import { SIGN_OUT } from "../../redux/user/userType";
 import CreatePost from "./../create-post/create-post";
+import NotificationDrawer from "../notificationDrawer/notificationDrawer";
 
 const Sidebar = () => {
   const {
@@ -88,20 +92,34 @@ const Sidebar = () => {
     },
   ];
 
+  let time_id;
+  var dispatch = useDispatch();
+  var data = useSelector((state) => state.UserReducer);
+  console.log(data);
+  console.log("data", data.search_results);
+  const OnSearch = (value) => {
+    if (time_id) {
+      clearTimeout(time_id);
+    }
+    time_id = setTimeout(() => {
+      dispatch(searching(value));
+    }, 500);
+  };
+
   return (
     <Box
       height={"100vh"}
       borderRight={"1px solid"}
       borderColor={"whiteAlpha.300"}
       py={8}
-      position={"fixed"}
+      position={"Sticky"}
       top={0}
       left={0}
       px={{ base: 2, md: 4 }}
     >
       <Drawer
-        size={"sm"}
-        boxShadow="xs"
+        size={{ base: "full", sm: "sm" }}
+        isFullHeight
         isOpen={isOpen}
         placement="left"
         onClose={onClose}
@@ -120,135 +138,140 @@ const Sidebar = () => {
                 borderColor={"white #d3d3d3 white white"}
               >
                 <Flex>
-                  <Flex direction={"column"} gap={10} w="full" height={"full"}>
-                    <Link
-                      to={"/"}
-                      as={RouterLink}
-                      p={2}
-                      mt={"15px"}
-                      borderRadius={6}
-                      _hover={{
-                        bg: "whiteAlpha.200",
-                      }}
-                      w={10}
-                      cursor="pointer"
-                    >
-                      <InstagramMobileLogo />
-                    </Link>
-
-                    <Flex direction={"column"} gap={5} cursor={"pointer"}>
-                      {sidebarItems.map((item, index) => (
-                        <Tooltip
-                          key={index}
-                          hasArrow
-                          label={item.text}
-                          placement="right"
-                          openDelay={500}
-                          display={{ base: "block", md: "none" }}
-                        >
-                          <Link
-                            display={"flex"}
-                            to={item.link || ""}
-                            as={RouterLink}
-                            alignItems={"center"}
-                            gap={4}
-                            _hover={{ bg: "whiteAlpha.400" }}
-                            borderRadius={6}
-                            p={2}
-                            backgroundColor={
-                              drawerIconClicked === item.text && "#c0c4c1"
-                            }
-                            w={{ base: 10, md: "full" }}
-                            onClick={() => {
-                              setDrawerIconClicked("");
-                              item.text == "Search" && onClose();
-                            }}
-                            justifyContent={{
-                              base: "center",
-                              md: "flex-start",
-                            }}
-                          >
-                            {item.icon}
-                          </Link>
-                        </Tooltip>
-                      ))}
-                    </Flex>
-                    <Tooltip
-                      hasArrow
-                      label={"Logout"}
-                      placement="right"
-                      ml={1}
-                      openDelay={500}
-                      display={{ base: "block", md: "none" }}
-                    >
+                  <Flex
+                    direction={"column"}
+                    gap={10}
+                    justifyContent="space-between"
+                    height={"95vh"}
+                  >
+                    <Flex flexDirection={"column"}>
                       <Link
-                        display={"flex"}
-                        to={"/auth"}
+                        to={"/"}
                         as={RouterLink}
-                        alignItems={"center"}
-                        gap={4}
-                        _hover={{ bg: "whiteAlpha.400" }}
-                        borderRadius={6}
                         p={2}
-                        w={{ base: 10, md: "full" }}
-                        mt={"240px"}
-                        ml={"5px"}
-                        justifyContent={{ base: "center", md: "flex-start" }}
-                      >
-                        {state ? <BiLogOut size={25} /> : <Loggin />}
-                      </Link>
-                    </Tooltip>
-                    <Tooltip
-                      hasArrow
-                      label={"More"}
-                      placement="right"
-                      openDelay={500}
-                      display={{ base: "block", md: "none" }}
-                    >
-                      <Link
-                        display={"flex"}
-                        alignItems={"center"}
-                        gap={4}
-                        _hover={{ bg: "whiteAlpha.400" }}
+                        mt={"15px"}
                         borderRadius={6}
-                        w={{ base: 10, md: "full" }}
-                        mt={"auto"}
-                        justifyContent={{ base: "center", md: "flex-start" }}
+                        mb={"30px"}
+                        _hover={{
+                          bg: "whiteAlpha.200",
+                        }}
+                        w={10}
+                        cursor="pointer"
                       >
-                        <Menu>
-                          <MenuButton
-                            as={Button}
-                            transition="all 0.2s"
-                            bg={"white"}
-                            _hover={{ bg: "white" }}
-                            _expanded={{ bg: "white" }}
-                          >
-                            <MoreLogo />
-                          </MenuButton>
-                          <MenuList>
-                            <MenuItem>Download</MenuItem>
-                            <MenuItem>Create a Copy</MenuItem>
-                            <MenuItem>Mark as Draft</MenuItem>
-                            <MenuItem>Delete</MenuItem>
-                            <MenuItem>Attend a Workshop</MenuItem>
-                          </MenuList>
-                        </Menu>
+                        <InstagramMobileLogo />
                       </Link>
-                    </Tooltip>
+
+                      <Flex direction={"column"} gap={5} cursor={"pointer"}>
+                        {sidebarItems.map((item, index) => (
+                          <Tooltip
+                            key={index}
+                            hasArrow
+                            label={item.text}
+                            placement="right"
+                            openDelay={500}
+                            display={{ base: "block", md: "none" }}
+                          >
+                            <Link
+                              display={"flex"}
+                              to={item.link || ""}
+                              as={RouterLink}
+                              alignItems={"center"}
+                              gap={4}
+                              _hover={{ bg: "rgb(239,239,239)" }}
+                              borderRadius={6}
+                              p={2}
+                              w={{ base: 10, md: "full" }}
+                              justifyContent={{
+                                base: "center",
+                                md: "flex-start",
+                              }}
+                            >
+                              {item.icon}
+                            </Link>
+                          </Tooltip>
+                        ))}
+                      </Flex>
+                    </Flex>
+                    <Flex flexDirection={"column"} gap={"15px"}>
+                      <Tooltip
+                        hasArrow
+                        label={"Logout"}
+                        placement="right"
+                        ml={1}
+                        openDelay={500}
+                        display={{ base: "block", md: "none" }}
+                      >
+                        <Link
+                          display={"flex"}
+                          to={"/auth"}
+                          as={RouterLink}
+                          alignItems={"center"}
+                          gap={4}
+                          _hover={{ bg: "rgb(239,239,239)" }}
+                          borderRadius={6}
+                          p={2}
+                          onClick={() => dispatch({ type: SIGN_OUT })}
+                          w={{ base: 10, md: "full" }}
+                          mt={"240px"}
+                          ml={"5px"}
+                          justifyContent={{ base: "center", md: "flex-start" }}
+                        >
+                          {data.isAuth ? <BiLogOut size={25} /> : <Loggin />}
+                        </Link>
+                      </Tooltip>
+                      <Tooltip
+                        hasArrow
+                        label={"More"}
+                        placement="right"
+                        openDelay={500}
+                        display={{ base: "block", md: "none" }}
+                      >
+                        <Link
+                          display={"flex"}
+                          alignItems={"center"}
+                          gap={4}
+                          _hover={{ bg: "rgb(239,239,239)" }}
+                          borderRadius={6}
+                          w={{ base: 10, md: "full" }}
+                          mt={"auto"}
+                          justifyContent={{ base: "center", md: "flex-start" }}
+                        >
+                          <Menu>
+                            <MenuButton
+                              as={Button}
+                              transition="all 0.2s"
+                              bg={"white"}
+                              _hover={{ bg: "rgb(239,239,239)" }}
+                              _expanded={{ bg: "white" }}
+                            >
+                              <MoreLogo />
+                            </MenuButton>
+                            <MenuList>
+                              <MenuItem>Download</MenuItem>
+                              <MenuItem>Create a Copy</MenuItem>
+                              <MenuItem>Mark as Draft</MenuItem>
+                              <MenuItem>Delete</MenuItem>
+                              <MenuItem>Attend a Workshop</MenuItem>
+                            </MenuList>
+                          </Menu>
+                        </Link>
+                      </Tooltip>
+                    </Flex>
                   </Flex>
                 </Flex>
 
                 <Flex></Flex>
               </Flex>
 
-              <Flex flexDirection={"column"} w={"500px"}>
+              <Flex flexDirection={"column"} w={"100%"}>
                 <Text ml={"20px"} mt="15px" fontSize={"25px"}>
                   Search
                 </Text>
                 <FocusLock returnFocus persistentFocus={true}>
                   <Input
+                    onChange={(e) => OnSearch(e.target.value)}
                     focusBorderColor="#d3d3d3"
-                    width={"340px"}
+                    width={{ base: "100%", sm: "340px" }}
                     _focus={true}
                     mt="28px"
                     ml="15px"
@@ -258,12 +281,41 @@ const Sidebar = () => {
                 </FocusLock>
                 <Divider
                   mt="15px"
-                  w="360px"
+                  w={{ base: "100%", sm: "360px" }}
                   css={{
                     backgroundColor: "gray",
                     height: ".5px",
                   }}
                 />
+
+                <Flex flexDirection={"column"}>
+                  {data.search_results?.map((ele, idx) => (
+                    <Flex
+                      mt={"10px"}
+                      ml={"4px"}
+                      _hover={{ bg: "rgb(239,239,239)" }}
+                      cursor={"pointer"}
+                      alignItems={"center"}
+                    >
+                      <WrapItem>
+                        <Avatar
+                          width={"45px"}
+                          h={"45px"}
+                          name={ele.name}
+                          src={
+                            ele.profileImage
+                              ? `${ele.profileImage}`
+                              : "https://bit.ly/broken-link"
+                          }
+                        />
+                      </WrapItem>
+                      <Box ml={"20px"} mb={"5px"}>
+                        <Text fontWeight={"500"}>{ele.name}</Text>
+                        <Text color={"grey"}>{ele.userName}</Text>
+                      </Box>
+                    </Flex>
+                  ))}
+                </Flex>
               </Flex>
             </Flex>
           </DrawerBody>
@@ -277,10 +329,9 @@ const Sidebar = () => {
         gap={10}
         w="full"
         height={"full"}
-        className="drawer-backwards"
-        pr="1rem"
-        borderRight={"solid 1px grey"}
-      >
+        justifyContent={"space-between"}
+      ></Flex>
+      <Flex flexDirection={"column"}>
         <Link
           to={"/"}
           as={RouterLink}
