@@ -9,11 +9,11 @@ import { getCookie } from "../../utils/cookies";
 
 const baseUrl = process.env.REACT_APP_BASE_URL;
 
-export const getPostComments = (blogId) => async (dispatch) => {
-  console.log(blogId);
+export const getPostComments = (postId) => async (dispatch) => {
+  console.log(postId);
   dispatch(createAction(POST_COMMENTS_LOADING));
   try {
-    const res = await axios.get(`${baseUrl}/comments/${blogId}`);
+    const res = await axios.get(`${baseUrl}/comments/${postId}`);
     console.log(res);
     dispatch(createAction(POST_COMMENTS_SUCCESS, res.data));
   } catch (err) {
@@ -21,18 +21,18 @@ export const getPostComments = (blogId) => async (dispatch) => {
   }
 };
 
-export const postComment = (comment, blogId) => async (dispatch) => {
+export const postComment = (comment, postId) => async (dispatch) => {
   try {
     const token = getCookie("jwttoken");
     const res = await axios.post(
-      `${baseUrl}/comments`,
-      { comment, blogId },
+      `${baseUrl}/comments/${postId}`,
+      { comment, postId },
       {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }
     );
-    dispatch(getPostComments(blogId));
+    dispatch(getPostComments(postId));
   } catch (err) {}
 };

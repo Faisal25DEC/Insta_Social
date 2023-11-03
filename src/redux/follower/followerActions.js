@@ -17,7 +17,7 @@ export const followUser = (followerId, userId) => async (dispatch) => {
   try {
     const token = getCookie("jwttoken");
     const res = await axios.post(
-      `${baseUrl}/followers`,
+      `${baseUrl}/followers/${followerId}`,
       { followerId },
       {
         headers: {
@@ -34,8 +34,8 @@ export const followUser = (followerId, userId) => async (dispatch) => {
 export const unfollowUser = (followerId, userId) => async (dispatch) => {
   const token = getCookie("jwttoken");
   try {
-    const res = await axios.patch(
-      `${baseUrl}/followers/decrease`,
+    const res = await axios.delete(
+      `${baseUrl}/followers/${followerId}`,
       { followerId },
       {
         headers: {

@@ -5,9 +5,9 @@ import {
 } from "./commentTypes";
 
 const initialState = {
-  blogComments: [],
-  blogCommentsLoading: false,
-  blogCommentsError: false,
+  postComments: [],
+  postCommentsLoading: false,
+  postCommentsError: false,
 };
 
 export const commentReducer = (state = initialState, { type, payload }) => {
@@ -15,21 +15,21 @@ export const commentReducer = (state = initialState, { type, payload }) => {
     case POST_COMMENTS_LOADING: {
       return {
         ...state,
-        blogCommentsLoading: true,
+        postCommentsLoading: true,
       };
     }
     case POST_COMMENTS_SUCCESS: {
       return {
         ...state,
-        blogCommentsLoading: false,
-        blogCommentsError: false,
-        blogComments: [...payload],
+        postCommentsLoading: false,
+        postCommentsError: false,
+        postComments: [...payload],
       };
     }
     case POST_COMMENTS_FAILURE: {
       return {
         ...state,
-        blogCommentsError: true,
+        postCommentsError: true,
       };
     }
     default: {
