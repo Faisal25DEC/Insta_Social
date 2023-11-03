@@ -44,6 +44,7 @@ const CreatePost = ({ onClose, isOpen, onOpen }) => {
 
                 media !== null &&
                   dispatch(createPost(token, { mediaUrl: media, caption }));
+                onClose();
               } else {
                 setNextButtonClicked(true);
               }
