@@ -11,7 +11,8 @@ import Cookies from 'js-cookie';
     try{
         const res=await axios.post(`${process.env.REACT_APP_PORT}/users/signup`,data)
         dispatch({
-            type:GET_SIGNUP_SUCCESS
+            type:GET_SIGNUP_SUCCESS,
+            payload:data
         })
     }
     catch(err){

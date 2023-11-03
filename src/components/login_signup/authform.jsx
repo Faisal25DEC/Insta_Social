@@ -43,7 +43,7 @@ const AuthForm = () => {
 
 	return (
 		<>
-			<Box border={"1px solid #d3d3d3 "} borderRadius={4} padding={5}>
+			<Box border={"1px solid #d3d3d3 "} borderRadius={4} padding={5} >
 				<VStack spacing={4}>
 					<Image src='https://res.cloudinary.com/dusavcufz/image/upload/v1698468645/x6aepgng7ovirp3tor50.png' h={24} cursor={"pointer"} alt='Instagram' />
 					<Input

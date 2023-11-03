@@ -4,7 +4,7 @@ import { Avatar, Box, Button,   Drawer,
 	DrawerHeader,
 	DrawerOverlay,
 	DrawerContent,
-	DrawerCloseButton, Flex, Input, Link, Menu, MenuButton, MenuItem, MenuList, Text, Tooltip, useDisclosure, Divider, Center, FocusLock, WrapItem } from "@chakra-ui/react";
+	DrawerCloseButton, Flex, Input, Link, Menu, MenuButton, MenuItem, MenuList, Text, Tooltip, useDisclosure, Divider, Center, FocusLock, WrapItem, Image } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 import {
 	CreatePostLogo,
@@ -20,9 +20,10 @@ import {
 
 import { AiFillHome } from "react-icons/ai";
 import { BiLogOut } from "react-icons/bi";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { searching } from "../../redux/user/userAction";
+import { SIGN_OUT } from "../../redux/user/userType";
 
 const Sidebar = () => {
 	const [state, setState] = useState(false);
@@ -52,6 +53,7 @@ const Sidebar = () => {
 			text: "Explore"
 		}
 	];
+	
  let time_id;
  var dispatch=useDispatch();
  var data=useSelector((state)=>state.UserReducer);
@@ -166,12 +168,13 @@ const Sidebar = () => {
 						_hover={{ bg: "rgb(239,239,239)" }}
 						borderRadius={6}
 						p={2}
+						onClick={()=> dispatch({type:SIGN_OUT})}
 						w={{ base: 10, md: "full" }}
 						mt={"240px"}
 						ml={"5px"}
 						justifyContent={{ base: "center", md: "flex-start" }}
 					>
-						{state ? <BiLogOut size={25} />
+						{data.isAuth ? <BiLogOut size={25} />
 							 : <Loggin />}
 
 					</Link>
@@ -246,9 +249,9 @@ const Sidebar = () => {
   <Flex flexDirection={'column'}>
   
 	{ data.search_results?.map((ele,idx)=>(
-		<Flex mt={'10px'} ml={'4px'} _hover={{bg:'rgb(239,239,239)'}} cursor={'pointer'} >
+		<Flex mt={'10px'} ml={'4px'} _hover={{bg:'rgb(239,239,239)'}} cursor={'pointer'} alignItems={'center'}>
 		<WrapItem>
-    <Avatar size={'sm'} name={ele.name} src={ele.profileImage ? `${ele.profileImage}`:'https://bit.ly/broken-link'} />
+    <Avatar width={'45px'} h={'45px'} name={ele.name} src={ele.profileImage ? `${ele.profileImage}`:'https://bit.ly/broken-link'} />
   </WrapItem>
      <Box ml={'20px'} mb={'5px'}>
 		<Text fontWeight={'500'}>{ele.name}</Text>
@@ -331,6 +334,33 @@ const Sidebar = () => {
 							</Link>
 						</Tooltip>
 					))}
+					<Tooltip
+							hasArrow
+							label={data.login_user.name}
+							placement='right'
+							ml={1}
+							openDelay={500}
+							display={{ base: "block", md: "none" }}
+						>
+							<Link
+								display={"flex"}
+								as={RouterLink}
+								alignItems={"center"}
+								gap={4}
+								
+								borderRadius={6}
+								p={2}
+								ref={btnRef}
+								w={{ base: 10, md: "full" }}
+								justifyContent={{ base: "center", md: "flex-start" }}
+								_hover={{
+    bg: ' rgb(239,239,239)', 
+  }}
+							>
+								{data.isAuth ? data.login_user.profileImage ? <Image src={data.login_user.profileImage} alt="profile" /> :<Avatar size={'sm'} />  :""}
+								{data.isAuth ? <Box display={{ base: "none", md: "block" }}>Profile</Box> : ""}
+							</Link>
+						</Tooltip>
 				</Flex>
 				</Flex>
 				<Flex flexDirection={'column'} gap={'10px'}>
@@ -349,7 +379,7 @@ const Sidebar = () => {
 						as={RouterLink}
 						alignItems={"center"}
 						gap={4}
-						
+						onClick={()=> dispatch({type:SIGN_OUT})}
 						borderRadius={6}
 						p={2}
 						w={{ base: 10, md: "full" }}
@@ -358,7 +388,7 @@ const Sidebar = () => {
   }}
 						justifyContent={{ base: "center", md: "flex-start" }}
 					>
-						{state ? <><BiLogOut size={25} />
+						{data.isAuth ? <><BiLogOut size={25} />
 							<Box  display={{ base: "none", md: "block" }}>Logout</Box></> : <><Loggin /><Box display={{ base: "none", md: "block" }}>Login</Box></>}
 
 					</Link>

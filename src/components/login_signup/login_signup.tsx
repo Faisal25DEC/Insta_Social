@@ -2,9 +2,11 @@ import { Box, Center, Container, Flex, Image, Spacer, VStack } from '@chakra-ui/
 import React from 'react'
 import AuthForm from './authform'
 const Login = () => {
-  return (
-    <Flex  minH={"100vh"} justifyContent={"center"} alignItems={"center"}  px={4} m={'auto'}>
-			<Container maxW={"container.md"} padding={0}>
+	return (
+		<Flex minH={"100vh"}  justifyContent={"center"} alignItems={"center"} px={4} m={'auto'} >
+			<Container m={'auto'} 
+				maxW={"container.md"}
+				padding={0}>
 				<Flex justifyContent={"center"} alignItems={"center"} gap={10}>
 					<Box display={{ base: "none", md: "block" }}>
 						<Image src='https://res.cloudinary.com/dusavcufz/image/upload/v1698315948/vc2vzyb2oncrhbkxl1tp.png' h={650} alt='Phone img' />
@@ -21,7 +23,7 @@ const Login = () => {
 				</Flex>
 			</Container>
 		</Flex>
-  )
+	)
 }
 
 export default Login
