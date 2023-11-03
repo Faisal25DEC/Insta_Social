@@ -1,6 +1,6 @@
 /* Custom CSS class for a specific modal width */
 .custom-modal-width {
-  min-width: 70% !important;
+  max-width: max-content !important;
   height: 90vh !important;
 }
 .icon-size {

@@ -41,10 +41,11 @@ import { AiFillHome } from "react-icons/ai";
 import { BiLogOut } from "react-icons/bi";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { searching } from "../../redux/user/userAction";
+import { getUserDetails, searching } from "../../redux/user/userAction";
 import { SIGN_OUT } from "../../redux/user/userType";
 import NotificationDrawer from "../notificationDrawer/notificationDrawer";
 import CreatePost from "../create-post/create-post";
+import Cookies from "js-cookie";
 
 const Sidebar = () => {
   const [state, setState] = useState(false);
@@ -87,7 +88,7 @@ const Sidebar = () => {
 
   let time_id;
   var dispatch = useDispatch();
-  var data = useSelector((state) => state.UserReducer);
+  var data = useSelector((state) => state.userReducer);
   console.log(data);
   console.log("data", data.search_results);
   const OnSearch = (value) => {
@@ -98,6 +99,12 @@ const Sidebar = () => {
       dispatch(searching(value));
     }, 500);
   };
+  useEffect(() => {
+    const token = Cookies.get("insta_token");
+    if (token) {
+      dispatch(getUserDetails(token));
+    }
+  }, []);
 
   return (
     <Box
@@ -409,7 +416,13 @@ const Sidebar = () => {
               >
                 {data.isAuth ? (
                   data.login_user.profileImage ? (
-                    <Image src={data.login_user.profileImage} alt="profile" />
+                    <Image
+                      src={data.login_user.profileImage}
+                      alt="profile"
+                      width="45px"
+                      height={"45px"}
+                      borderRadius={"full"}
+                    />
                   ) : (
                     <Avatar size={"sm"} />
                   )

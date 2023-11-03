@@ -12,9 +12,11 @@ const Home = () => {
   }, []);
   return (
     <Box>
-      {posts?.map((post) => {
-        return <PostCard key={post._id} {...post} />;
-      })}
+      <Box display={"flex"} flexDirection={"column"} gap="1.5rem">
+        {posts?.map((post) => {
+          return <PostCard key={post._id} {...post} />;
+        })}
+      </Box>
     </Box>
   );
 };

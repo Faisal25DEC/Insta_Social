@@ -40,7 +40,7 @@ import {
   FaThumbsUp,
 } from "react-icons/fa";
 import { uploadImage } from "../../utils/firebase";
-const PostCard = ({ mediaUrl, caption }) => {
+const PostCard = ({ mediaUrl, caption, authorImage, author }) => {
   const [commentInput, setCommentInput] = useState("");
   const commentRef = useRef();
   const [likeButtonClicked, setLikeButtonClicked] = useState(false);
@@ -53,9 +53,8 @@ const PostCard = ({ mediaUrl, caption }) => {
     comments: 3252,
   });
   const [userDetails, setUserDetails] = useState({
-    userName: "hrithikroshan123",
-    image:
-      "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcT-4YbvE-R4dDvsyWHMCfRCfq1lA1PMs6kPweGsPGkPtgebbR0h",
+    userName: author,
+    image: authorImage,
   });
   return (
     <Box>
@@ -66,8 +65,7 @@ const PostCard = ({ mediaUrl, caption }) => {
               <Avatar name={userDetails.userName} src={userDetails.image} />
 
               <Box>
-                <Heading size="sm">Segun Adebayo</Heading>
-                <Text>Creator, Chakra UI</Text>
+                <Heading size="sm">{userDetails.userName}</Heading>
               </Box>
             </Flex>
             <IconButton
@@ -158,7 +156,7 @@ const PostCard = ({ mediaUrl, caption }) => {
               <Text display={"inline-block"} fontWeight={"bold"} mt="0.5rem">
                 {userDetails.userName}
               </Text>{" "}
-              {post.description}
+              {post.caption}
             </span>
           </Flex>
           <Text
@@ -192,8 +190,8 @@ const PostCard = ({ mediaUrl, caption }) => {
           >
             <Flex>
               {" "}
-              <Image src={post.image} maxHeight={"90vh"} />
-              <Box mt="0.5rem" mb="0.5rem">
+              <Image src={post.image} maxHeight={"90vh"} objectFit={"cover"} />
+              <Box mt="0.5rem" mb="0.5rem" maxW="30rem">
                 <Flex
                   flex="1"
                   gap="2"

@@ -11,16 +11,30 @@ import {
 } from "./userType";
 import { Alert, AlertIcon } from "@chakra-ui/react";
 import Cookies from "js-cookie";
+import { baseUrl } from "../util";
+
+export const getUserDetails = (token) => async (dispatch) => {
+  try {
+    const res = await axios.get(`${baseUrl}/users`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log(res);
+
+    dispatch({ type: GET_LOGIN_SUCCESS, payload: res.data });
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 export const SigningUp = (data) => async (dispatch) => {
   dispatch({
     type: GET_SIGNUP_REQUEST,
   });
   try {
-    const res = await axios.post(
-      `${process.env.REACT_APP_PORT}/users/signup`,
-      data
-    );
+    const res = await axios.post(`${baseUrl}/users/signup`, data);
     dispatch({
       type: GET_SIGNUP_SUCCESS,
       payload: data,
@@ -38,15 +52,11 @@ export const SigningIn = (data) => async (dispatch) => {
   });
   try {
     const token = Cookies.get("insta_token");
-    const res = await axios.post(
-      `${process.env.REACT_APP_PORT}/users/login`,
-      data,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const res = await axios.post(`${baseUrl}/users/login`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     dispatch({
       type: GET_LOGIN_SUCCESS,
       payload: data,
@@ -65,9 +75,7 @@ export const searching = (data) => async (dispatch) => {
     const obj = {
       input: data,
     };
-    const res = await axios.get(
-      `${process.env.REACT_APP_PORT}/users/search/${data}`
-    );
+    const res = await axios.get(`${baseUrl}/users/search/${data}`);
     dispatch({
       type: SEARCH,
       payload: res.data,

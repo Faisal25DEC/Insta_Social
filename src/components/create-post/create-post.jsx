@@ -24,7 +24,7 @@ import { getCookie } from "../../utils/cookies";
 
 const CreatePost = ({ onClose, isOpen, onOpen }) => {
   const [nextButtonClicked, setNextButtonClicked] = useState(false);
-  const { isAuth } = useSelector((state) => state.UserReducer);
+  const { isAuth } = useSelector((state) => state.userReducer);
   const dispatch = useDispatch();
   const [media, setMedia] = useState(null);
   const [caption, setCaption] = useState(null);
