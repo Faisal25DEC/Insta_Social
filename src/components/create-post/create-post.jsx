@@ -13,16 +13,22 @@ import {
   ModalHeader,
   ModalOverlay,
   Textarea,
-  useDisclosure,
 } from "@chakra-ui/react";
 import "./create-post.css";
-import React, { useState } from "react";
+import { useState } from "react";
 import { uploadImage } from "../../utils/firebase";
 import NoPost from "../../assets/no-post.png";
+import { useDispatch, useSelector } from "react-redux";
+import { createPost } from "../../redux/post/postActions";
+import { getCookie } from "../../utils/cookies";
 
 const CreatePost = ({ onClose, isOpen, onOpen }) => {
   const [nextButtonClicked, setNextButtonClicked] = useState(false);
+  const { isAuth } = useSelector((state) => state.UserReducer);
+  const dispatch = useDispatch();
   const [media, setMedia] = useState(null);
+  const [caption, setCaption] = useState(null);
+  console.log(isAuth);
   return (
     <Box>
       <Modal onClose={onClose} isOpen={isOpen} isCentered>
@@ -32,7 +38,16 @@ const CreatePost = ({ onClose, isOpen, onOpen }) => {
             ml="auto"
             color={"blue"}
             cursor={"pointer"}
-            onClick={() => setNextButtonClicked(true)}
+            onClick={() => {
+              if (isAuth && nextButtonClicked) {
+                const token = getCookie("insta_token");
+
+                media !== null &&
+                  dispatch(createPost(token, { mediaUrl: media, caption }));
+              } else {
+                setNextButtonClicked(true);
+              }
+            }}
           >
             {media != null ? (nextButtonClicked ? "share" : "next") : ""}
           </ModalHeader>
@@ -54,6 +69,7 @@ const CreatePost = ({ onClose, isOpen, onOpen }) => {
                 {nextButtonClicked ? (
                   <Box>
                     <Textarea
+                      onChange={(e) => setCaption(e.target.value)}
                       placeholder="Add Title"
                       className="large-textarea"
                     ></Textarea>
