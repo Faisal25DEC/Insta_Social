@@ -3,6 +3,7 @@ import { Action } from "redux";
 import {
   GET_SEARCH_USER_ALL_DETAIL_REQUEST,
   GET_SEARCH_USER_ALL_DETAIL_REQUEST_SUCCESS,
+  USER_ALL_LOADING_FALSE,
 } from "./search_user.actionTypes";
 import axios from "axios";
 
@@ -30,6 +31,8 @@ export const getUserAllDetailAction = (
           following: followResponse.data.Following,
         },
       });
+    dispatch({ type: USER_ALL_LOADING_FALSE });
+
     } catch (error) {
       console.log(error);
     }
@@ -54,12 +57,46 @@ export const onFollowAction = (
           headers: header,
         }
       );
+      console.log(response);
+      dispatch(getLoginUserFollowing("6541fdace61629b35627c795") as any);
+      dispatch(getUserAllDetailAction(_id) as any);
+      
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+export const onUnFollowAction = (
+  _id: any
+): ThunkAction<void, {}, {}, Action<string>> => {
+  return async (dispatch) => {
+    const header: { Authorization: string } = {
+      Authorization:
+        `Bearer ${process.env.REACT_APP_TOKEN}`,
+    };
+    // console.log(_id)
+    console.log(header);
+    try {
+      const response = await axios.delete(
+        `${process.env.REACT_APP_PORT}/followers/${_id}`,     
+        {
+          headers: header,
+        }
+      );
+      dispatch(getLoginUserFollowing("6541fdace61629b35627c795") as any);
+      dispatch(getUserAllDetailAction(_id) as any);
       // console.log(response);
     } catch (error) {
       console.log(error);
     }
   };
 };
+
+
+
+
+
+
 export const getLoginUserFollowing = (
   id: any
 ): ThunkAction<void, {}, {}, Action<string>> => {

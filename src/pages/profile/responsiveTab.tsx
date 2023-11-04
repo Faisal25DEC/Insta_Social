@@ -1,11 +1,12 @@
 import { Box, Center, Flex, Spacer, Text, Link } from "@chakra-ui/react";
 import React from "react";
+import { Link as ReactRouterLink } from 'react-router-dom'
 // import { Link } from "react-router-dom";
 import { MdGridOn } from "react-icons/md";
 import { BiBookmark } from "react-icons/bi";
 import { BiUserPin } from "react-icons/bi";
 import PostGrid from "./postGrid";
-import NoPost from "./noPost";
+import {NoPost} from "./noPost";
 import { useSelector } from "react-redux";
 type RootState = {
   searchUserReducer: {
@@ -36,8 +37,8 @@ const ResponsiveTab = () => {
         <Spacer />
         <Center w="33%" display="flex" flexDirection="column">
           {" "}
-          <Link
-            href={`/profile/follower/1`}
+          <Link as={ReactRouterLink}
+            to={`/profile/follower/6541fd88e61629b35627c78f`}
             display="flex"
             justifyContent="center"
             alignItems="center"
@@ -52,11 +53,12 @@ const ResponsiveTab = () => {
 
         <Center w="33%" display="flex" flexDirection="column">
           <Link
+            as={ReactRouterLink}
             display="flex"
             justifyContent="center"
             alignItems="center"
             flexDirection="column"
-            href={`/profile/following/1`}
+            to={`/profile/following/6541fd88e61629b35627c78f`}
           >
             <Text fontSize="sm" >{searchUserFollowing.length}</Text>
             <Text fontSize="sm" > Following</Text>{" "}
@@ -88,7 +90,9 @@ const ResponsiveTab = () => {
       <Box
       // border="2px"
       >
-        {searchUserPosts.length == 0 ? <NoPost /> : <PostGrid />}
+        {/* {searchUserPosts.length == 0 ? <NoPost /> : <PostGrid />}
+         */}
+        <PostGrid />
       </Box>
     </Box>
   );

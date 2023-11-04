@@ -31,6 +31,7 @@ import {
 } from "./allbutton";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { ProfileLoaders } from "./loaders";
 interface ProfileCardProps {
   isSameUser: boolean;
 }
@@ -47,6 +48,7 @@ interface userObj {
 interface RootState {
   searchUserReducer: {
     // Define the structure of your reducer's state here
+    isAllLoading:boolean,
     searchUserDetail: any;
     searchUserFollower: any[];
     searchUserFollowing: any[];
@@ -56,86 +58,96 @@ interface RootState {
 
 const ProfileCard: React.FC<ProfileCardProps> = ({ isSameUser }) => {
   const { userId: searchUserId } = useParams();
+  // const [isProfileLoading,setIsProfileLoading] = useState(false)
+
   // const searchUserId: any = userId;
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isSettingPopUP, setIsSettingPopUP] = useState(false);
   const [isFollowerPopUP, setIsFollowerPopUP] = useState(false);
   const [isFollowingPopUP, setIsFollowingPopUP] = useState(false);
-  const { searchUserDetail,searchUserPosts } = useSelector(
+  const { searchUserDetail,searchUserPosts ,isAllLoading} = useSelector(
     (store: RootState) => store.searchUserReducer
   );
   const { profileImage, userName, name, bio,  } = searchUserDetail;
-
+  
   return (
     <>
-      <Flex justifyContent="space-between" w="100%" alignItems="center">
-        <Box p={{ lg: "20px", base: "0px" }}>
-          <Box
-            maxW="180px"
-            minW={{ base: "80px", md: "100px", lg: "150px" }}
-            w="15%"
-          >
-            <Image borderRadius="50%" src={profileImage}></Image>
-          </Box>
-        </Box>
-
-        <Spacer />
-
-        <VStack
-          w={{ lg: "70%", base: "90%" }}
-          align="flex-start"
-          spacing="20px"
-        >
-          <Box
-            cursor="pointer"
-            display="flex"
-            flexDirection={{ base: "column", lg: "row" }}
-            gap="3"
-            alignItems="center"
-          >
-            <Text>{userName}</Text>
-            <Box display="flex" gap="3" alignItems="center">
-              {isSameUser ? (
-                <EditProfileButton />
-              ) : (
-                <FollowButton _id={searchUserId} />
-              )}
-              {isSameUser ? <ViewArchiveButton /> : <MessageButton />}
-
-              {isSameUser ? (
-                <SettingPopUp
-                  isSettingPopUP={isSettingPopUP}
-                  setIsSettingPopUP={setIsSettingPopUP}
-                />
-              ) : (
-                ""
-              )}
+      {
+        isAllLoading ? (<ProfileLoaders />) : (
+          <Flex justifyContent="space-between" w="100%" alignItems="center">
+          <Box p={{ lg: "20px", base: "0px" }}>
+            <Box
+              maxW="180px"
+              minW={{ base: "60px",sm:"80px", md: "100px", lg: "150px" }}
+              w="15%"
+            >
+              <Image borderRadius="50%" src={profileImage}></Image>
             </Box>
           </Box>
-
-          <HStack
-            display={{ base: "none", md: "flex" }}
-            cursor="pointer"
-            spacing="24px"
+  
+          <Spacer />
+  
+          <VStack
+            w={{ lg: "70%", base: "90%" }}
+            align="flex-start"
+            spacing={{  base: "5px", md:'15px', lg: "15px" }}
           >
-            <Text>{searchUserPosts.length} posts </Text>
-            <FollowerPopUp
-              isFollowerPopUP={isFollowerPopUP}
-              setIsFollowerPopUP={setIsFollowerPopUP}
-            />
-            <FollowingPopUp
-              isFollowingPopUP={isFollowingPopUP}
-              setIsFollowingPopUP={setIsFollowingPopUP}
-            />
-          </HStack>
-
-          <VStack align={'start'} >
-            <Text>{name}</Text>
-            <Text>{bio}</Text>
+            <Box
+              cursor="pointer"
+              display="flex"
+              flexDirection={{ base: "column", lg: "row" }}
+              rowGap={'2'}
+              columnGap={'3'}
+              alignItems={{ base: "start", lg: "center" }}
+              // justifyContent={'start'}
+            >
+              <Text>{userName}</Text>
+              <Box display="flex" gap="3" alignItems="center">
+                {isSameUser ? (
+                  <EditProfileButton />
+                ) : (
+                  <FollowButton _id={searchUserId} />
+                )}
+                {isSameUser ? <ViewArchiveButton /> : <MessageButton />}
+  
+                {isSameUser ? (
+                  <SettingPopUp
+                    isSettingPopUP={isSettingPopUP}
+                    setIsSettingPopUP={setIsSettingPopUP}
+                  />
+                ) : (
+                  ""
+                )}
+              </Box>
+            </Box>
+  
+            <HStack
+              display={{ base: "none", md: "flex" }}
+              cursor="pointer"
+              spacing="24px"
+            >
+              <Text>{searchUserPosts.length} posts </Text>
+              <FollowerPopUp
+                isFollowerPopUP={isFollowerPopUP}
+                setIsFollowerPopUP={setIsFollowerPopUP}
+              />
+              <FollowingPopUp
+                isFollowingPopUP={isFollowingPopUP}
+                setIsFollowingPopUP={setIsFollowingPopUP}
+              />
+            </HStack>
+  
+            <VStack align={'start'} spacing={'0'} >
+              <Text fontSize={'sm'} >{name}</Text>
+              <Text fontSize={'sm'}>{bio}</Text>
+            </VStack>
           </VStack>
-        </VStack>
-      </Flex>
+        </Flex>
+        )
+      }
+      
+     
     </>
   );
 };

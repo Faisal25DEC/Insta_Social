@@ -1,6 +1,8 @@
 import {
   GET_SEARCH_USER_ALL_DETAIL_REQUEST,
   GET_SEARCH_USER_ALL_DETAIL_REQUEST_SUCCESS,
+  USER_ALL_LOADING_FALSE,
+  USER_ALL_LOADING_TRUE,
 } from "./search_user.actionTypes";
 
 interface SearchUserAction {
@@ -9,6 +11,7 @@ interface SearchUserAction {
 }
 
 const initialState = {
+  isAllLoading:false,
   searchUserDetail: {
     profileImage: "",
     userName: "",
@@ -39,6 +42,16 @@ export const searchUserReducer = (
       return {
         ...state,
         loginUserFollowing:payload
+      };
+    case USER_ALL_LOADING_TRUE:
+      return {
+        ...state,
+        isAllLoading:true
+      };
+    case USER_ALL_LOADING_FALSE:
+      return {
+        ...state,
+        isAllLoading:false
       };
     default:
       return state;

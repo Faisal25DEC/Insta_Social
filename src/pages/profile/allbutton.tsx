@@ -6,6 +6,7 @@ import {
   getLoginUserFollowing,
   getUserAllDetailAction,
   onFollowAction,
+  onUnFollowAction,
 } from "../../redux/search_user/search_user.action";
 import { useParams } from "react-router-dom";
 // import Cookies from "js-cookie";
@@ -42,33 +43,12 @@ export const FollowButton: React.FC<FollowBtnProps> = ({ _id }) => {
 
   const onFollow = async () => {
     dispatch(onFollowAction(_id) as any);
-    dispatch(getLoginUserFollowing("6541fdace61629b35627c795") as any);
-    dispatch(getUserAllDetailAction(userId) as any);
+    // dispatch(getLoginUserFollowing("6541fdace61629b35627c795") as any);
+    // dispatch(getUserAllDetailAction(userId) as any);
   };
 
-  const onUnFollow = async () => {
-    const header: { Authorization: string } = {
-      Authorization:
-        `Bearer ${process.env.REACT_APP_TOKEN}`,
-    };
-    // console.log(_id)
-    console.log(header);
-    try {
-      const response = await axios.delete(
-        `${process.env.REACT_APP_PORT}/followers/${_id}`,
-
-        {
-          headers: header,
-        }
-      );
-      console.log(response);
-      // dispatch(onFollowAction(_id) as any);
-
-      dispatch(getLoginUserFollowing("6541fdace61629b35627c795") as any);
-      dispatch(getUserAllDetailAction(userId) as any);
-    } catch (error) {
-      console.log(error);
-    }
+  const onUnFollow = () => {
+    dispatch(onUnFollowAction(_id) as any);
   };
   if (loginUserId == _id) {
     return <></>;
@@ -77,7 +57,7 @@ export const FollowButton: React.FC<FollowBtnProps> = ({ _id }) => {
     return (
       <Button
         onClick={onUnFollow}
-        minW="80px"
+        minW="70px"
         maxW="80px"
         size="sm"
         fontSize="sm"
@@ -92,7 +72,7 @@ export const FollowButton: React.FC<FollowBtnProps> = ({ _id }) => {
     <Button
       onClick={onFollow}
       colorScheme="facebook"
-      minW="80px"
+      minW="70px"
       maxW="80px"
       size="sm"
       fontSize="sm"

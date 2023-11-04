@@ -19,15 +19,24 @@ import React from "react";
 import ProfileCard from "./profileCard";
 import PostGrid from "./postGrid";
 import ResponsiveTab from "./responsiveTab";
-import NoPost from "./noPost";
-import { useEffect } from "react";
+import { NoPost, NoSaved } from "./noPost";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
 import { AnyAction } from "redux";
-import { getLoginUserFollowing, getUserAllDetailAction } from "../../redux/search_user/search_user.action";
+import {
+  getLoginUserFollowing,
+  getUserAllDetailAction,
+} from "../../redux/search_user/search_user.action";
 import { useSelector } from "react-redux";
 import Sidebar from "../../components/navbar/nav";
 import { useParams } from "react-router-dom";
+import { PostLoaders } from "./loaders";
+import {
+  USER_ALL_LOADING_FALSE,
+  USER_ALL_LOADING_TRUE,
+} from "../../redux/search_user/search_user.actionTypes";
+
 type RootState = {
   searchUserReducer: {
     // Define the structure of your reducer's state here
@@ -43,14 +52,17 @@ interface RouteParams {
 
 const Profile = () => {
   const dispatch: ThunkDispatch<any, any, AnyAction> = useDispatch();
+  const [isPostLoading, setIsPostLoading] = useState(true);
   // const { userId } = useParams<RouteParams>();
   const { searchUserPosts } = useSelector(
     (store: RootState) => store.searchUserReducer
   );
   const { userId } = useParams();
   useEffect(() => {
+    dispatch({ type: USER_ALL_LOADING_TRUE });
     dispatch(getUserAllDetailAction(userId));
     dispatch(getLoginUserFollowing("6541fdace61629b35627c795"));
+    // dispatch({ type: USER_ALL_LOADING_FALSE });
   }, []);
 
   console.log(userId);
@@ -62,7 +74,7 @@ const Profile = () => {
     <>
       <Flex w="100%">
         <Box
-          // w="20%"
+        // w="20%"
         >
           <Sidebar />
         </Box>
@@ -73,34 +85,65 @@ const Profile = () => {
           // centerContent
           maxW="90%"
           // w="100%"
+          paddingY={"2rem"}
           minW="80%"
-          marginX='auto'
+          marginX="auto"
         >
-          <Box w={{ base: "100%", md: "80%", lg: "70%" }} marginX={'auto'} >
+          <Box w={{ base: "100%", md: "80%", lg: "70%" }} marginX={"auto"}>
             <VStack>
               <ProfileCard isSameUser={isSameUser} />
               <Tabs display={{ base: "none", md: "block" }}>
                 <TabList w="max-content" m="auto">
                   <Tab me="2rem">POSTS</Tab>
-                  <Tab me="2rem">REELS</Tab>
+                  <Tab me="2rem">Saved</Tab>
                   <Tab>TAGS</Tab>
                 </TabList>
 
                 <TabPanels>
                   <TabPanel>
-                    {searchUserPosts.length == 0 ? (
-                    <NoPost />
+                    {/* {isPostLoading ? (
+                      <PostLoaders />
+                    ) : searchUserPosts.length == 0 ? (
+                      <NoPost />
                     ) : (
                       <PostGrid />
-                    ) }
+                    )} */}
                     {/* <NoPost /> */}
-                    {/* <PostGrid /> */}
+                    <PostGrid />
                   </TabPanel>
-                  <TabPanel>{/* <PostGrid /> */}</TabPanel>
+                  <TabPanel>
+                    {/* <PostGrid /> */}
+                    <NoSaved />
+                  </TabPanel>
                   <TabPanel>{/* <PostGrid /> */}</TabPanel>
                 </TabPanels>
               </Tabs>
               <ResponsiveTab />
+              <Box
+                display={{ base: "none", md: "flex" }}
+                // textAlign={'center'}
+                justifyContent={"center"}
+                rowGap={"0.5rem"}
+                columnGap={"1rem"}
+                flexWrap={"wrap"}
+              >
+                <Text fontSize="sm">Meta</Text>
+                <Text fontSize="sm">About</Text>
+                <Text fontSize="sm">Blog</Text>
+                <Text fontSize="sm"> Jobs </Text>
+                <Text fontSize="sm"> Help </Text>
+                <Text fontSize="sm"> API </Text>
+                <Text fontSize="sm"> Privacy </Text>
+                <Text fontSize="sm"> Terms </Text>
+                <Text fontSize="sm"> Location </Text>
+                <Text fontSize="sm"> Instagram Lite </Text>
+                <Text fontSize="sm"> Threads </Text>
+                <Text fontSize="sm"> Contact Uploading and non-users </Text>
+                <Text fontSize="sm"> Meta Verified </Text>
+                <Text fontSize="sm"> English(UK) </Text>
+                <Text fontSize="sm"> 2023 Instagram from Meta </Text>
+                <Text fontSize="sm"> </Text>
+              </Box>
             </VStack>
           </Box>
         </Container>

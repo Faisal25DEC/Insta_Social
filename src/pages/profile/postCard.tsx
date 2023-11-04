@@ -7,18 +7,20 @@ const PostCard: React.FC<postCardProps> = ({ mediaUrl }) => {
   return (
     <Box
       w="100%"
-      minW={{ base: "100%" }}
+      // minW={{ base: "100%" }}
      
-      minH={{ base: "100px", sm: "200px", md: "300px" }}
-      maxH={{ base: "100px", sm:"200px", md: "300px" }}
+      minH={{ base: "80px", sm: "200px", md: "300px" }}
+      maxH={{ base: "80px", sm:"200px", md: "300px" }}
       overflow="hidden"
+      display={'flex'}
+      alignItems={'center'}
     >
       <Image
         objectFit="cover"
-        minW="100%"
+        // minW="100%"
         w="100%"
         h="100%"
-        minH={{ base: "100px", sm:"200px", md: "300px" }}
+        minH={{ base: "80px", sm:"200px", md: "300px" }}
         src={mediaUrl}
       ></Image>
     </Box>
