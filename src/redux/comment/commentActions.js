@@ -22,17 +22,23 @@ export const getPostComments = (postId) => async (dispatch) => {
 };
 
 export const postComment = (comment, postId) => async (dispatch) => {
-  try {
-    const token = getCookie("jwttoken");
-    const res = await axios.post(
-      `${baseUrl}/comments/${postId}`,
-      { comment, postId },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    dispatch(getPostComments(postId));
-  } catch (err) {}
+  return new Promise(async (resolve, reject) => {
+    try {
+      const token = getCookie("insta_token");
+      const res = await axios.post(
+        `${baseUrl}/comments/${postId}`,
+        { content: comment },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(res);
+      resolve();
+    } catch (err) {
+      console.log(err);
+      reject();
+    }
+  });
 };

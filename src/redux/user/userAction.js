@@ -56,6 +56,7 @@ export const SigningIn = (data) => async (dispatch) => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      withCredentials: "include",
     });
     dispatch({
       type: GET_LOGIN_SUCCESS,

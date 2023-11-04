@@ -27,7 +27,7 @@ import {
   VStack,
   useDisclosure,
 } from "@chakra-ui/react";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   FaBookmark,
   FaComment,
@@ -40,22 +40,76 @@ import {
   FaThumbsUp,
 } from "react-icons/fa";
 import { uploadImage } from "../../utils/firebase";
-const PostCard = ({ mediaUrl, caption, authorImage, author }) => {
+import { useDispatch, useSelector } from "react-redux";
+import { likePost, unlikePost } from "../../redux/like/likeActions";
+import { getCookie } from "../../utils/cookies";
+import axios from "axios";
+import { baseUrl } from "../../redux/util";
+import { isLiked } from "../../utils/likes.utils";
+import { getUserDetails } from "../../redux/user/userAction";
+import { postComment } from "../../redux/comment/commentActions";
+
+const PostCard = ({ mediaUrl, caption, authorImage, author, _id }) => {
   const [commentInput, setCommentInput] = useState("");
-  const commentRef = useRef();
+
   const [likeButtonClicked, setLikeButtonClicked] = useState(false);
+
+  const { login_user } = useSelector((state) => state.userReducer);
+
   const { isOpen, onOpen, onClose } = useDisclosure();
+
   const [saveButtonClicked, setSaveButtonClicked] = useState(false);
+
+  const [comments, setComments] = useState([]);
+
+  const commentRef = useRef();
+
+  const dispatch = useDispatch();
+
   const [post, setPost] = useState({
     image: mediaUrl,
     caption: caption,
-    likes: 35632,
+    likes: [],
     comments: 3252,
   });
   const [userDetails, setUserDetails] = useState({
     userName: author,
     image: authorImage,
   });
+
+  const getPostComments = async (postId) => {
+    console.log(postId);
+
+    try {
+      const res = await axios.get(`${baseUrl}/comments/${postId}`);
+      console.log(res.data);
+      setComments(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const getPostLikes = async (postId) => {
+    try {
+      const res = await axios.get(`${baseUrl}/likes/${postId}`);
+      console.log(res);
+      setPost({
+        ...post,
+        likes: [...res.data],
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  useEffect(() => {
+    getPostLikes(_id);
+    getPostComments(_id);
+    const token = getCookie("insta_token");
+    if (token) {
+      getUserDetails(token);
+    }
+  }, []);
+  console.log(post.likes);
   return (
     <Box>
       <Card maxW="md" m="auto">
@@ -106,11 +160,14 @@ const PostCard = ({ mediaUrl, caption, authorImage, author }) => {
         >
           <Flex width="100%" mb="1rem">
             <Flex gap="1rem">
-              {!likeButtonClicked ? (
+              {!isLiked(post.likes, login_user._id) ? (
                 <FaRegHeart
                   className="reg-heart icon-size"
                   onClick={() => {
-                    setLikeButtonClicked(!likeButtonClicked);
+                    const token = getCookie("insta_token");
+                    dispatch(likePost(_id, token)).then((res) => {
+                      getPostLikes(_id);
+                    });
                   }}
                 />
               ) : (
@@ -119,11 +176,14 @@ const PostCard = ({ mediaUrl, caption, authorImage, author }) => {
                   cursor={"pointer"}
                   color="red"
                   onClick={() => {
-                    setLikeButtonClicked(!likeButtonClicked);
+                    const token = getCookie("insta_token");
+                    dispatch(unlikePost(_id, token)).then((res) => {
+                      getPostLikes(_id);
+                    });
                   }}
                 />
               )}
-              <FaRegComment className="icon-size" />
+              <FaRegComment className="icon-size" onClick={onOpen} />
             </Flex>
 
             <Spacer />
@@ -141,7 +201,7 @@ const PostCard = ({ mediaUrl, caption, authorImage, author }) => {
           </Flex>
           <Box mt="0.4rem">
             <Text fontSize={"1rem"} display={"inline"} fontWeight={"medium"}>
-              {prettyNum(post.likes, { thousandsSeparator: "," })}{" "}
+              {prettyNum(post.likes.length, { thousandsSeparator: "," })}{" "}
               <Text
                 fontSize={"0.9rem"}
                 display={"inline"}
@@ -191,7 +251,7 @@ const PostCard = ({ mediaUrl, caption, authorImage, author }) => {
             <Flex>
               {" "}
               <Image src={post.image} maxHeight={"90vh"} objectFit={"cover"} />
-              <Box mt="0.5rem" mb="0.5rem" maxW="30rem">
+              <Box mt="0.5rem" mb="0.5rem" minW="20rem" maxW="30rem">
                 <Flex
                   flex="1"
                   gap="2"
@@ -219,14 +279,14 @@ const PostCard = ({ mediaUrl, caption, authorImage, author }) => {
                 </Flex>
                 <hr></hr>
                 <Box paddingRight={"1rem"} ml="1rem">
-                  <VStack>
+                  <VStack alignItems={"flex-start"}>
                     <Box
                       className="hide-scroll-bar"
                       overflow={"scroll"}
                       height="70vh"
                       scrollBehavior={"smooth"}
                     >
-                      {Array.from({ length: 20 }, (_, index) => {
+                      {comments?.map((comment, index) => {
                         return (
                           <Flex>
                             <Text display={"inline"} fontSize={"0.9rem"}>
@@ -236,10 +296,9 @@ const PostCard = ({ mediaUrl, caption, authorImage, author }) => {
                                 fontWeight={"medium"}
                                 mt="0.5rem"
                               >
-                                {userDetails.userName}
+                                {comment.name}
                               </Text>{" "}
-                              Lorem ipsum, dolor sit amet consectetur
-                              adipisicing elit. Quasi, quis!
+                              {comment.content}
                             </Text>
                           </Flex>
                         );
@@ -250,11 +309,14 @@ const PostCard = ({ mediaUrl, caption, authorImage, author }) => {
                 <Box ml="1rem">
                   <Flex width="95%" pt="0.6rem" m="auto" alignItems={"center"}>
                     <Flex gap="1rem">
-                      {likeButtonClicked ? (
+                      {!isLiked(post.likes, login_user._id) ? (
                         <FaRegHeart
                           className="reg-heart icon-size"
                           onClick={() => {
-                            setLikeButtonClicked(!likeButtonClicked);
+                            const token = getCookie("insta_token");
+                            dispatch(likePost(_id, token)).then((res) => {
+                              getPostLikes(_id);
+                            });
                           }}
                         />
                       ) : (
@@ -263,11 +325,19 @@ const PostCard = ({ mediaUrl, caption, authorImage, author }) => {
                           cursor={"pointer"}
                           color="red"
                           onClick={() => {
-                            setLikeButtonClicked(!likeButtonClicked);
+                            const token = getCookie("insta_token");
+                            dispatch(unlikePost(_id, token)).then((res) => {
+                              getPostLikes(_id);
+                            });
                           }}
                         />
                       )}
-                      <FaRegComment className="icon-size" />
+                      <FaRegComment
+                        className="icon-size"
+                        onClick={() => {
+                          commentRef.current.focus();
+                        }}
+                      />
                     </Flex>
 
                     <Spacer />
@@ -291,7 +361,7 @@ const PostCard = ({ mediaUrl, caption, authorImage, author }) => {
                     m="auto"
                     pt="0.5rem"
                   >
-                    {prettyNum(post.likes, { thousandsSeparator: "," })}{" "}
+                    {prettyNum(post.likes.length, { thousandsSeparator: "," })}{" "}
                     <Text
                       fontSize={"0.9rem"}
                       display={"inline"}
@@ -302,7 +372,11 @@ const PostCard = ({ mediaUrl, caption, authorImage, author }) => {
                   </Text>
                 </Box>
                 <hr></hr>
-                <Flex justifyContent={"space-between"} pr={"5px"}>
+                <Flex
+                  justifyContent={"space-between"}
+                  pr={"5px"}
+                  alignItems={"center"}
+                >
                   <Input
                     className="comment-input"
                     variant={"unstyled"}
@@ -313,6 +387,7 @@ const PostCard = ({ mediaUrl, caption, authorImage, author }) => {
                     border={"none"}
                     placeholder="Write your comment"
                     borderRadius={"0"}
+                    ref={commentRef}
                     value={commentInput}
                     onChange={(e) => {
                       setCommentInput(e.target.value);
@@ -320,12 +395,16 @@ const PostCard = ({ mediaUrl, caption, authorImage, author }) => {
                   />
                   <Text
                     onClick={() => {
+                      dispatch(postComment(commentInput, _id)).then((res) => {
+                        getPostComments(_id);
+                      });
                       setCommentInput("");
                     }}
                     fontWeight={"medium"}
                     fontSize={"0.8rem"}
                     color={"blue"}
                     display={commentInput === "" ? "none" : "block"}
+                    cursor={"pointer"}
                   >
                     Send
                   </Text>
