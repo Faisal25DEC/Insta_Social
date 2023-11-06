@@ -1,12 +1,12 @@
 import { Box, Center, Flex, Spacer, Text, Link } from "@chakra-ui/react";
-import React from "react";
-import { Link as ReactRouterLink } from 'react-router-dom'
+import React, { useState } from "react";
+import { Link as ReactRouterLink } from "react-router-dom";
 // import { Link } from "react-router-dom";
 import { MdGridOn } from "react-icons/md";
 import { BiBookmark } from "react-icons/bi";
 import { BiUserPin } from "react-icons/bi";
 import PostGrid from "./postGrid";
-import {NoPost} from "./noPost";
+import { NoPost, NoTagged } from "./noPost";
 import { useSelector } from "react-redux";
 type RootState = {
   searchUserReducer: {
@@ -17,10 +17,14 @@ type RootState = {
     searchUserPosts: any[];
   };
 };
-const ResponsiveTab = () => {
-  const { searchUserPosts,searchUserFollower,searchUserFollowing } = useSelector(
-    (store: RootState) => store.searchUserReducer
-  );
+interface porps {
+  isSameUser:boolean
+}
+const ResponsiveTab: React.FC<porps> = ({isSameUser}) => {
+  const { searchUserPosts, searchUserFollower, searchUserFollowing } =
+    useSelector((store: RootState) => store.searchUserReducer);
+
+  const [tabState, setTabState] = useState("posts");
   return (
     <Box display={{ base: "block", md: "none" }} width={"100%"}>
       <Flex
@@ -31,21 +35,22 @@ const ResponsiveTab = () => {
       >
         <Center w="33%" display="flex" flexDirection="column">
           {" "}
-          <Text fontSize="sm" >{searchUserPosts.length}</Text>
-          <Text fontSize="sm" >post</Text>{" "}
+          <Text fontSize="sm">{searchUserPosts.length}</Text>
+          <Text fontSize="sm">post</Text>{" "}
         </Center>
         <Spacer />
         <Center w="33%" display="flex" flexDirection="column">
           {" "}
-          <Link as={ReactRouterLink}
+          <Link
+            as={ReactRouterLink}
             to={`/profile/follower/6541fd88e61629b35627c78f`}
             display="flex"
             justifyContent="center"
             alignItems="center"
             flexDirection="column"
           >
-            <Text fontSize="sm">{searchUserFollower.length }</Text>
-            <Text fontSize="sm" >Followers</Text>{" "}
+            <Text fontSize="sm">{searchUserFollower.length}</Text>
+            <Text fontSize="sm">Followers</Text>{" "}
           </Link>
         </Center>
 
@@ -60,8 +65,8 @@ const ResponsiveTab = () => {
             flexDirection="column"
             to={`/profile/following/6541fd88e61629b35627c78f`}
           >
-            <Text fontSize="sm" >{searchUserFollowing.length}</Text>
-            <Text fontSize="sm" > Following</Text>{" "}
+            <Text fontSize="sm">{searchUserFollowing.length}</Text>
+            <Text fontSize="sm"> Following</Text>{" "}
           </Link>
         </Center>
       </Flex>
@@ -69,30 +74,44 @@ const ResponsiveTab = () => {
         <Center
           paddingY="5px"
           w="33%"
-          borderTop="1px"
+          borderTop={tabState == "posts" ? "1px" : "0px"}
           display="flex"
           flexDirection="column"
         >
           {" "}
-          <MdGridOn color="skyBlue" fontSize="1.5rem" />
+          <MdGridOn  onClick={() => setTabState("posts")}
+            color={tabState == "posts" ? "skyBlue" : "black"} fontSize="1.5rem" />
         </Center>
         <Spacer />
-        <Center w="33%" display="flex" flexDirection="column">
+        
+        <Center w="33%" display="flex"
+        borderTop={tabState == "saved" ? "1px" : "0px"}
+          flexDirection="column">
           {" "}
-          <BiBookmark color="skyBlue" fontSize="1.5rem" />
+          <BiBookmark
+            onClick={() => setTabState("saved")}
+            color={tabState == "saved" ? "skyBlue" : "black"}
+            fontSize="1.5rem"
+          />
         </Center>
         <Spacer />
-        <Center w="33%" display="flex" flexDirection="column">
+        <Center w="33%"
+          borderTop={tabState == "tagged" ? "1px" : "0px"}
+          display="flex" flexDirection="column">
           {" "}
-          <BiUserPin color="skyBlue" fontSize="1.5rem" />
+          <BiUserPin
+            onClick={() => setTabState("tagged")}
+            color={tabState == "tagged" ? "skyBlue" : "black"}
+            fontSize="1.5rem"
+          />
         </Center>
       </Flex>
       <Box
       // border="2px"
       >
-        {/* {searchUserPosts.length == 0 ? <NoPost /> : <PostGrid />}
-         */}
-        <PostGrid />
+        {tabState === "posts" && <PostGrid />}
+        {tabState === "saved" && <NoPost />}
+        {tabState === "tagged" && <NoTagged isSameUser={isSameUser} />}
       </Box>
     </Box>
   );

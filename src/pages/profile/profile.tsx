@@ -15,11 +15,14 @@ import {
   VStack,
   useDisclosure,
 } from "@chakra-ui/react";
+import { MdGridOn } from "react-icons/md";
+import { BiBookmark } from "react-icons/bi";
+import { BiUserPin } from "react-icons/bi";
 import React from "react";
 import ProfileCard from "./profileCard";
 import PostGrid from "./postGrid";
 import ResponsiveTab from "./responsiveTab";
-import { NoPost, NoSaved } from "./noPost";
+import { NoPost, NoSaved, NoTagged } from "./noPost";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
@@ -94,31 +97,37 @@ const Profile = () => {
               <ProfileCard isSameUser={isSameUser} />
               <Tabs display={{ base: "none", md: "block" }}>
                 <TabList w="max-content" m="auto">
-                  <Tab me="2rem">POSTS</Tab>
-                  <Tab me="2rem">Saved</Tab>
-                  <Tab>TAGS</Tab>
+                  <Tab me="2rem">
+                    {" "}
+                    <MdGridOn /> POSTS
+                  </Tab>
+                  <Tab me="2rem">
+                    {" "}
+                    <BiBookmark /> SAVED
+                  </Tab>
+                  <Tab>
+                    {" "}
+                    <BiUserPin /> TAGGED
+                  </Tab>
                 </TabList>
 
                 <TabPanels>
                   <TabPanel>
-                    {/* {isPostLoading ? (
-                      <PostLoaders />
-                    ) : searchUserPosts.length == 0 ? (
-                      <NoPost />
-                    ) : (
-                      <PostGrid />
-                    )} */}
-                    {/* <NoPost /> */}
                     <PostGrid />
                   </TabPanel>
+                
+                  
+                    <TabPanel>
+                      <NoSaved />
+                    </TabPanel>
+               
+
                   <TabPanel>
-                    {/* <PostGrid /> */}
-                    <NoSaved />
+                    <NoTagged  isSameUser={isSameUser} />
                   </TabPanel>
-                  <TabPanel>{/* <PostGrid /> */}</TabPanel>
                 </TabPanels>
               </Tabs>
-              <ResponsiveTab />
+              <ResponsiveTab isSameUser={isSameUser} />
               <Box
                 display={{ base: "none", md: "flex" }}
                 // textAlign={'center'}
