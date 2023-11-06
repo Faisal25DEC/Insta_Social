@@ -40,6 +40,7 @@ import {
   USER_ALL_LOADING_TRUE,
 } from "../../redux/search_user/search_user.actionTypes";
 import { getCookie } from "../../utils/cookies";
+import EditProfile from "../../components/edit-profile/EditProfile";
 
 type RootState = {
   searchUserReducer: {
@@ -70,6 +71,7 @@ interface RouteParams {
 }
 
 const Profile = () => {
+  const { onClose, onOpen, isOpen } = useDisclosure();
   const { login_user } = useSelector(
     (state: loginUserObject) => state.userReducer
   );
@@ -114,7 +116,7 @@ const Profile = () => {
         >
           <Box w={{ base: "100%", md: "80%", lg: "70%" }} marginX={"auto"}>
             <VStack>
-              <ProfileCard isSameUser={isSameUser} />
+              <ProfileCard isSameUser={isSameUser} onOpen={onOpen} />
               <Tabs display={{ base: "none", md: "block" }}>
                 <TabList w="max-content" m="auto">
                   <Tab me="2rem">
@@ -174,6 +176,7 @@ const Profile = () => {
             </VStack>
           </Box>
         </Container>
+        <EditProfile onClose={onClose} onOpen={onOpen} isOpen={isOpen} />
       </Flex>
     </>
   );

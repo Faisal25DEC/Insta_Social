@@ -34,6 +34,7 @@ import { useSelector } from "react-redux";
 import { ProfileLoaders } from "./loaders";
 interface ProfileCardProps {
   isSameUser: boolean;
+  onOpen: any;
 }
 interface RouteParams {
   userId: any;
@@ -56,13 +57,17 @@ interface RootState {
   };
 }
 
-const ProfileCard: React.FC<ProfileCardProps> = ({ isSameUser }) => {
+const ProfileCard: React.FC<ProfileCardProps> = ({ isSameUser, onOpen }) => {
   const { userId: searchUserId } = useParams();
   // const [isProfileLoading,setIsProfileLoading] = useState(false)
 
   // const searchUserId: any = userId;
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isOpen1,
+    onOpen: onOpen1,
+    onClose: onClose1,
+  } = useDisclosure();
   const [isSettingPopUP, setIsSettingPopUP] = useState(false);
   const [isFollowerPopUP, setIsFollowerPopUP] = useState(false);
   const [isFollowingPopUP, setIsFollowingPopUP] = useState(false);
@@ -83,7 +88,12 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ isSameUser }) => {
               minW={{ base: "60px", sm: "80px", md: "100px", lg: "150px" }}
               w="15%"
             >
-              <Image borderRadius="50%" src={profileImage}></Image>
+              <Image
+                borderRadius="full"
+                height="10rem"
+                width="10rem"
+                src={profileImage}
+              ></Image>
             </Box>
           </Box>
 
@@ -106,7 +116,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ isSameUser }) => {
               <Text>{userName}</Text>
               <Box display="flex" gap="3" alignItems="center">
                 {isSameUser ? (
-                  <EditProfileButton />
+                  <EditProfileButton onOpen={onOpen} />
                 ) : (
                   <FollowButton _id={searchUserId} />
                 )}

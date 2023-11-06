@@ -8,10 +8,11 @@ import {
   GET_SIGNUP_SUCCESS,
   SEARCH,
   SIGN_OUT,
+  UNFOLLOWED_USERS,
 } from "./userType";
 import { Alert, AlertIcon } from "@chakra-ui/react";
 import Cookies from "js-cookie";
-import { baseUrl } from "../util";
+import { baseUrl, createAction } from "../util";
 
 export const getUserDetails = (token) => async (dispatch) => {
   try {
@@ -24,6 +25,20 @@ export const getUserDetails = (token) => async (dispatch) => {
     console.log(res);
 
     dispatch({ type: GET_LOGIN_SUCCESS, payload: res.data });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getUnfollowedUsers = (token) => async (dispatch) => {
+  try {
+    const res = await axios.get(`${baseUrl}/users/unfollowedUsers`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log(res);
+    dispatch(createAction(UNFOLLOWED_USERS, res.data));
   } catch (err) {
     console.log(err);
   }
@@ -86,4 +101,17 @@ export const searching = (data) => async (dispatch) => {
 
 export const SignOut = (dispatch) => {
   dispatch({ type: SIGN_OUT });
+};
+
+export const updateProfile = (payload, token) => async (dispatch) => {
+  try {
+    const res = await axios.patch(`${baseUrl}/users/update`, payload, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    dispatch(getUserDetails(token));
+  } catch (error) {
+    console.log(error);
+  }
 };

@@ -7,6 +7,7 @@ import {
   GET_SIGNUP_SUCCESS,
   SEARCH,
   SIGN_OUT,
+  UNFOLLOWED_USERS,
 } from "./userType";
 
 const initialState = {
@@ -15,6 +16,7 @@ const initialState = {
   login_user: {},
   search_results: [],
   login_following: [],
+  unfollowedUsers: [],
 };
 
 const userReducer = (state = initialState, { type, payload }) => {
@@ -55,6 +57,12 @@ const userReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
       };
+    case UNFOLLOWED_USERS: {
+      return {
+        ...state,
+        unfollowedUsers: [...payload],
+      };
+    }
     default:
       return state;
   }

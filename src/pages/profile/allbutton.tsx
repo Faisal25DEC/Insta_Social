@@ -41,6 +41,10 @@ interface RouteParams {
   userId: string;
 }
 
+interface EditButtonProps {
+  onOpen: any;
+}
+
 export const FollowButton: React.FC<FollowBtnProps> = ({ _id }) => {
   const { login_user } = useSelector(
     (state: loginUserObject) => state.userReducer
@@ -96,9 +100,15 @@ export const FollowButton: React.FC<FollowBtnProps> = ({ _id }) => {
   );
 };
 
-export const EditProfileButton = () => {
+export const EditProfileButton: React.FC<EditButtonProps> = ({ onOpen }) => {
   return (
-    <Button size="sm" fontSize="sm" borderColor="green.800" borderRadius="lg">
+    <Button
+      size="sm"
+      fontSize="sm"
+      borderColor="green.800"
+      borderRadius="lg"
+      onClick={onOpen}
+    >
       Edit profile
     </Button>
   );
