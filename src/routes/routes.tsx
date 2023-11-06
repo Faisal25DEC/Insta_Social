@@ -4,6 +4,7 @@ import Profile from "../pages/profile/profile";
 import Follower from "../pages/folloNfollower/follower";
 import Following from "../pages/folloNfollower/following";
 import Home from "../pages/home/Home";
+import Login from "./../components/login_signup/login_signup";
 
 const AllRoutes = () => {
   return (
@@ -11,6 +12,7 @@ const AllRoutes = () => {
       <Route path="/profile/:userId" element={<Profile />} />
       <Route path="/profile/follower/:userId" element={<Follower />} />
       <Route path="/profile/following/:userId" element={<Following />} />
+      <Route path="/auth" element={<Login />} />
       <Route path="/" element={<Home />} />
     </Routes>
   );

@@ -7,7 +7,7 @@ import { PostLoaders } from "./loaders";
 interface RootState {
   searchUserReducer: {
     // Define the structure of your reducer's state here
-    isAllLoading:boolean,
+    isAllLoading: boolean;
     searchUserDetail: any;
     searchUserFollower: any[];
     searchUserFollowing: any[];
@@ -18,34 +18,35 @@ interface RootState {
 const PostGrid = () => {
   // const [isPostLoading, setIsPostLoading] = useState(false);
 
-  const { searchUserPosts,isAllLoading } = useSelector(
+  const { searchUserPosts, isAllLoading } = useSelector(
     (store: RootState) => store.searchUserReducer
   );
   if (isAllLoading) {
-    return   <Grid
-      templateColumns="repeat(3, 1fr)"
-      gap={2}
-      w="100%"
-      maxW="100%"
-      overflow={"hidden"}
-    >
-      {/* <NoPost /> */}
-      <PostLoaders />
-      <PostLoaders />
-      <PostLoaders />
-      <PostLoaders />
-      <PostLoaders />
-      <PostLoaders />
-      <PostLoaders />
-      <PostLoaders />
-      <PostLoaders />
-      
-    </Grid>;
+    return (
+      <Grid
+        templateColumns="repeat(3, 1fr)"
+        gap={2}
+        w="100%"
+        maxW="100%"
+        overflow={"hidden"}
+      >
+        {/* <NoPost /> */}
+        <PostLoaders />
+        <PostLoaders />
+        <PostLoaders />
+        <PostLoaders />
+        <PostLoaders />
+        <PostLoaders />
+        <PostLoaders />
+        <PostLoaders />
+        <PostLoaders />
+      </Grid>
+    );
   }
   if (searchUserPosts.length == 0) {
     return <NoPost />;
   }
-  
+
   return (
     <Grid
       templateColumns="repeat(3, 1fr)"
@@ -57,7 +58,7 @@ const PostGrid = () => {
       {" "}
       {searchUserPosts.map((ele) => (
         <GridItem key={ele._id}>
-          <PostCard mediaUrl={ele.mediaUrl} />
+          <PostCard {...ele} />
         </GridItem>
       ))}
     </Grid>

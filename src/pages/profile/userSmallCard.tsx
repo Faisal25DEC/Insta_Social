@@ -30,7 +30,7 @@ const UserSmallCard: React.FC<userObj> = ({
     <Flex mb="1rem">
       <HStack align="center">
         <Image
-          src="https://i.ibb.co/rp3V5Kd/358768461-3390909287831163-5567728346172820606-n.jpg"
+          src={profileImage}
           w="2.5rem"
           maxH="2.5rem"
           borderRadius="50%"
@@ -45,7 +45,6 @@ const UserSmallCard: React.FC<userObj> = ({
       <Spacer />
       <Box minW="80px">
         <FollowButton key={_id} _id={_id} />
-      
       </Box>
     </Flex>
   );

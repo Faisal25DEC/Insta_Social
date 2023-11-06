@@ -43,11 +43,11 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserDetails, searching } from "../../redux/user/userAction";
 import { SIGN_OUT } from "../../redux/user/userType";
-import NotificationDrawer from "../notificationDrawer/notificationDrawer";
 import CreatePost from "../create-post/create-post";
 import Cookies from "js-cookie";
 
 const Sidebar = () => {
+  const { login_user } = useSelector((state) => state.userReducer);
   const [state, setState] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
@@ -185,6 +185,7 @@ const Sidebar = () => {
                                 base: "center",
                                 md: "flex-start",
                               }}
+                              onClick={item.text === "Search" && onClose}
                             >
                               {item.icon}
                             </Link>
@@ -290,30 +291,33 @@ const Sidebar = () => {
 
                 <Flex flexDirection={"column"}>
                   {data.search_results?.map((ele, idx) => (
-                    <Flex
-                      mt={"10px"}
-                      ml={"4px"}
-                      _hover={{ bg: "rgb(239,239,239)" }}
-                      cursor={"pointer"}
-                      alignItems={"center"}
-                    >
-                      <WrapItem>
-                        <Avatar
-                          width={"45px"}
-                          h={"45px"}
-                          name={ele.name}
-                          src={
-                            ele.profileImage
-                              ? `${ele.profileImage}`
-                              : "https://bit.ly/broken-link"
-                          }
-                        />
-                      </WrapItem>
-                      <Box ml={"20px"} mb={"5px"}>
-                        <Text fontWeight={"500"}>{ele.name}</Text>
-                        <Text color={"grey"}>{ele.userName}</Text>
-                      </Box>
-                    </Flex>
+                    <Link to={`/profile/${ele._id}`} as={RouterLink}>
+                      <Flex
+                        mt={"10px"}
+                        ml={"4px"}
+                        _hover={{ bg: "rgb(239,239,239)" }}
+                        cursor={"pointer"}
+                        alignItems={"center"}
+                        onClick={onClose}
+                      >
+                        <WrapItem>
+                          <Avatar
+                            width={"45px"}
+                            h={"45px"}
+                            name={ele.name}
+                            src={
+                              ele.profileImage
+                                ? `${ele.profileImage}`
+                                : "https://bit.ly/broken-link"
+                            }
+                          />
+                        </WrapItem>
+                        <Box ml={"20px"} mb={"5px"}>
+                          <Text fontWeight={"500"}>{ele.name}</Text>
+                          <Text color={"grey"}>{ele.userName}</Text>
+                        </Box>
+                      </Flex>
+                    </Link>
                   ))}
                 </Flex>
               </Flex>
@@ -401,6 +405,7 @@ const Sidebar = () => {
               display={{ base: "block", md: "none" }}
             >
               <Link
+                to={`/profile/${login_user._id}`}
                 display={"flex"}
                 as={RouterLink}
                 alignItems={"center"}
@@ -525,11 +530,6 @@ const Sidebar = () => {
         </Flex>
       </Flex>
 
-      <NotificationDrawer
-        isOpen={isOpen1}
-        onClose={onClose1}
-        onOpen={onOpen1}
-      />
       <CreatePost isOpen={isOpen2} onClose={onClose2} onOpen={onOpen2} />
     </Box>
   );

@@ -8,7 +8,7 @@ import Sidebar from "./components/navbar/nav";
 function App() {
   return (
     <>
-      {/* <Sidebar /> */}
+      <Sidebar />
       <AllRoutes />
     </>
   );

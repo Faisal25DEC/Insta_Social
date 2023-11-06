@@ -8,7 +8,7 @@ export const getCookie = (name) => {
       return decodeURIComponent(cookieValue);
     }
   }
-  return null;
+  return "null";
 };
 
 export function removeCookie(cookieName) {

@@ -8,6 +8,7 @@ const Home = () => {
   const { posts } = useSelector((state) => state.postReducer);
   const dispatch = useDispatch();
   useEffect(() => {
+    // window.location.reload();
     dispatch(getPosts());
   }, []);
   return (

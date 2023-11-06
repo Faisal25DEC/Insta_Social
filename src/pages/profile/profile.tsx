@@ -39,6 +39,7 @@ import {
   USER_ALL_LOADING_FALSE,
   USER_ALL_LOADING_TRUE,
 } from "../../redux/search_user/search_user.actionTypes";
+import { getCookie } from "../../utils/cookies";
 
 type RootState = {
   searchUserReducer: {
@@ -49,11 +50,29 @@ type RootState = {
     searchUserPosts: any[];
   };
 };
+
+type userReducer = {
+  _id: string;
+};
+
+type loginUserObject = {
+  userReducer: {
+    isAuth: boolean;
+    error: boolean;
+    login_user: userReducer;
+    search_results: any[];
+    login_following: any[];
+  };
+};
+
 interface RouteParams {
   userId: string;
 }
 
 const Profile = () => {
+  const { login_user } = useSelector(
+    (state: loginUserObject) => state.userReducer
+  );
   const dispatch: ThunkDispatch<any, any, AnyAction> = useDispatch();
   const [isPostLoading, setIsPostLoading] = useState(true);
   // const { userId } = useParams<RouteParams>();
@@ -61,16 +80,17 @@ const Profile = () => {
     (store: RootState) => store.searchUserReducer
   );
   const { userId } = useParams();
+  console.log(userId);
   useEffect(() => {
     dispatch({ type: USER_ALL_LOADING_TRUE });
-    dispatch(getUserAllDetailAction(userId));
-    dispatch(getLoginUserFollowing("6541fdace61629b35627c795"));
-    // dispatch({ type: USER_ALL_LOADING_FALSE });
-  }, []);
+    dispatch(getUserAllDetailAction(userId) as any);
+    dispatch(getLoginUserFollowing(login_user._id) as any);
+    dispatch({ type: USER_ALL_LOADING_FALSE });
+  }, [userId]);
 
-  console.log(userId);
+  // console.log(userId);
   const searchUserId: any = userId;
-  const loginUserId: string = "6541fdace61629b35627c795";
+  const loginUserId: string = login_user._id;
   const isSameUser: boolean = searchUserId == loginUserId;
 
   return (
@@ -115,15 +135,13 @@ const Profile = () => {
                   <TabPanel>
                     <PostGrid />
                   </TabPanel>
-                
-                  
-                    <TabPanel>
-                      <NoSaved />
-                    </TabPanel>
-               
 
                   <TabPanel>
-                    <NoTagged  isSameUser={isSameUser} />
+                    <NoSaved />
+                  </TabPanel>
+
+                  <TabPanel>
+                    <NoTagged isSameUser={isSameUser} />
                   </TabPanel>
                 </TabPanels>
               </Tabs>

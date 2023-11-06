@@ -53,9 +53,6 @@ export const SigningIn = (data) => async (dispatch) => {
   try {
     const token = Cookies.get("insta_token");
     const res = await axios.post(`${baseUrl}/users/login`, data, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
       withCredentials: "include",
     });
     dispatch({

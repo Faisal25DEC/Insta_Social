@@ -23,17 +23,28 @@ interface RootState {
     loginUserFollowing: any[];
   };
 }
+type userReducer = {
+  _id: string;
+};
+
+type loginUserObject = {
+  userReducer: {
+    isAuth: boolean;
+    error: boolean;
+    login_user: userReducer;
+    search_results: any[];
+    login_following: any[];
+  };
+};
+
 interface RouteParams {
   userId: string;
 }
 
-// const loginUserFollowing: string[] = ["2", "2", "3"];
-// const loginUserId = '6541fdace61629b35627c795'
-const loginUserId: any = "6541fdace61629b35627c795";
-
-// const token: string = Cookies.get("insta_token");
-
 export const FollowButton: React.FC<FollowBtnProps> = ({ _id }) => {
+  const { login_user } = useSelector(
+    (state: loginUserObject) => state.userReducer
+  );
   const dispatch = useDispatch();
   const { userId } = useParams();
 
@@ -42,15 +53,16 @@ export const FollowButton: React.FC<FollowBtnProps> = ({ _id }) => {
   );
 
   const onFollow = async () => {
-    dispatch(onFollowAction(_id) as any);
-    // dispatch(getLoginUserFollowing("6541fdace61629b35627c795") as any);
+    dispatch(onFollowAction(_id, login_user._id) as any);
+    // dispatch(getLoginUserFollowing(login_user._id) as any);
     // dispatch(getUserAllDetailAction(userId) as any);
   };
-
+  console.log("LOGIN USER FOLLOWING", loginUserFollowing);
+  console.log(login_user._id);
   const onUnFollow = () => {
-    dispatch(onUnFollowAction(_id) as any);
+    dispatch(onUnFollowAction(_id, login_user._id) as any);
   };
-  if (loginUserId == _id) {
+  if (login_user._id == _id) {
     return <></>;
   }
   if (loginUserFollowing.includes(_id)) {

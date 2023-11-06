@@ -48,7 +48,7 @@ interface userObj {
 interface RootState {
   searchUserReducer: {
     // Define the structure of your reducer's state here
-    isAllLoading:boolean,
+    isAllLoading: boolean;
     searchUserDetail: any;
     searchUserFollower: any[];
     searchUserFollowing: any[];
@@ -66,39 +66,40 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ isSameUser }) => {
   const [isSettingPopUP, setIsSettingPopUP] = useState(false);
   const [isFollowerPopUP, setIsFollowerPopUP] = useState(false);
   const [isFollowingPopUP, setIsFollowingPopUP] = useState(false);
-  const { searchUserDetail,searchUserPosts ,isAllLoading} = useSelector(
+  const { searchUserDetail, searchUserPosts, isAllLoading } = useSelector(
     (store: RootState) => store.searchUserReducer
   );
-  const { profileImage, userName, name, bio,  } = searchUserDetail;
-  
+  const { profileImage, userName, name, bio } = searchUserDetail;
+
   return (
     <>
-      {
-        isAllLoading ? (<ProfileLoaders />) : (
-          <Flex justifyContent="space-between" w="100%" alignItems="center">
+      {isAllLoading ? (
+        <ProfileLoaders />
+      ) : (
+        <Flex justifyContent="space-between" w="100%" alignItems="center">
           <Box p={{ lg: "20px", base: "0px" }}>
             <Box
               maxW="180px"
-              minW={{ base: "60px",sm:"80px", md: "100px", lg: "150px" }}
+              minW={{ base: "60px", sm: "80px", md: "100px", lg: "150px" }}
               w="15%"
             >
               <Image borderRadius="50%" src={profileImage}></Image>
             </Box>
           </Box>
-  
+
           <Spacer />
-  
+
           <VStack
             w={{ lg: "70%", base: "90%" }}
             align="flex-start"
-            spacing={{  base: "5px", md:'15px', lg: "15px" }}
+            spacing={{ base: "5px", md: "15px", lg: "15px" }}
           >
             <Box
               cursor="pointer"
               display="flex"
               flexDirection={{ base: "column", lg: "row" }}
-              rowGap={'2'}
-              columnGap={'3'}
+              rowGap={"2"}
+              columnGap={"3"}
               alignItems={{ base: "start", lg: "center" }}
               // justifyContent={'start'}
             >
@@ -110,7 +111,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ isSameUser }) => {
                   <FollowButton _id={searchUserId} />
                 )}
                 {isSameUser ? <ViewArchiveButton /> : <MessageButton />}
-  
+
                 {isSameUser ? (
                   <SettingPopUp
                     isSettingPopUP={isSettingPopUP}
@@ -121,13 +122,13 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ isSameUser }) => {
                 )}
               </Box>
             </Box>
-  
+
             <HStack
               display={{ base: "none", md: "flex" }}
               cursor="pointer"
               spacing="24px"
             >
-              <Text>{searchUserPosts.length} posts </Text>
+              <Text>{searchUserPosts && searchUserPosts.length} posts </Text>
               <FollowerPopUp
                 isFollowerPopUP={isFollowerPopUP}
                 setIsFollowerPopUP={setIsFollowerPopUP}
@@ -137,17 +138,14 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ isSameUser }) => {
                 setIsFollowingPopUP={setIsFollowingPopUP}
               />
             </HStack>
-  
-            <VStack align={'start'} spacing={'0'} >
-              <Text fontSize={'sm'} >{name}</Text>
-              <Text fontSize={'sm'}>{bio}</Text>
+
+            <VStack align={"start"} spacing={"0"}>
+              <Text fontSize={"sm"}>{name}</Text>
+              <Text fontSize={"sm"}>{bio}</Text>
             </VStack>
           </VStack>
         </Flex>
-        )
-      }
-      
-     
+      )}
     </>
   );
 };
