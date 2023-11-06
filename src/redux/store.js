@@ -6,6 +6,7 @@ import { followerReducer } from "./follower/followerReducer";
 import { commentReducer } from "./comment/commentReducer";
 import { postReducer } from "./post/postReducer";
 import { likeReducer } from "./like/likeReducer";
+import { searchUserReducer } from "./search_user/search_user.reducer";
 const middleware = applyMiddleware(thunk);
 const rootReducer = combineReducers({
   userReducer,
@@ -13,5 +14,6 @@ const rootReducer = combineReducers({
   commentReducer,
   postReducer,
   likeReducer,
+  searchUserReducer,
 });
 export const store = legacy_createStore(rootReducer, middleware);
