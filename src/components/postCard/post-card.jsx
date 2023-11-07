@@ -48,8 +48,16 @@ import { baseUrl } from "../../redux/util";
 import { isLiked } from "../../utils/likes.utils";
 import { getUserDetails } from "../../redux/user/userAction";
 import { postComment } from "../../redux/comment/commentActions";
+import { Link } from "react-router-dom";
 
-const PostCard = ({ mediaUrl, caption, authorImage, author, _id }) => {
+const PostCard = ({
+  mediaUrl,
+  caption,
+  authorImage,
+  author,
+  _id,
+  authorId,
+}) => {
   const [commentInput, setCommentInput] = useState("");
 
   const [likeButtonClicked, setLikeButtonClicked] = useState(false);
@@ -75,6 +83,7 @@ const PostCard = ({ mediaUrl, caption, authorImage, author, _id }) => {
   const [userDetails, setUserDetails] = useState({
     userName: author,
     image: authorImage,
+    id: authorId,
   });
 
   const getPostComments = async (postId) => {
@@ -114,14 +123,16 @@ const PostCard = ({ mediaUrl, caption, authorImage, author, _id }) => {
     <Box>
       <Card maxW="md" m="auto">
         <CardHeader>
-          <Flex spacing="4">
-            <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
-              <Avatar name={userDetails.userName} src={userDetails.image} />
+          <Flex spacing="4" justifyContent={"space-between"}>
+            <Link to={`/profile/${authorId}`}>
+              <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
+                <Avatar name={userDetails.userName} src={userDetails.image} />
 
-              <Box>
-                <Heading size="sm">{userDetails.userName}</Heading>
-              </Box>
-            </Flex>
+                <Box>
+                  <Heading size="sm">{userDetails.userName}</Heading>
+                </Box>
+              </Flex>
+            </Link>
             <IconButton
               variant="ghost"
               colorScheme="gray"

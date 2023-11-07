@@ -20,6 +20,7 @@ interface userObj {
   userName: string;
   name: string;
   bio: string;
+  onClose: any;
 }
 const UserSmallCard: React.FC<userObj> = ({
   _id,
@@ -27,13 +28,12 @@ const UserSmallCard: React.FC<userObj> = ({
   userName,
   name,
   bio,
+  onClose,
 }) => {
   return (
     <Flex mb="1rem">
       <HStack align="center">
-        <Link
-        to={`/profile/${_id}`}
-          as={ReactRouterLink}>
+        <Link to={`/profile/${_id}`} onClick={onClose} as={ReactRouterLink}>
           <Image
             src={profileImage}
             w="2.5rem"

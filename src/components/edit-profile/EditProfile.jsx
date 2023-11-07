@@ -23,29 +23,30 @@ import { useDispatch, useSelector } from "react-redux";
 import { createPost } from "../../redux/post/postActions";
 import { getCookie } from "../../utils/cookies";
 import { updateProfile } from "./../../redux/user/userAction";
+import { getUserAllDetailAction } from "../../redux/search_user/search_user.action";
 
 const EditProfile = ({ onClose, isOpen, onOpen }) => {
-  const [nextButtonClicked, setNextButtonClicked] = useState(false);
   const { isAuth } = useSelector((state) => state.userReducer);
   const dispatch = useDispatch();
   const [media, setMedia] = useState(null);
   const [caption, setCaption] = useState(null);
+  const { login_user } = useSelector((state) => state.userReducer);
   console.log(isAuth);
   return (
     <Box>
       <Modal onClose={onClose} isOpen={isOpen} isCentered>
         <ModalOverlay />
         <ModalContent minW={"600px"} maxW={"max-content"} minH={"70vh"}>
-          <ModalHeader></ModalHeader>
           <ModalCloseButton right={"-7"} top={"-4"} />
-          <ModalBody>
-            <Flex>
+          <ModalBody pt="1rem">
+            <Flex gap="1rem">
               {media ? (
                 <Box width={"100%"} display={"flex"} gap="1rem">
                   <Image
                     src={media}
                     width={"100%"}
-                    height={"50vh"}
+                    minH={"50vh"}
+                    maxH={"70vh"}
                     objectFit={"cover"}
                   />
                 </Box>
@@ -110,8 +111,13 @@ const EditProfile = ({ onClose, isOpen, onOpen }) => {
                       }
 
                       dispatch(
-                        updateProfile(payload, getCookie("insta_token"))
+                        updateProfile(
+                          payload,
+                          getCookie("insta_token"),
+                          login_user?._id
+                        )
                       );
+
                       onClose();
                     }}
                   >
@@ -122,9 +128,6 @@ const EditProfile = ({ onClose, isOpen, onOpen }) => {
               </Box>
             </Flex>
           </ModalBody>
-          <ModalFooter>
-            <Button onClick={onClose}>Close</Button>
-          </ModalFooter>
         </ModalContent>
       </Modal>
     </Box>

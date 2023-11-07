@@ -13,6 +13,8 @@ import {
 import { Alert, AlertIcon } from "@chakra-ui/react";
 import Cookies from "js-cookie";
 import { baseUrl, createAction } from "../util";
+import { getUserAllDetailAction } from "../search_user/search_user.action";
+import { getPosts } from "../post/postActions";
 
 export const getUserDetails = (token) => async (dispatch) => {
   try {
@@ -103,7 +105,7 @@ export const SignOut = (dispatch) => {
   dispatch({ type: SIGN_OUT });
 };
 
-export const updateProfile = (payload, token) => async (dispatch) => {
+export const updateProfile = (payload, token, id) => async (dispatch) => {
   try {
     const res = await axios.patch(`${baseUrl}/users/update`, payload, {
       headers: {
@@ -111,6 +113,8 @@ export const updateProfile = (payload, token) => async (dispatch) => {
       },
     });
     dispatch(getUserDetails(token));
+    dispatch(getUserAllDetailAction(id));
+    dispatch(getPosts());
   } catch (error) {
     console.log(error);
   }

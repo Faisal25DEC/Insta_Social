@@ -38,7 +38,7 @@ export const getUserAllDetailAction = (
 
 export const onFollowAction = (
   _id: string,
-  loginUserId:string,
+  loginUserId: string,
   searchUserId: any
 ): ThunkAction<void, {}, {}, Action<string>> => {
   return async (dispatch) => {
@@ -60,7 +60,9 @@ export const onFollowAction = (
       );
       console.log(response);
       dispatch(getLoginUserFollowing(loginUserId) as any);
-      dispatch(getUserAllDetailAction(searchUserId) as any);
+      if (searchUserId) {
+        dispatch(getUserAllDetailAction(searchUserId) as any);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -68,7 +70,7 @@ export const onFollowAction = (
 };
 export const onUnFollowAction = (
   _id: string,
-  loginUserId:string,
+  loginUserId: string,
   searchUserId: any
 ): ThunkAction<void, {}, {}, Action<string>> => {
   return async (dispatch) => {
@@ -85,7 +87,9 @@ export const onUnFollowAction = (
         headers: header,
       });
       dispatch(getLoginUserFollowing(loginUserId) as any);
-      dispatch(getUserAllDetailAction(searchUserId) as any);
+      if (searchUserId) {
+        dispatch(getUserAllDetailAction(searchUserId) as any);
+      }
     } catch (error) {
       console.log(error);
     }

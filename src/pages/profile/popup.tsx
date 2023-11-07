@@ -136,12 +136,12 @@ export const FollowerPopUp: React.FC<FollowerPopUpProps> = ({
   const { login_user } = useSelector(
     (state: loginUserObject) => state.userReducer
   );
-  const { userId  } = useParams();
+  const { userId } = useParams();
   const searchUserId: any = userId;
 
   // useEffect(() => {
   //   dispatch(getUserAllDetailAction(userId) as any);
-    
+
   // },[])
   return (
     <>
@@ -168,14 +168,16 @@ export const FollowerPopUp: React.FC<FollowerPopUpProps> = ({
             </Box>
             <Box overflowY="scroll" maxH="260px" paddingRight="1.5rem">
               {searchUserFollower?.map((ele) => (
-                <UserSmallCard key={ele._id} {...ele} />
+                <UserSmallCard key={ele._id} {...ele} onClose={onClose} />
               ))}
-              {
-                login_user._id == searchUserId ? (<Text mb="0.8rem" fontWeight="bold">
-                Suggested For You
-              </Text>) : ('')
-              }
-              
+              {login_user._id == searchUserId ? (
+                <Text mb="0.8rem" fontWeight="bold">
+                  Suggested For You
+                </Text>
+              ) : (
+                ""
+              )}
+
               {/* <UserSmallCard text={"Follow"} />
               <UserSmallCard text={"Follow"} />
               <UserSmallCard text={"Follow"} /> */}
@@ -204,7 +206,7 @@ export const FollowingPopUp: React.FC<FollowingPopUpProps> = ({
   );
   const onClose = () => setIsFollowingPopUP(false);
   const onOpen = () => setIsFollowingPopUP(true);
-  const { userId  } = useParams();
+  const { userId } = useParams();
   const searchUserId: any = userId;
   return (
     <>
@@ -231,13 +233,15 @@ export const FollowingPopUp: React.FC<FollowingPopUpProps> = ({
             </Box>
             <Box overflowY="scroll" maxH="260px" paddingRight="1.5rem">
               {searchUserFollowing?.map((ele) => (
-                <UserSmallCard key={ele._id} {...ele} />
+                <UserSmallCard key={ele._id} {...ele} onClose={onClose} />
               ))}
-               {
-                login_user._id == searchUserId ? (<Text mb="0.8rem" fontWeight="bold">
-                Suggested For You
-              </Text>) : ('')
-              }
+              {login_user._id == searchUserId ? (
+                <Text mb="0.8rem" fontWeight="bold">
+                  Suggested For You
+                </Text>
+              ) : (
+                ""
+              )}
             </Box>
           </ModalBody>
 
