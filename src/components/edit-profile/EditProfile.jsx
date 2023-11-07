@@ -36,24 +36,7 @@ const EditProfile = ({ onClose, isOpen, onOpen }) => {
       <Modal onClose={onClose} isOpen={isOpen} isCentered>
         <ModalOverlay />
         <ModalContent minW={"600px"} maxW={"max-content"} minH={"70vh"}>
-          <ModalHeader
-            ml="auto"
-            color={"blue"}
-            cursor={"pointer"}
-            onClick={() => {
-              if (isAuth && nextButtonClicked) {
-                const token = getCookie("insta_token");
-
-                media !== null &&
-                  dispatch(createPost(token, { mediaUrl: media, caption }));
-                onClose();
-              } else {
-                setNextButtonClicked(true);
-              }
-            }}
-          >
-            {media != null ? (nextButtonClicked ? "share" : "next") : ""}
-          </ModalHeader>
+          <ModalHeader></ModalHeader>
           <ModalCloseButton right={"-7"} top={"-4"} />
           <ModalBody>
             <Flex>
