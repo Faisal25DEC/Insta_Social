@@ -43,7 +43,7 @@ const PostGrid = () => {
       </Grid>
     );
   }
-  if (searchUserPosts.length == 0) {
+  if (searchUserPosts?.length == 0) {
     return <NoPost />;
   }
 
@@ -56,7 +56,7 @@ const PostGrid = () => {
       overflow={"hidden"}
     >
       {" "}
-      {searchUserPosts.map((ele) => (
+      {searchUserPosts?.map((ele) => (
         <GridItem key={ele._id}>
           <PostCard {...ele} />
         </GridItem>

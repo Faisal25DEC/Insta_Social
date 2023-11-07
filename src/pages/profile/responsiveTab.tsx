@@ -21,7 +21,7 @@ interface porps {
   isSameUser:boolean
 }
 const ResponsiveTab: React.FC<porps> = ({isSameUser}) => {
-  const { searchUserPosts, searchUserFollower, searchUserFollowing } =
+  const { searchUserPosts, searchUserFollower, searchUserFollowing,searchUserDetail } =
     useSelector((store: RootState) => store.searchUserReducer);
 
   const [tabState, setTabState] = useState("posts");
@@ -35,7 +35,7 @@ const ResponsiveTab: React.FC<porps> = ({isSameUser}) => {
       >
         <Center w="33%" display="flex" flexDirection="column">
           {" "}
-          <Text fontSize="sm">{searchUserPosts.length}</Text>
+          <Text fontSize="sm">{searchUserPosts?.length}</Text>
           <Text fontSize="sm">post</Text>{" "}
         </Center>
         <Spacer />
@@ -43,13 +43,13 @@ const ResponsiveTab: React.FC<porps> = ({isSameUser}) => {
           {" "}
           <Link
             as={ReactRouterLink}
-            to={`/profile/follower/6541fd88e61629b35627c78f`}
+            to={`/profile/follower/${searchUserDetail._id}`}
             display="flex"
             justifyContent="center"
             alignItems="center"
             flexDirection="column"
           >
-            <Text fontSize="sm">{searchUserFollower.length}</Text>
+            <Text fontSize="sm">{searchUserFollower?.length}</Text>
             <Text fontSize="sm">Followers</Text>{" "}
           </Link>
         </Center>
@@ -63,9 +63,9 @@ const ResponsiveTab: React.FC<porps> = ({isSameUser}) => {
             justifyContent="center"
             alignItems="center"
             flexDirection="column"
-            to={`/profile/following/6541fd88e61629b35627c78f`}
+            to={`/profile/following/${searchUserDetail._id}`}
           >
-            <Text fontSize="sm">{searchUserFollowing.length}</Text>
+            <Text fontSize="sm">{searchUserFollowing?.length}</Text>
             <Text fontSize="sm"> Following</Text>{" "}
           </Link>
         </Center>

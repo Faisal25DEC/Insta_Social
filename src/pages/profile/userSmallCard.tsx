@@ -6,7 +6,9 @@ import {
   Image,
   Spacer,
   Text,
+  Link,
 } from "@chakra-ui/react";
+import { Link as ReactRouterLink } from "react-router-dom";
 import React from "react";
 import { FollowButton } from "./allbutton";
 interface UserSmallCardProps {
@@ -29,12 +31,17 @@ const UserSmallCard: React.FC<userObj> = ({
   return (
     <Flex mb="1rem">
       <HStack align="center">
-        <Image
-          src={profileImage}
-          w="2.5rem"
-          maxH="2.5rem"
-          borderRadius="50%"
-        ></Image>
+        <Link
+        to={`/profile/${_id}`}
+          as={ReactRouterLink}>
+          <Image
+            src={profileImage}
+            w="2.5rem"
+            maxH="2.5rem"
+            borderRadius="50%"
+          ></Image>
+        </Link>
+
         <Box>
           <Text fontWeight="bold" fontSize="sm">
             {name}

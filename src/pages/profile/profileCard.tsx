@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -75,7 +75,11 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ isSameUser, onOpen }) => {
     (store: RootState) => store.searchUserReducer
   );
   const { profileImage, userName, name, bio } = searchUserDetail;
-
+  useEffect(() => {
+    setIsSettingPopUP(false)
+    setIsFollowerPopUP(false)
+    setIsFollowingPopUP(false)
+  },[])
   return (
     <>
       {isAllLoading ? (
@@ -138,7 +142,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ isSameUser, onOpen }) => {
               cursor="pointer"
               spacing="24px"
             >
-              <Text>{searchUserPosts && searchUserPosts.length} posts </Text>
+              <Text>{searchUserPosts && searchUserPosts?.length} posts </Text>
               <FollowerPopUp
                 isFollowerPopUP={isFollowerPopUP}
                 setIsFollowerPopUP={setIsFollowerPopUP}

@@ -9,8 +9,6 @@ import axios from "axios";
 import { baseUrl } from "../util";
 import { getCookie } from "../../utils/cookies";
 
-const token: string = getCookie("insta_token");
-
 export const getUserAllDetailAction = (
   id: any
 ): ThunkAction<void, {}, {}, Action<string>> => {
@@ -40,15 +38,19 @@ export const getUserAllDetailAction = (
 
 export const onFollowAction = (
   _id: string,
-  userId: string
+  loginUserId:string,
+  searchUserId: any
 ): ThunkAction<void, {}, {}, Action<string>> => {
   return async (dispatch) => {
+    const token: string = getCookie("insta_token");
+
     const header: { Authorization: string } = {
       Authorization: `Bearer ${token}`,
     };
     // console.log(_id)
-    console.log(header);
+    // console.log(userId);
     try {
+      console.log(_id);
       const response = await axios.post(
         `${baseUrl}/followers/${_id}`,
         {},
@@ -57,29 +59,33 @@ export const onFollowAction = (
         }
       );
       console.log(response);
-      dispatch(getLoginUserFollowing(userId) as any);
-      dispatch(getUserAllDetailAction(_id) as any);
+      dispatch(getLoginUserFollowing(loginUserId) as any);
+      dispatch(getUserAllDetailAction(searchUserId) as any);
     } catch (error) {
       console.log(error);
     }
   };
 };
 export const onUnFollowAction = (
-  _id: any,
-  userId: string
+  _id: string,
+  loginUserId:string,
+  searchUserId: any
 ): ThunkAction<void, {}, {}, Action<string>> => {
   return async (dispatch) => {
+    const token: string = getCookie("insta_token");
+
     const header: { Authorization: string } = {
       Authorization: `Bearer ${token}`,
     };
 
     console.log(header);
     try {
+      console.log(_id);
       const response = await axios.delete(`${baseUrl}/followers/${_id}`, {
         headers: header,
       });
-      dispatch(getLoginUserFollowing(userId) as any);
-      dispatch(getUserAllDetailAction(_id) as any);
+      dispatch(getLoginUserFollowing(loginUserId) as any);
+      dispatch(getUserAllDetailAction(searchUserId) as any);
     } catch (error) {
       console.log(error);
     }
@@ -90,6 +96,8 @@ export const getLoginUserFollowing = (
   id: any
 ): ThunkAction<void, {}, {}, Action<string>> => {
   return async (dispatch) => {
+    const token: string = getCookie("insta_token");
+
     const header: { Authorization: string } = {
       Authorization: `Bearer ${token}`,
     };

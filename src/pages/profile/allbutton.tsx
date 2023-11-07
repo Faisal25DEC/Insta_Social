@@ -44,27 +44,30 @@ interface RouteParams {
 interface EditButtonProps {
   onOpen: any;
 }
+interface RouteParams {
+  userId: string;
+}
 
 export const FollowButton: React.FC<FollowBtnProps> = ({ _id }) => {
   const { login_user } = useSelector(
     (state: loginUserObject) => state.userReducer
   );
   const dispatch = useDispatch();
-  const { userId } = useParams();
+  const { userId : searchUserId } = useParams();
 
   const { loginUserFollowing } = useSelector(
     (store: RootState) => store.searchUserReducer
   );
 
   const onFollow = async () => {
-    dispatch(onFollowAction(_id, login_user._id) as any);
+    dispatch(onFollowAction(_id, login_user._id,searchUserId) as any);
     // dispatch(getLoginUserFollowing(login_user._id) as any);
     // dispatch(getUserAllDetailAction(userId) as any);
   };
   console.log("LOGIN USER FOLLOWING", loginUserFollowing);
   console.log(login_user._id);
   const onUnFollow = () => {
-    dispatch(onUnFollowAction(_id, login_user._id) as any);
+    dispatch(onUnFollowAction(_id, login_user._id,searchUserId) as any);
   };
   if (login_user._id == _id) {
     return <></>;

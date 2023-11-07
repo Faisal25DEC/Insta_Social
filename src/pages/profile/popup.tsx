@@ -14,10 +14,14 @@ import {
   Input,
 } from "@chakra-ui/react";
 import { RiSettings5Line } from "react-icons/ri";
-import React from "react";
+import React, { useEffect } from "react";
 import UserSmallCard from "./userSmallCard";
 import { dataArray } from "./data";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserAllDetailAction } from "../../redux/search_user/search_user.action";
+import { useParams } from "react-router";
+import { ThunkDispatch } from "redux-thunk";
+import { AnyAction } from "redux";
 
 interface SettingPopUpProps {
   isSettingPopUP: boolean;
@@ -48,7 +52,19 @@ interface userObj {
   name: string;
   bio: string;
 }
+type userReducer = {
+  _id: string;
+};
 
+type loginUserObject = {
+  userReducer: {
+    isAuth: boolean;
+    error: boolean;
+    login_user: userReducer;
+    search_results: any[];
+    login_following: any[];
+  };
+};
 //------------------------------
 export const SettingPopUp: React.FC<SettingPopUpProps> = ({
   isSettingPopUP,
@@ -113,13 +129,24 @@ export const FollowerPopUp: React.FC<FollowerPopUpProps> = ({
   const { searchUserFollower } = useSelector(
     (store: RootState) => store.searchUserReducer
   );
+  const dispatch: ThunkDispatch<any, any, AnyAction> = useDispatch();
+
   const onClose = () => setIsFollowerPopUP(false);
   const onOpen = () => setIsFollowerPopUP(true);
+  const { login_user } = useSelector(
+    (state: loginUserObject) => state.userReducer
+  );
+  const { userId  } = useParams();
+  const searchUserId: any = userId;
 
+  // useEffect(() => {
+  //   dispatch(getUserAllDetailAction(userId) as any);
+    
+  // },[])
   return (
     <>
       {/* <RiSettings5Line fontSize="1.5rem" onClick={onOpen} /> */}
-      <Text onClick={onOpen}>{searchUserFollower.length} follower</Text>
+      <Text onClick={onOpen}>{searchUserFollower?.length} follower</Text>
 
       <Modal
         isCentered
@@ -140,13 +167,15 @@ export const FollowerPopUp: React.FC<FollowerPopUpProps> = ({
               <Input size="sm" borderRadius="md" placeholder="Search" />
             </Box>
             <Box overflowY="scroll" maxH="260px" paddingRight="1.5rem">
-              {searchUserFollower.map((ele) => (
+              {searchUserFollower?.map((ele) => (
                 <UserSmallCard key={ele._id} {...ele} />
               ))}
-
-              <Text mb="0.8rem" fontWeight="bold">
+              {
+                login_user._id == searchUserId ? (<Text mb="0.8rem" fontWeight="bold">
                 Suggested For You
-              </Text>
+              </Text>) : ('')
+              }
+              
               {/* <UserSmallCard text={"Follow"} />
               <UserSmallCard text={"Follow"} />
               <UserSmallCard text={"Follow"} /> */}
@@ -169,13 +198,18 @@ export const FollowingPopUp: React.FC<FollowingPopUpProps> = ({
   const { searchUserFollowing } = useSelector(
     (store: RootState) => store.searchUserReducer
   );
+  const dispatch: ThunkDispatch<any, any, AnyAction> = useDispatch();
+  const { login_user } = useSelector(
+    (state: loginUserObject) => state.userReducer
+  );
   const onClose = () => setIsFollowingPopUP(false);
   const onOpen = () => setIsFollowingPopUP(true);
-
+  const { userId  } = useParams();
+  const searchUserId: any = userId;
   return (
     <>
       {/* <RiSettings5Line fontSize="1.5rem" onClick={onOpen} /> */}
-      <Text onClick={onOpen}>{searchUserFollowing.length} following</Text>
+      <Text onClick={onOpen}>{searchUserFollowing?.length} following</Text>
 
       <Modal
         isCentered
@@ -196,12 +230,14 @@ export const FollowingPopUp: React.FC<FollowingPopUpProps> = ({
               <Input size="sm" borderRadius="md" placeholder="Search" />
             </Box>
             <Box overflowY="scroll" maxH="260px" paddingRight="1.5rem">
-              {searchUserFollowing.map((ele) => (
+              {searchUserFollowing?.map((ele) => (
                 <UserSmallCard key={ele._id} {...ele} />
               ))}
-              <Text mb="0.8rem" fontWeight="bold">
+               {
+                login_user._id == searchUserId ? (<Text mb="0.8rem" fontWeight="bold">
                 Suggested For You
-              </Text>
+              </Text>) : ('')
+              }
             </Box>
           </ModalBody>
 

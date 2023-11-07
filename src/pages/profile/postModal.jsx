@@ -242,7 +242,7 @@ const PostModal = ({
                   m="auto"
                   pt="0.5rem"
                 >
-                  {prettyNum(post.likes.length, { thousandsSeparator: "," })}{" "}
+                  {prettyNum(post.likes?.length, { thousandsSeparator: "," })}{" "}
                   <Text
                     fontSize={"0.9rem"}
                     display={"inline"}
