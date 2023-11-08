@@ -41,6 +41,7 @@ import {
 } from "../../redux/search_user/search_user.actionTypes";
 import { getCookie } from "../../utils/cookies";
 import EditProfile from "../../components/edit-profile/EditProfile";
+import CreatePost from "../../components/create-post/create-post";
 
 type RootState = {
   searchUserReducer: {
@@ -72,6 +73,11 @@ interface RouteParams {
 
 const Profile = () => {
   const { onClose, onOpen, isOpen } = useDisclosure();
+  const {
+    onClose: onClose1,
+    onOpen: onOpen1,
+    isOpen: isOpen1,
+  } = useDisclosure();
   const { login_user } = useSelector(
     (state: loginUserObject) => state.userReducer
   );
@@ -123,10 +129,12 @@ const Profile = () => {
                     {" "}
                     <MdGridOn /> POSTS
                   </Tab>
-                  <Tab me="2rem">
-                    {" "}
-                    <BiBookmark /> SAVED
-                  </Tab>
+                  {isSameUser && (
+                    <Tab me="2rem">
+                      {" "}
+                      <BiBookmark /> SAVED
+                    </Tab>
+                  )}
                   <Tab>
                     {" "}
                     <BiUserPin /> TAGGED
@@ -135,12 +143,14 @@ const Profile = () => {
 
                 <TabPanels>
                   <TabPanel>
-                    <PostGrid />
+                    <PostGrid isSameUser={isSameUser} onOpen={onOpen1} />
                   </TabPanel>
 
-                  <TabPanel>
-                    <NoSaved />
-                  </TabPanel>
+                  {isSameUser && (
+                    <TabPanel>
+                      <NoSaved />
+                    </TabPanel>
+                  )}
 
                   <TabPanel>
                     <NoTagged isSameUser={isSameUser} />
@@ -177,6 +187,7 @@ const Profile = () => {
           </Box>
         </Container>
         <EditProfile onClose={onClose} onOpen={onOpen} isOpen={isOpen} />
+        <CreatePost onClose={onClose1} onOpen={onOpen1} isOpen={isOpen1} />
       </Flex>
     </>
   );

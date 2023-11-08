@@ -15,7 +15,13 @@ interface RootState {
   };
 }
 
-const PostGrid = () => {
+const PostGrid = ({
+  isSameUser,
+  onOpen,
+}: {
+  isSameUser: boolean;
+  onOpen?: () => void;
+}) => {
   // const [isPostLoading, setIsPostLoading] = useState(false);
 
   const { searchUserPosts, isAllLoading } = useSelector(
@@ -44,7 +50,7 @@ const PostGrid = () => {
     );
   }
   if (searchUserPosts?.length == 0) {
-    return <NoPost />;
+    return <NoPost isSameUser={isSameUser} onOpen={onOpen} />;
   }
 
   return (

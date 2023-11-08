@@ -131,7 +131,12 @@ const PostModal = ({
         >
           <Flex>
             {" "}
-            <Image src={post.image} maxHeight={"90vh"} objectFit={"cover"} />
+            <Image
+              src={post.image}
+              maxHeight={"90vh"}
+              maxW={"60rem"}
+              objectFit={"contain"}
+            />
             <Box mt="0.5rem" mb="0.5rem" minW="20rem" maxW="30rem">
               <Flex
                 flex="1"

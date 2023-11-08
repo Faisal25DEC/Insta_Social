@@ -66,10 +66,10 @@ type loginUserObject = {
   };
 };
 //------------------------------
-export const SettingPopUp: React.FC<SettingPopUpProps> = ({
+export const SettingPopUp = ({
   isSettingPopUP,
   setIsSettingPopUP,
-}) => {
+}: SettingPopUpProps) => {
   const onClose = () => setIsSettingPopUP(false);
   const onOpen = () => setIsSettingPopUP(true);
 

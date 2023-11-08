@@ -21,6 +21,7 @@ import NoPost from "../../assets/no-post.png";
 import { useDispatch, useSelector } from "react-redux";
 import { createPost } from "../../redux/post/postActions";
 import { getCookie } from "../../utils/cookies";
+import { getUserAllDetailAction } from "../../redux/search_user/search_user.action";
 
 const CreatePost = ({ onClose, isOpen, onOpen }) => {
   const [nextButtonClicked, setNextButtonClicked] = useState(false);
@@ -28,6 +29,7 @@ const CreatePost = ({ onClose, isOpen, onOpen }) => {
   const dispatch = useDispatch();
   const [media, setMedia] = useState(null);
   const [caption, setCaption] = useState(null);
+  const { login_user } = useSelector((store) => store.userReducer);
   console.log(isAuth);
   return (
     <Box>
@@ -43,7 +45,14 @@ const CreatePost = ({ onClose, isOpen, onOpen }) => {
                 const token = getCookie("insta_token");
 
                 media !== null &&
-                  dispatch(createPost(token, { mediaUrl: media, caption }));
+                  dispatch(
+                    createPost(
+                      token,
+                      { mediaUrl: media, caption },
+                      login_user?._id
+                    )
+                  );
+
                 onClose();
               } else {
                 setNextButtonClicked(true);

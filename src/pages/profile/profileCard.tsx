@@ -57,7 +57,7 @@ interface RootState {
   };
 }
 
-const ProfileCard: React.FC<ProfileCardProps> = ({ isSameUser, onOpen }) => {
+const ProfileCard = ({ isSameUser, onOpen }: ProfileCardProps) => {
   const { userId: searchUserId } = useParams();
   // const [isProfileLoading,setIsProfileLoading] = useState(false)
 
@@ -76,10 +76,10 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ isSameUser, onOpen }) => {
   );
   const { profileImage, userName, name, bio } = searchUserDetail;
   useEffect(() => {
-    setIsSettingPopUP(false)
-    setIsFollowerPopUP(false)
-    setIsFollowingPopUP(false)
-  },[])
+    setIsSettingPopUP(false);
+    setIsFollowerPopUP(false);
+    setIsFollowingPopUP(false);
+  }, []);
   return (
     <>
       {isAllLoading ? (
@@ -96,6 +96,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ isSameUser, onOpen }) => {
                 borderRadius="full"
                 height="10rem"
                 width="10rem"
+                objectFit={"cover"}
                 src={profileImage}
               ></Image>
             </Box>

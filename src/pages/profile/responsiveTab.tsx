@@ -18,11 +18,15 @@ type RootState = {
   };
 };
 interface porps {
-  isSameUser:boolean
+  isSameUser: boolean;
 }
-const ResponsiveTab: React.FC<porps> = ({isSameUser}) => {
-  const { searchUserPosts, searchUserFollower, searchUserFollowing,searchUserDetail } =
-    useSelector((store: RootState) => store.searchUserReducer);
+const ResponsiveTab = ({ isSameUser }: porps) => {
+  const {
+    searchUserPosts,
+    searchUserFollower,
+    searchUserFollowing,
+    searchUserDetail,
+  } = useSelector((store: RootState) => store.searchUserReducer);
 
   const [tabState, setTabState] = useState("posts");
   return (
@@ -79,14 +83,20 @@ const ResponsiveTab: React.FC<porps> = ({isSameUser}) => {
           flexDirection="column"
         >
           {" "}
-          <MdGridOn  onClick={() => setTabState("posts")}
-            color={tabState == "posts" ? "skyBlue" : "black"} fontSize="1.5rem" />
+          <MdGridOn
+            onClick={() => setTabState("posts")}
+            color={tabState == "posts" ? "skyBlue" : "black"}
+            fontSize="1.5rem"
+          />
         </Center>
         <Spacer />
-        
-        <Center w="33%" display="flex"
-        borderTop={tabState == "saved" ? "1px" : "0px"}
-          flexDirection="column">
+
+        <Center
+          w="33%"
+          display="flex"
+          borderTop={tabState == "saved" ? "1px" : "0px"}
+          flexDirection="column"
+        >
           {" "}
           <BiBookmark
             onClick={() => setTabState("saved")}
@@ -95,9 +105,12 @@ const ResponsiveTab: React.FC<porps> = ({isSameUser}) => {
           />
         </Center>
         <Spacer />
-        <Center w="33%"
+        <Center
+          w="33%"
           borderTop={tabState == "tagged" ? "1px" : "0px"}
-          display="flex" flexDirection="column">
+          display="flex"
+          flexDirection="column"
+        >
           {" "}
           <BiUserPin
             onClick={() => setTabState("tagged")}
@@ -109,8 +122,8 @@ const ResponsiveTab: React.FC<porps> = ({isSameUser}) => {
       <Box
       // border="2px"
       >
-        {tabState === "posts" && <PostGrid />}
-        {tabState === "saved" && <NoPost />}
+        {tabState === "posts" && <PostGrid isSameUser={isSameUser} />}
+        {tabState === "saved" && <NoPost isSameUser={isSameUser} />}
         {tabState === "tagged" && <NoTagged isSameUser={isSameUser} />}
       </Box>
     </Box>

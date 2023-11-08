@@ -424,8 +424,9 @@ const Sidebar = () => {
                     <Image
                       src={data.login_user.profileImage}
                       alt="profile"
-                      width="45px"
-                      height={"45px"}
+                      width="1.75rem"
+                      height={"1.75rem"}
+                      objectFit="cover"
                       borderRadius={"full"}
                     />
                   ) : (

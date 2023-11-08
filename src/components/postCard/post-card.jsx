@@ -261,7 +261,12 @@ const PostCard = ({
           >
             <Flex>
               {" "}
-              <Image src={post.image} maxHeight={"90vh"} objectFit={"cover"} />
+              <Image
+                src={post.image}
+                maxW={"60rem"}
+                maxHeight={"90vh"}
+                objectFit={"cover"}
+              />
               <Box mt="0.5rem" mb="0.5rem" minW="20rem" maxW="30rem">
                 <Flex
                   flex="1"

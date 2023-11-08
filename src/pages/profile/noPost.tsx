@@ -5,9 +5,15 @@ import { PiCameraLight } from "react-icons/pi";
 import { BiBookmark } from "react-icons/bi";
 import { BiUserPin } from "react-icons/bi";
 interface props {
-  isSameUser:boolean
+  isSameUser: boolean;
 }
-export const NoPost = () => {
+export const NoPost = ({
+  isSameUser,
+  onOpen,
+}: {
+  isSameUser: boolean;
+  onOpen?: () => void;
+}) => {
   return (
     <Box
       display="flex"
@@ -20,15 +26,26 @@ export const NoPost = () => {
         <Box border="1px" borderRadius="50%" padding={"10px"}>
           <PiCameraLight fontSize="3.5rem" />
         </Box>
-        <Heading textAlign={"center"}>Share Photos</Heading>
+        <Heading textAlign={"center"}>
+          {isSameUser ? "Share Photos" : "No Posts"}
+        </Heading>
 
-        <Text textAlign={"center"}>
-          When you share photos, they will appear on your profile.
-        </Text>
+        {isSameUser && (
+          <>
+            <Text textAlign={"center"}>
+              When you share photos, they will appear on your profile
+            </Text>
 
-        <Text textAlign={"center"} color="darkblue">
-          Share your first photo
-        </Text>
+            <Text
+              textAlign={"center"}
+              color="darkblue"
+              onClick={onOpen}
+              cursor={"pointer"}
+            >
+              Share your first photo
+            </Text>
+          </>
+        )}
       </VStack>
     </Box>
   );
@@ -52,7 +69,7 @@ export const NoSaved = () => {
           + New Collection
         </Text>
       </HStack>
-      <VStack  alignItems={"center"} justifyContent={"center"}>
+      <VStack alignItems={"center"} justifyContent={"center"}>
         <Box border="1px" borderRadius="50%" padding={"10px"}>
           <BiBookmark fontSize="3.5rem" />
         </Box>
@@ -66,7 +83,7 @@ export const NoSaved = () => {
     </Box>
   );
 };
-export const NoTagged:React.FC<props> = ({isSameUser}) => {
+export const NoTagged: React.FC<props> = ({ isSameUser }) => {
   return (
     <Box
       display="flex"
@@ -79,20 +96,20 @@ export const NoTagged:React.FC<props> = ({isSameUser}) => {
       // border="2px"
       // w="100%"
     >
-      <HStack justify="space-between">
-       
-      </HStack>
-      <VStack  alignItems={"center"} justifyContent={"center"}>
+      <HStack justify="space-between"></HStack>
+      <VStack alignItems={"center"} justifyContent={"center"}>
         <Box border="1px" borderRadius="50%" padding={"10px"}>
           <BiUserPin fontSize="3.5rem" />
         </Box>
-        <Heading textAlign={"center"}> {isSameUser ? "Photos of you" :"No Photo" } </Heading>
-        {
-          isSameUser && <Text fontSize={"sm"} textAlign={"center"}>
-          When people tag you in photos, they'll appear here.
+        <Heading textAlign={"center"}>
+          {" "}
+          {isSameUser ? "Photos of you" : "No Photo"}{" "}
+        </Heading>
+        {isSameUser && (
+          <Text fontSize={"sm"} textAlign={"center"}>
+            When people tag you in photos, they'll appear here.
           </Text>
-     }
-        
+        )}
       </VStack>
     </Box>
   );
