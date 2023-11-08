@@ -72,11 +72,15 @@ export const SigningIn = (data) => async (dispatch) => {
     const res = await axios.post(`${baseUrl}/users/login`, data, {
       withCredentials: "include",
     });
+    Cookies.set('insta_token', res.data.token)
+    
     dispatch({
       type: GET_LOGIN_SUCCESS,
       payload: data,
     });
     console.log(data);
+    window.location.href = "/";
+
   } catch (err) {
     dispatch({
       type: GET_LOGIN_ERROR,

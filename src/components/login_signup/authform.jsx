@@ -33,7 +33,7 @@ const AuthForm = () => {
         dispatch(SigningIn(inputs));
 
         setLoading(false);
-        window.location.href = "/";
+        // window.location.href = "/";
       } else {
         dispatch(SigningUp(inputs));
         setLoading(false);
