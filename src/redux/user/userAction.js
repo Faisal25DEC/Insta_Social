@@ -68,7 +68,6 @@ export const SigningIn = (data) => async (dispatch) => {
     type: GET_LOGIN_REQUEST,
   });
   try {
-    const token = Cookies.get("insta_token");
     const res = await axios.post(`${baseUrl}/users/login`, data, {
       withCredentials: "include",
     });

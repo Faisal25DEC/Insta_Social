@@ -101,6 +101,7 @@ const Sidebar = () => {
   };
   useEffect(() => {
     const token = Cookies.get("insta_token");
+    console.log("TOKEN", token);
     if (token) {
       dispatch(getUserDetails(token));
     }
