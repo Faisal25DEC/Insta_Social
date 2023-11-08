@@ -1,4 +1,5 @@
 import {
+  IGetPostCommentsSuccess,
   POST_COMMENTS_FAILURE,
   POST_COMMENTS_LOADING,
   POST_COMMENTS_SUCCESS,
@@ -9,8 +10,12 @@ const initialState = {
   postCommentsLoading: false,
   postCommentsError: false,
 };
+type Action = IGetPostCommentsSuccess;
 
-export const commentReducer = (state = initialState, { type, payload }) => {
+export const commentReducer = (
+  state = initialState,
+  { type, payload }: Action
+) => {
   switch (type) {
     case POST_COMMENTS_LOADING: {
       return {

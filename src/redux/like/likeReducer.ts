@@ -1,9 +1,14 @@
-import { GET_POST_LIKES } from "./likeTypes";
+import { GET_POST_LIKES, IGetLikesAction } from "./likeTypes";
 
 const initialState = {
   likes: [],
 };
-export const likeReducer = (state = initialState, { type, payload }) => {
+
+type Action = IGetLikesAction;
+export const likeReducer = (
+  state = initialState,
+  { type, payload }: Action
+) => {
   switch (type) {
     case GET_POST_LIKES:
       return {

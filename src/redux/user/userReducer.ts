@@ -1,10 +1,9 @@
 import {
-  GET_LOGIN_ERROR,
-  GET_LOGIN_REQUEST,
   GET_LOGIN_SUCCESS,
-  GET_SIGNUP_ERROR,
-  GET_SIGNUP_REQUEST,
-  GET_SIGNUP_SUCCESS,
+  ILoginUserAction,
+  ISearchUsersAction,
+  ISignOutAction,
+  IUnfollowedUsersAction,
   SEARCH,
   SIGN_OUT,
   UNFOLLOWED_USERS,
@@ -19,24 +18,14 @@ const initialState = {
   unfollowedUsers: [],
 };
 
-const userReducer = (state = initialState, { type, payload }) => {
+type IAction =
+  | IUnfollowedUsersAction
+  | ILoginUserAction
+  | ISignOutAction
+  | ISearchUsersAction;
+
+const userReducer = (state = initialState, { type, payload }: IAction) => {
   switch (type) {
-    case GET_SIGNUP_REQUEST:
-      return {
-        ...state,
-      };
-    case GET_SIGNUP_SUCCESS:
-      return {
-        ...state,
-      };
-    case GET_SIGNUP_ERROR:
-      return {
-        ...state,
-      };
-    case GET_LOGIN_REQUEST:
-      return {
-        ...state,
-      };
     case GET_LOGIN_SUCCESS:
       return {
         ...state,
@@ -53,10 +42,7 @@ const userReducer = (state = initialState, { type, payload }) => {
         ...state,
         search_results: payload,
       };
-    case GET_LOGIN_ERROR:
-      return {
-        ...state,
-      };
+
     case UNFOLLOWED_USERS: {
       return {
         ...state,

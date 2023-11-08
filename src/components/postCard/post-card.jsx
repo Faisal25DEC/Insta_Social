@@ -267,7 +267,7 @@ const PostCard = ({
                 maxHeight={"90vh"}
                 objectFit={"cover"}
               />
-              <Box mt="0.5rem" mb="0.5rem" minW="20rem" maxW="30rem">
+              <Box mt="0.5rem" mb="0.5rem" minW="28rem" maxW="32rem">
                 <Flex
                   flex="1"
                   gap="2"
@@ -299,7 +299,7 @@ const PostCard = ({
                     <Box
                       className="hide-scroll-bar"
                       overflow={"scroll"}
-                      height="70vh"
+                      height="67.5vh"
                       scrollBehavior={"smooth"}
                     >
                       {comments?.map((comment, index) => {
@@ -322,8 +322,9 @@ const PostCard = ({
                     </Box>
                   </VStack>
                 </Box>
-                <Box ml="1rem">
-                  <Flex width="95%" pt="0.6rem" m="auto" alignItems={"center"}>
+                <hr />
+                <Box pt="1.25rem">
+                  <Flex width="95%" pt="0.5rem" m="auto" alignItems={"center"}>
                     <Flex gap="1rem">
                       {!isLiked(post.likes, login_user._id) ? (
                         <FaRegHeart
@@ -376,6 +377,7 @@ const PostCard = ({
                     width="95%"
                     m="auto"
                     pt="0.5rem"
+                    ml="0.75rem"
                   >
                     {prettyNum(post.likes.length, { thousandsSeparator: "," })}{" "}
                     <Text
@@ -387,7 +389,7 @@ const PostCard = ({
                     </Text>
                   </Text>
                 </Box>
-                <hr></hr>
+                <hr />
                 <Flex
                   justifyContent={"space-between"}
                   pr={"5px"}

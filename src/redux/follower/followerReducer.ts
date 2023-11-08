@@ -1,10 +1,19 @@
-import { GET_FOLLOWERS_FOLLOWING } from "./followerTypes";
+import {
+  GET_FOLLOWERS_FOLLOWING,
+  IGetFollowersFollowingAction,
+} from "./followerTypes";
 
 const initialState = {
   followers: [],
   following: [],
 };
-export const followerReducer = (state = initialState, { type, payload }) => {
+
+type Action = IGetFollowersFollowingAction;
+
+export const followerReducer = (
+  state = initialState,
+  { type, payload }: Action
+) => {
   switch (type) {
     case GET_FOLLOWERS_FOLLOWING: {
       return {

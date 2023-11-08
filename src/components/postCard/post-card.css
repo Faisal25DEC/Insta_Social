@@ -16,4 +16,5 @@
 .comment-input::placeholder {
   padding-top: 0.3rem;
   font-size: 0.9rem;
+  padding-left: 0.5rem;
 }
