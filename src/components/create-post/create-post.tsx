@@ -22,14 +22,23 @@ import { useDispatch, useSelector } from "react-redux";
 import { createPost } from "../../redux/post/postActions";
 import { getCookie } from "../../utils/cookies";
 import { getUserAllDetailAction } from "../../redux/search_user/search_user.action";
+import { State } from "../../redux/store";
 
-const CreatePost = ({ onClose, isOpen, onOpen }) => {
+const CreatePost = ({
+  onClose,
+  isOpen,
+  onOpen,
+}: {
+  onClose: () => void;
+  isOpen: boolean;
+  onOpen: () => void;
+}) => {
   const [nextButtonClicked, setNextButtonClicked] = useState(false);
-  const { isAuth } = useSelector((state) => state.userReducer);
+  const { isAuth } = useSelector((state: State) => state.userReducer);
   const dispatch = useDispatch();
-  const [media, setMedia] = useState(null);
-  const [caption, setCaption] = useState(null);
-  const { login_user } = useSelector((store) => store.userReducer);
+  const [media, setMedia] = useState<string | null>(null);
+  const [caption, setCaption] = useState<string | null>(null);
+  const { login_user } = useSelector((store: State) => store.userReducer);
   console.log(isAuth);
   return (
     <Box>
@@ -43,14 +52,14 @@ const CreatePost = ({ onClose, isOpen, onOpen }) => {
             onClick={() => {
               if (isAuth && nextButtonClicked) {
                 const token = getCookie("insta_token");
-
                 media !== null &&
+                  login_user &&
                   dispatch(
                     createPost(
                       token,
                       { mediaUrl: media, caption },
                       login_user?._id
-                    )
+                    ) as any
                   );
 
                 onClose();
@@ -102,14 +111,16 @@ const CreatePost = ({ onClose, isOpen, onOpen }) => {
                   name="fileInput"
                   type="file"
                   onChange={(e) => {
-                    uploadImage(e.target.files[0])
-                      .then((downloadURL) => {
-                        setMedia(downloadURL);
-                        console.log(downloadURL);
-                      })
-                      .catch((err) => {
-                        console.log(err);
-                      });
+                    e.target.files &&
+                      e.target.files.length > 0 &&
+                      uploadImage(e.target.files[0])
+                        .then((downloadURL) => {
+                          setMedia(downloadURL);
+                          console.log(downloadURL);
+                        })
+                        .catch((err) => {
+                          console.log(err);
+                        });
                   }}
                 />
                 <Button

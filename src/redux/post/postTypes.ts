@@ -1,7 +1,7 @@
 export const GET_POSTS = "GET_POSTS";
 export const GET_POST = "GET_POST";
 
-interface IPost {
+export interface IPost {
   mediaUrl: string;
   caption?: String;
   authorId: string;

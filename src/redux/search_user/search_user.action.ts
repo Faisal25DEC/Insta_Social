@@ -10,7 +10,7 @@ import { baseUrl } from "../util";
 import { getCookie } from "../../utils/cookies";
 
 export const getUserAllDetailAction = (
-  id: any
+  id: string | null
 ): ThunkAction<void, {}, {}, Action<string>> => {
   return async (dispatch) => {
     console.log(id);

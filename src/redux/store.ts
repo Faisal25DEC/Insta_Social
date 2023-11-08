@@ -17,3 +17,5 @@ const rootReducer = combineReducers({
   searchUserReducer,
 });
 export const store = legacy_createStore(rootReducer, middleware);
+
+export type State = ReturnType<typeof rootReducer>;

@@ -22,6 +22,15 @@ export interface ILoginUser {
   bio: string;
 }
 
+export interface IInitialState {
+  isAuth: boolean;
+  error: boolean;
+  login_user: ILoginUser;
+  search_results: ILoginUser[];
+  login_following: ILoginUser[];
+  unfollowedUsers: ILoginUser[];
+}
+
 export interface ILoginUserAction {
   type: "GET_LOGIN_SUCCESS";
   payload: ILoginUser;

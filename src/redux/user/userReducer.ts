@@ -1,5 +1,7 @@
 import {
   GET_LOGIN_SUCCESS,
+  IInitialState,
+  ILoginUser,
   ILoginUserAction,
   ISearchUsersAction,
   ISignOutAction,
@@ -9,10 +11,10 @@ import {
   UNFOLLOWED_USERS,
 } from "./userType";
 
-const initialState = {
+const initialState: IInitialState = {
   isAuth: false,
   error: false,
-  login_user: {},
+  login_user: {} as ILoginUser,
   search_results: [],
   login_following: [],
   unfollowedUsers: [],

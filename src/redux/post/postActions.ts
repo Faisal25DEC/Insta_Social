@@ -1,8 +1,9 @@
 import axios from "axios";
 import { baseUrl, createAction } from "../util";
-import { GET_POSTS } from "./postTypes";
+import { GET_POSTS, IPost } from "./postTypes";
 import { getUserAllDetailAction } from "../search_user/search_user.action";
-import { Dispatch } from "redux";
+import { Action, Dispatch } from "redux";
+import { ThunkAction } from "redux-thunk";
 
 export const getPosts = () => async (dispatch: Dispatch) => {
   try {
@@ -16,7 +17,7 @@ export const getPosts = () => async (dispatch: Dispatch) => {
 export const createPost =
   (
     token: string,
-    payload: { mediaUrl: string; caption?: string },
+    payload: { mediaUrl: string; caption?: string | null },
     id: string
   ) =>
   async (dispatch: Dispatch) => {
