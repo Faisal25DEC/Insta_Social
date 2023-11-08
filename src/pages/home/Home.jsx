@@ -11,7 +11,7 @@ const Home = () => {
   useEffect(() => {
     // window.location.reload();
     dispatch(getPosts());
-  }, [posts]);
+  }, []);
   return (
     <Box
       width={"65%"}
