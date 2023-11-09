@@ -1,12 +1,14 @@
 import {
+  IComment,
+  ICommentsInitialState,
   IGetPostCommentsSuccess,
   POST_COMMENTS_FAILURE,
   POST_COMMENTS_LOADING,
   POST_COMMENTS_SUCCESS,
 } from "./commentTypes";
 
-const initialState = {
-  postComments: [],
+const initialState: ICommentsInitialState = {
+  postComments: [] as IComment[],
   postCommentsLoading: false,
   postCommentsError: false,
 };

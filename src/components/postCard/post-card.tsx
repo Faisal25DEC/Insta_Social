@@ -1,17 +1,15 @@
 import "./post-card.css";
 import { prettyNum } from "pretty-num";
+
 import {
   Avatar,
   Box,
-  Button,
-  ButtonGroup,
   Card,
   CardBody,
   CardFooter,
   CardHeader,
   Flex,
   Heading,
-  Icon,
   IconButton,
   Image,
   Input,
@@ -19,15 +17,19 @@ import {
   ModalBody,
   ModalCloseButton,
   ModalContent,
-  ModalFooter,
-  ModalHeader,
   ModalOverlay,
   Spacer,
   Text,
   VStack,
   useDisclosure,
 } from "@chakra-ui/react";
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+  LegacyRef,
+  RefObject,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import {
   FaBookmark,
   FaComment,
@@ -36,10 +38,7 @@ import {
   FaRegBookmark,
   FaRegComment,
   FaRegHeart,
-  FaSave,
-  FaThumbsUp,
 } from "react-icons/fa";
-import { uploadImage } from "../../utils/firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { likePost, unlikePost } from "../../redux/like/likeActions";
 import { getCookie } from "../../utils/cookies";
@@ -49,6 +48,9 @@ import { isLiked } from "../../utils/likes.utils";
 import { getUserDetails } from "../../redux/user/userAction";
 import { postComment } from "../../redux/comment/commentActions";
 import { Link } from "react-router-dom";
+import { IPost } from "../../redux/post/postTypes";
+import { State } from "../../redux/store";
+import { IComment } from "../../redux/comment/commentTypes";
 
 const PostCard = ({
   mediaUrl,
@@ -57,12 +59,12 @@ const PostCard = ({
   author,
   _id,
   authorId,
-}) => {
+}: IPost) => {
   const [commentInput, setCommentInput] = useState("");
 
   const [likeButtonClicked, setLikeButtonClicked] = useState(false);
 
-  const { login_user } = useSelector((state) => state.userReducer);
+  const { login_user } = useSelector((state: State) => state.userReducer);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -70,11 +72,16 @@ const PostCard = ({
 
   const [comments, setComments] = useState([]);
 
-  const commentRef = useRef();
+  const commentRef = useRef<HTMLInputElement | null>(null);
 
   const dispatch = useDispatch();
 
-  const [post, setPost] = useState({
+  const [post, setPost] = useState<{
+    image: string;
+    caption: string | null;
+    likes: string[];
+    comments: number;
+  }>({
     image: mediaUrl,
     caption: caption,
     likes: [],
@@ -86,7 +93,7 @@ const PostCard = ({
     id: authorId,
   });
 
-  const getPostComments = async (postId) => {
+  const getPostComments = async (postId: string) => {
     console.log(postId);
 
     try {
@@ -98,7 +105,7 @@ const PostCard = ({
     }
   };
 
-  const getPostLikes = async (postId) => {
+  const getPostLikes = async (postId: string) => {
     try {
       const res = await axios.get(`${baseUrl}/likes/${postId}`);
       console.log(res);
@@ -123,7 +130,7 @@ const PostCard = ({
     <Box>
       <Card maxW="md" m="auto">
         <CardHeader>
-          <Flex spacing="4" justifyContent={"space-between"}>
+          <Flex justifyContent={"space-between"}>
             <Link to={`/profile/${authorId}`}>
               <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
                 <Avatar name={userDetails.userName} src={userDetails.image} />
@@ -176,7 +183,7 @@ const PostCard = ({
                   className="reg-heart icon-size"
                   onClick={() => {
                     const token = getCookie("insta_token");
-                    dispatch(likePost(_id, token)).then((res) => {
+                    dispatch(likePost(_id, token) as any).then(() => {
                       getPostLikes(_id);
                     });
                   }}
@@ -188,7 +195,7 @@ const PostCard = ({
                   color="red"
                   onClick={() => {
                     const token = getCookie("insta_token");
-                    dispatch(unlikePost(_id, token)).then((res) => {
+                    dispatch(unlikePost(_id, token) as any).then(() => {
                       getPostLikes(_id);
                     });
                   }}
@@ -302,7 +309,7 @@ const PostCard = ({
                       height="67.5vh"
                       scrollBehavior={"smooth"}
                     >
-                      {comments?.map((comment, index) => {
+                      {comments?.map((comment: IComment, index) => {
                         return (
                           <Flex>
                             <Text display={"inline"} fontSize={"0.9rem"}>
@@ -331,7 +338,7 @@ const PostCard = ({
                           className="reg-heart icon-size"
                           onClick={() => {
                             const token = getCookie("insta_token");
-                            dispatch(likePost(_id, token)).then((res) => {
+                            dispatch(likePost(_id, token) as any).then(() => {
                               getPostLikes(_id);
                             });
                           }}
@@ -343,7 +350,7 @@ const PostCard = ({
                           color="red"
                           onClick={() => {
                             const token = getCookie("insta_token");
-                            dispatch(unlikePost(_id, token)).then((res) => {
+                            dispatch(unlikePost(_id, token) as any).then(() => {
                               getPostLikes(_id);
                             });
                           }}
@@ -352,7 +359,7 @@ const PostCard = ({
                       <FaRegComment
                         className="icon-size"
                         onClick={() => {
-                          commentRef.current.focus();
+                          commentRef.current && commentRef.current.focus();
                         }}
                       />
                     </Flex>
@@ -413,9 +420,11 @@ const PostCard = ({
                   />
                   <Text
                     onClick={() => {
-                      dispatch(postComment(commentInput, _id)).then((res) => {
-                        getPostComments(_id);
-                      });
+                      dispatch(postComment(commentInput, _id) as any).then(
+                        () => {
+                          getPostComments(_id);
+                        }
+                      );
                       setCommentInput("");
                     }}
                     fontWeight={"medium"}

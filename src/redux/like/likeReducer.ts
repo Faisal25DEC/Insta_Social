@@ -1,7 +1,7 @@
 import { GET_POST_LIKES, IGetLikesAction } from "./likeTypes";
 
-const initialState = {
-  likes: [],
+const initialState: { likes: string[] } = {
+  likes: [] as string[],
 };
 
 type Action = IGetLikesAction;
