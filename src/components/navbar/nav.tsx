@@ -4,11 +4,8 @@ import {
   Button,
   Drawer,
   DrawerBody,
-  DrawerFooter,
-  DrawerHeader,
   DrawerOverlay,
   DrawerContent,
-  DrawerCloseButton,
   Flex,
   Input,
   Link,
@@ -20,7 +17,6 @@ import {
   Tooltip,
   useDisclosure,
   Divider,
-  Center,
   FocusLock,
   WrapItem,
   Image,
@@ -39,18 +35,18 @@ import {
 
 import { AiFillHome } from "react-icons/ai";
 import { BiLogOut } from "react-icons/bi";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserDetails, searching } from "../../redux/user/userAction";
 import { SIGN_OUT } from "../../redux/user/userType";
 import CreatePost from "../create-post/create-post";
 import Cookies from "js-cookie";
+import { State } from "../../redux/store";
 
 const Sidebar = () => {
-  const { login_user } = useSelector((state) => state.userReducer);
-  const [state, setState] = useState(false);
+  const { login_user } = useSelector((state: State) => state.userReducer);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const btnRef = React.useRef();
+  const btnRef = React.useRef<HTMLAnchorElement | null>(null);
   const {
     isOpen: isOpen2,
     onClose: onClose2,
@@ -86,26 +82,24 @@ const Sidebar = () => {
     },
   ];
 
-  let time_id;
+  let time_id: NodeJS.Timeout;
   var dispatch = useDispatch();
-  var data = useSelector((state) => state.userReducer);
+  var data = useSelector((state: State) => state.userReducer);
   console.log(data);
   console.log("data", data.search_results);
-  const OnSearch = (value) => {
+  const OnSearch = (value: string) => {
     if (time_id) {
       clearTimeout(time_id);
     }
     time_id = setTimeout(() => {
-      dispatch(searching(value));
+      dispatch(searching(value) as any);
     }, 500);
   };
   useEffect(() => {
     const token = Cookies.get("insta_token");
 
-    
-
     if (token) {
-      dispatch(getUserDetails(token));
+      dispatch(getUserDetails(token) as any);
     }
   }, []);
 
@@ -126,7 +120,6 @@ const Sidebar = () => {
         isOpen={isOpen}
         placement="left"
         onClose={onClose}
-        finalFocusRef={btnRef}
       >
         <DrawerOverlay />
         <DrawerContent>
@@ -188,7 +181,9 @@ const Sidebar = () => {
                                 base: "center",
                                 md: "flex-start",
                               }}
-                              onClick={item.text === "Search" && onClose}
+                              onClick={() => {
+                                item.text === "Search" && onClose();
+                              }}
                             >
                               {item.icon}
                             </Link>
@@ -271,12 +266,11 @@ const Sidebar = () => {
                 <Text ml={"20px"} mt="15px" fontSize={"25px"}>
                   Search
                 </Text>
-                <FocusLock returnFocus persistentFocus={true}>
+                <FocusLock persistentFocus={true}>
                   <Input
                     onChange={(e) => OnSearch(e.target.value)}
                     focusBorderColor="#d3d3d3"
                     width={{ base: "100%", sm: "340px" }}
-                    _focus={true}
                     mt="28px"
                     ml="15px"
                     variant="filled"
