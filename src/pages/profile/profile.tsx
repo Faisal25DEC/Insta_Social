@@ -91,7 +91,7 @@ const Profile = () => {
   console.log(userId);
   useEffect(() => {
     dispatch({ type: USER_ALL_LOADING_TRUE });
-    dispatch(getUserAllDetailAction(userId) as any);
+    userId && dispatch(getUserAllDetailAction(userId) as any);
     dispatch(getLoginUserFollowing(login_user._id) as any);
     // dispatch({ type: USER_ALL_LOADING_FALSE });
   }, [userId]);
