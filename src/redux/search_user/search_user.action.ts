@@ -39,7 +39,7 @@ export const getUserAllDetailAction = (
 export const onFollowAction = (
   _id: string,
   loginUserId: string,
-  searchUserId: any
+  searchUserId?: any
 ): ThunkAction<void, {}, {}, Action<string>> => {
   return async (dispatch) => {
     const token: string = getCookie("insta_token");
@@ -71,7 +71,7 @@ export const onFollowAction = (
 export const onUnFollowAction = (
   _id: string,
   loginUserId: string,
-  searchUserId: any
+  searchUserId?: any
 ): ThunkAction<void, {}, {}, Action<string>> => {
   return async (dispatch) => {
     const token: string = getCookie("insta_token");

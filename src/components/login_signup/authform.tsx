@@ -30,12 +30,12 @@ const AuthForm = () => {
 
     setTimeout(() => {
       if (isLogin) {
-        dispatch(SigningIn(inputs));
+        dispatch(SigningIn(inputs) as any);
 
         setLoading(false);
         // window.location.href = "/";
       } else {
-        dispatch(SigningUp(inputs));
+        dispatch(SigningUp(inputs) as any);
         setLoading(false);
         setIsLogin(true);
       }

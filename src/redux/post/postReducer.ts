@@ -1,8 +1,8 @@
-import { GET_POSTS, IGetPostAction, IGetPostsAction } from "./postTypes";
+import { GET_POSTS, IGetPostAction, IGetPostsAction, IPost } from "./postTypes";
 
-const initialState = {
-  posts: [],
-  post: null,
+const initialState: { posts: IPost[]; post: IPost } = {
+  posts: [] as IPost[],
+  post: {} as IPost,
 };
 
 type Action = IGetPostsAction | IGetPostAction;

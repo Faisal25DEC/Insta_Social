@@ -9,19 +9,20 @@ import {
   onFollowAction,
   onUnFollowAction,
 } from "../../redux/search_user/search_user.action";
+import { State } from "../../redux/store";
 
 const UnfollowedUsers = () => {
-  const { unfollowedUsers } = useSelector((state) => state.userReducer);
-  const { login_user } = useSelector((state) => state.userReducer);
+  const { unfollowedUsers } = useSelector((state:State) => state.userReducer);
+  const { login_user } = useSelector((state:State) => state.userReducer);
   const { loginUserFollowing: following } = useSelector(
-    (state) => state.searchUserReducer
+    (state:State) => state.searchUserReducer
   );
   const dispatch = useDispatch();
 
   useEffect(() => {
     const token = getCookie("insta_token");
     if (token) {
-      dispatch(getUnfollowedUsers(token));
+      dispatch(getUnfollowedUsers(token) as any);
       console.log(unfollowedUsers);
     }
   }, []);
@@ -77,9 +78,9 @@ const UnfollowedUsers = () => {
                 cursor="pointer"
                 onClick={() => {
                   if (isFollowing(following, users._id)) {
-                    dispatch(onUnFollowAction(users._id, login_user?._id));
+                    dispatch(onUnFollowAction(users._id, login_user?._id) as any);
                   } else {
-                    dispatch(onFollowAction(users._id, login_user?._id));
+                    dispatch(onFollowAction(users._id, login_user?._id) as any);
                   }
                 }}
               >
