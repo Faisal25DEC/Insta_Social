@@ -49,6 +49,7 @@ const PostModal = ({
   caption,
   author,
   authorImage,
+
   _id,
 }: IPostModal) => {
   const [comments, setComments] = useState([]);

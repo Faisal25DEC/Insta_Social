@@ -6,5 +6,5 @@ export const createAction = (type: string, payload?: State) => {
     payload,
   };
 };
-
+export const localBaseUrl = "http://localhost:8080";
 export const baseUrl = process.env.REACT_APP_BASE_URL;
