@@ -2,41 +2,25 @@ import { prettyNum } from "pretty-num";
 import {
   Avatar,
   Box,
-  Button,
-  ButtonGroup,
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
   Flex,
-  Heading,
-  Icon,
-  IconButton,
   Image,
   Input,
   Modal,
   ModalBody,
   ModalCloseButton,
   ModalContent,
-  ModalFooter,
-  ModalHeader,
   ModalOverlay,
   Spacer,
   Text,
   VStack,
-  useDisclosure,
 } from "@chakra-ui/react";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   FaBookmark,
-  FaComment,
-  FaDotCircle,
   FaHeart,
   FaRegBookmark,
   FaRegComment,
   FaRegHeart,
-  FaSave,
-  FaThumbsUp,
 } from "react-icons/fa";
 import { baseUrl } from "../../redux/util";
 import axios from "axios";
@@ -47,6 +31,16 @@ import { getCookie } from "../../utils/cookies";
 import { postComment } from "../../redux/comment/commentActions";
 import { getUserDetails } from "../../redux/user/userAction";
 import "../../components/postCard/post-card.css";
+import { IComment } from "../../redux/comment/commentTypes";
+import { State } from "../../redux/store";
+import { IPost } from "../../redux/post/postTypes";
+
+interface IPostModal extends IPost {
+  onClose: () => void;
+  isOpen: boolean;
+  onOpen: () => void;
+}
+
 const PostModal = ({
   onClose,
   isOpen,
@@ -56,12 +50,17 @@ const PostModal = ({
   author,
   authorImage,
   _id,
-}) => {
+}: IPostModal) => {
   const [comments, setComments] = useState([]);
 
   const [saveButtonClicked, setSaveButtonClicked] = useState(false);
   const [commentInput, setCommentInput] = useState("");
-  const [post, setPost] = useState({
+  const [post, setPost] = useState<{
+    image: string;
+    caption: string | null;
+    likes: string[];
+    comments: number;
+  }>({
     image: mediaUrl,
     caption: caption,
     likes: [],
@@ -72,13 +71,13 @@ const PostModal = ({
     image: authorImage,
   });
 
-  const { login_user } = useSelector((state) => state.userReducer);
+  const { login_user } = useSelector((state: State) => state.userReducer);
 
-  const commentRef = useRef();
+  const commentRef = useRef<HTMLInputElement | null>(null);
 
   const dispatch = useDispatch();
 
-  const getPostComments = async (postId) => {
+  const getPostComments = async (postId: string) => {
     console.log(postId);
 
     try {
@@ -89,8 +88,7 @@ const PostModal = ({
       console.log(err);
     }
   };
-
-  const getPostLikes = async (postId) => {
+  const getPostLikes = async (postId: string) => {
     try {
       const res = await axios.get(`${baseUrl}/likes/${postId}`);
       console.log(res);
@@ -110,7 +108,7 @@ const PostModal = ({
     if (token) {
       getUserDetails(token);
     }
-  }, []);
+  }, [_id]);
 
   return (
     <Modal
@@ -172,7 +170,7 @@ const PostModal = ({
                     height="70vh"
                     scrollBehavior={"smooth"}
                   >
-                    {comments?.map((comment, index) => {
+                    {comments?.map((comment: IComment, index) => {
                       return (
                         <Flex>
                           <Text display={"inline"} fontSize={"0.9rem"}>
@@ -200,7 +198,7 @@ const PostModal = ({
                         className="reg-heart icon-size"
                         onClick={() => {
                           const token = getCookie("insta_token");
-                          dispatch(likePost(_id, token)).then((res) => {
+                          dispatch(likePost(_id, token) as any).then(() => {
                             getPostLikes(_id);
                           });
                         }}
@@ -212,7 +210,7 @@ const PostModal = ({
                         color="red"
                         onClick={() => {
                           const token = getCookie("insta_token");
-                          dispatch(unlikePost(_id, token)).then((res) => {
+                          dispatch(unlikePost(_id, token) as any).then(() => {
                             getPostLikes(_id);
                           });
                         }}
@@ -221,7 +219,7 @@ const PostModal = ({
                     <FaRegComment
                       className="icon-size"
                       onClick={() => {
-                        commentRef.current.focus();
+                        commentRef.current && commentRef.current.focus();
                       }}
                     />
                   </Flex>
@@ -281,7 +279,7 @@ const PostModal = ({
                 />
                 <Text
                   onClick={() => {
-                    dispatch(postComment(commentInput, _id)).then((res) => {
+                    dispatch(postComment(commentInput, _id) as any).then(() => {
                       getPostComments(_id);
                     });
                     setCommentInput("");
