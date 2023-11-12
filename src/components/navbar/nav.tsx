@@ -28,6 +28,7 @@ import {
   InstagramLogo,
   InstagramMobileLogo,
   Loggin,
+  MessageLogo,
   MoreLogo,
   NotificationsLogo,
   SearchLogo,
@@ -42,6 +43,7 @@ import { SIGN_OUT } from "../../redux/user/userType";
 import CreatePost from "../create-post/create-post";
 import Cookies from "js-cookie";
 import { State } from "../../redux/store";
+import { MessageButton } from "../../pages/profile/allbutton";
 
 const Sidebar = () => {
   const { login_user } = useSelector((state: State) => state.userReducer);
@@ -80,6 +82,11 @@ const Sidebar = () => {
       icon: <ExploreLogo />,
       text: "Explore",
     },
+    {
+      icon : <MessageLogo />,
+      link:'/messages',
+      text: "Message",
+    }
   ];
 
   let time_id: NodeJS.Timeout;
