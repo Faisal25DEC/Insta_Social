@@ -61,7 +61,11 @@ const CreatePost = ({
                       login_user?._id
                     ) as any
                   );
-
+                setTimeout(() => {
+                  setMedia(null);
+                  setCaption("");
+                  setNextButtonClicked(false);
+                }, 500);
                 onClose();
               } else {
                 setNextButtonClicked(true);
