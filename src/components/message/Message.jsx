@@ -1,4 +1,5 @@
 import { Avatar, Box, Flex, Text } from "@chakra-ui/react";
+import { format } from "timeago.js";
 
 const Message = ({ message, own }) => {
   return (
@@ -29,7 +30,7 @@ const Message = ({ message, own }) => {
             >
               {message.text}
             </Text>
-            <Text>1 hour ago</Text>
+            <Text>{format(message.createdAt)}</Text>
           </Box>
         </Flex>
       </Flex>
