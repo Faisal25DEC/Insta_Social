@@ -121,11 +121,11 @@ const ProfileCard = ({ isSameUser, onOpen }: ProfileCardProps) => {
               <Text>{userName}</Text>
               <Box display="flex" gap="3" alignItems="center">
                 {isSameUser ? (
-                  <EditProfileButton onOpen={onOpen} />
+                  <EditProfileButton onOpen={onOpen}  />
                 ) : (
                   <FollowButton _id={searchUserId} />
                 )}
-                {isSameUser ? <ViewArchiveButton /> : <MessageButton />}
+                  {isSameUser ? <ViewArchiveButton /> : <MessageButton _id={ searchUserId} />}
 
                 {isSameUser ? (
                   <SettingPopUp

@@ -79,11 +79,11 @@ const PostModal = ({
   const dispatch = useDispatch();
 
   const getPostComments = async (postId: string) => {
-    console.log(postId);
+    // console.log(postId);
 
     try {
       const res = await axios.get(`${baseUrl}/comments/${postId}`);
-      console.log(res.data);
+      // console.log(res.data);
       setComments(res.data);
     } catch (err) {
       console.log(err);
@@ -92,7 +92,7 @@ const PostModal = ({
   const getPostLikes = async (postId: string) => {
     try {
       const res = await axios.get(`${baseUrl}/likes/${postId}`);
-      console.log(res);
+      // console.log(res);
       setPost({
         ...post,
         likes: [...res.data],

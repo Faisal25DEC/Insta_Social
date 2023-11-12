@@ -35,6 +35,7 @@ const UserSmallCard: React.FC<userObj> = ({
       <HStack align="center">
         <Link to={`/profile/${_id}`} onClick={onClose} as={ReactRouterLink}>
           <Image
+            objectFit={'cover'}
             src={profileImage}
             w="2.5rem"
             maxH="2.5rem"

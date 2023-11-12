@@ -1,7 +1,9 @@
-import { Button } from "@chakra-ui/react";
+import { Button, Link } from "@chakra-ui/react";
 import axios from "axios";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link as ReactRouterLink } from "react-router-dom";
+
 import {
   getLoginUserFollowing,
   getUserAllDetailAction,
@@ -11,6 +13,9 @@ import {
 import { useParams } from "react-router-dom";
 // import Cookies from "js-cookie";
 interface FollowBtnProps {
+  _id: any;
+}
+interface MessageBtnProps {
   _id: any;
 }
 interface RootState {
@@ -53,21 +58,21 @@ export const FollowButton: React.FC<FollowBtnProps> = ({ _id }) => {
     (state: loginUserObject) => state.userReducer
   );
   const dispatch = useDispatch();
-  const { userId : searchUserId } = useParams();
+  const { userId: searchUserId } = useParams();
 
   const { loginUserFollowing } = useSelector(
     (store: RootState) => store.searchUserReducer
   );
 
   const onFollow = async () => {
-    dispatch(onFollowAction(_id, login_user._id,searchUserId) as any);
+    dispatch(onFollowAction(_id, login_user._id, searchUserId) as any);
     // dispatch(getLoginUserFollowing(login_user._id) as any);
     // dispatch(getUserAllDetailAction(userId) as any);
   };
   console.log("LOGIN USER FOLLOWING", loginUserFollowing);
   console.log(login_user._id);
   const onUnFollow = () => {
-    dispatch(onUnFollowAction(_id, login_user._id,searchUserId) as any);
+    dispatch(onUnFollowAction(_id, login_user._id, searchUserId) as any);
   };
   if (login_user._id == _id) {
     return <></>;
@@ -123,10 +128,15 @@ export const ViewArchiveButton = () => {
     </Button>
   );
 };
-export const MessageButton = () => {
+export const MessageButton :  React.FC<MessageBtnProps> = ({_id}) => {
   return (
-    <Button size="sm" fontSize="sm" borderColor="green.800" borderRadius="lg">
-      Message
-    </Button>
+    <Link
+      as={ReactRouterLink}
+      to='/messages'
+    >
+      <Button size="sm" fontSize="sm" borderColor="green.800" borderRadius="lg">
+        Message
+      </Button>
+    </Link>
   );
 };

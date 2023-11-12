@@ -13,6 +13,7 @@ import { useEffect, useRef, useState } from "react";
 import { localBaseUrl } from "../../redux/util";
 import { io } from "socket.io-client";
 import axios from "axios";
+import { calcLength } from "framer-motion";
 
 const MessageTop = ({
   messages,
@@ -40,9 +41,9 @@ const MessageTop = ({
       text: newMessage,
     });
     try {
+      setNewMessage("");
       const res = await axios.post(`${localBaseUrl}/messages`, message);
       setMessages([...messages, res.data]);
-      setNewMessage("");
     } catch (err) {
       console.log(err);
     }
@@ -114,6 +115,13 @@ const MessageTop = ({
 
       <Flex h="6.5vh">
         <Input
+          onKeyDown={(e) => {
+            
+            if (e.key === 'Enter') {
+            handleSubmit()
+              
+            }
+          }}
           onChange={(e) => setNewMessage(e.target.value)}
           value={newMessage}
         />
