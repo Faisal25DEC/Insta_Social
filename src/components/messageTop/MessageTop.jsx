@@ -33,7 +33,7 @@ const MessageTop = ({
     const receiverId = conversation.members.find(
       (member) => member !== currentUser._id
     );
-    socket.current.emit("sendMessage", {
+    socket?.current.emit("sendMessage", {
       senderId: currentUser._id,
       senderImage: currentUser.profileImage,
       receiverId,

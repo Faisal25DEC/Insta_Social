@@ -113,7 +113,7 @@ const Messages = () => {
 
   return (
     <Flex h={"100vh"} w="85%" marginLeft={"auto"}>
-      <Box flex={"3.5"} borderRight={"solid 1px gray"} pt="5%">
+      <Box flex={"3.5"} borderRight={"solid 1px gray"} pt="5%" h="20vh">
         <Flex
           justifyContent={"space-between"}
           borderBottom={"solid 1px gray"}
@@ -132,7 +132,7 @@ const Messages = () => {
             onClick={onOpen}
           />
         </Flex>
-        <Box>
+        <Box overflow={"scroll"} overflowX="hidden" height={"78vh"}>
           {conversations?.map((conversation) => {
             return (
               <Box onClick={() => setCurrentChat(conversation)}>
