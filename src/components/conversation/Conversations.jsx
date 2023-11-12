@@ -8,7 +8,7 @@ const Conversation = ({ conversation, currentUser }) => {
 
   useEffect(() => {
     const getUser = async () => {
-      const userId = conversation.members.find(
+      const userId = conversation?.members.find(
         (ele) => ele !== currentUser._id
       );
       try {

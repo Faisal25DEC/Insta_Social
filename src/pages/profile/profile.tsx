@@ -104,11 +104,11 @@ const Profile = () => {
   return (
     <>
       <Flex w="100%">
-        <Box
+        {/* <Box
         // w="20%"
         >
           <Sidebar />
-        </Box>
+        </Box> */}
 
         <Spacer />
         <Container

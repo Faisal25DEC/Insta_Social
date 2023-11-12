@@ -92,8 +92,9 @@ const MessageTop = ({
           <Image
             src={user?.profileImage}
             borderRadius="full"
-            w="9rem"
-            h="9rem"
+            w="7rem"
+            h="7rem"
+            objectFit={"cover"}
           />
           <Heading>{user?.userName}</Heading>
         </Box>
