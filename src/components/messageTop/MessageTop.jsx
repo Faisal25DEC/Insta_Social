@@ -42,7 +42,8 @@ const MessageTop = ({
     });
     try {
       setNewMessage("");
-      const res = await axios.post(`${baseUrl}/messages`, message);
+      // const res = await axios.post(`${baseUrl}/messages`, message);
+      const res = await axios.post("https://instagram-backend-2-production.up.railway.app/messages", message);
       setMessages([...messages, res.data]);
     } catch (err) {
       console.log(err);
@@ -55,7 +56,8 @@ const MessageTop = ({
         (ele) => ele !== currentUser._id
       );
       try {
-        const res = await axios.get(`${baseUrl}/users/single/${userId}`);
+        // const res = await axios.get(`${baseUrl}/users/single/${userId}`);
+        const res = await axios.get(`https://instagram-backend-2-production.up.railway.app/users/single/${userId}`);
         console.log(res.data);
         setUser(res.data);
       } catch (err) {
