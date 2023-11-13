@@ -1,6 +1,6 @@
 import { Button, Link } from "@chakra-ui/react";
 import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link as ReactRouterLink } from "react-router-dom";
 
@@ -54,6 +54,8 @@ interface RouteParams {
 }
 
 export const FollowButton: React.FC<FollowBtnProps> = ({ _id }) => {
+  const [loading, setLoading] = useState(false);
+
   const { login_user } = useSelector(
     (state: loginUserObject) => state.userReducer
   );
@@ -65,14 +67,18 @@ export const FollowButton: React.FC<FollowBtnProps> = ({ _id }) => {
   );
 
   const onFollow = async () => {
-    dispatch(onFollowAction(_id, login_user._id, searchUserId) as any);
-    // dispatch(getLoginUserFollowing(login_user._id) as any);
-    // dispatch(getUserAllDetailAction(userId) as any);
+    setLoading(true)
+    await dispatch(onFollowAction(_id, login_user._id, searchUserId) as any);
+    setLoading(false)
+
   };
   console.log("LOGIN USER FOLLOWING", loginUserFollowing);
   console.log(login_user._id);
-  const onUnFollow = () => {
-    dispatch(onUnFollowAction(_id, login_user._id, searchUserId) as any);
+  const onUnFollow = async () => {
+    setLoading(true)
+    await dispatch(onUnFollowAction(_id, login_user._id, searchUserId) as any);
+    setLoading(false)
+
   };
   if (login_user._id == _id) {
     return <></>;
@@ -87,6 +93,8 @@ export const FollowButton: React.FC<FollowBtnProps> = ({ _id }) => {
         fontSize="sm"
         borderColor="green.800"
         borderRadius="lg"
+      isLoading={loading}
+
       >
         Following
       </Button>
@@ -102,6 +110,7 @@ export const FollowButton: React.FC<FollowBtnProps> = ({ _id }) => {
       fontSize="sm"
       borderColor="green.800"
       borderRadius="lg"
+      isLoading={loading}
     >
       Follow
     </Button>
@@ -130,13 +139,10 @@ export const ViewArchiveButton = () => {
 };
 export const MessageButton :  React.FC<MessageBtnProps> = ({_id}) => {
   return (
-    <Link
-      as={ReactRouterLink}
-      to='/messages'
-    >
+    
       <Button size="sm" fontSize="sm" borderColor="green.800" borderRadius="lg">
         Message
       </Button>
-    </Link>
+    
   );
 };
