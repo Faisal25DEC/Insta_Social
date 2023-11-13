@@ -1,7 +1,7 @@
 import { Avatar, Box, Flex, Text } from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { localBaseUrl } from "../../redux/util";
+import { baseUrl, localBaseUrl } from "../../redux/util";
 
 const Conversation = ({ conversation, currentUser }) => {
   const [user, setUser] = useState(null);
@@ -12,7 +12,7 @@ const Conversation = ({ conversation, currentUser }) => {
         (ele) => ele !== currentUser._id
       );
       try {
-        const res = await axios.get(`${localBaseUrl}/users/single/${userId}`);
+        const res = await axios.get(`${baseUrl}/users/single/${userId}`);
         console.log(res.data);
         setUser(res.data);
       } catch (err) {

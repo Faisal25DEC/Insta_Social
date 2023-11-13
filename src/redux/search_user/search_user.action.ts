@@ -60,6 +60,7 @@ export const onFollowAction = (
       );
       console.log(response);
       dispatch(getLoginUserFollowing(loginUserId) as any);
+
       if (searchUserId) {
         dispatch(getUserAllDetailAction(searchUserId) as any);
       }
@@ -86,7 +87,9 @@ export const onUnFollowAction = (
       const response = await axios.delete(`${baseUrl}/followers/${_id}`, {
         headers: header,
       });
+
       dispatch(getLoginUserFollowing(loginUserId) as any);
+
       if (searchUserId) {
         dispatch(getUserAllDetailAction(searchUserId) as any);
       }

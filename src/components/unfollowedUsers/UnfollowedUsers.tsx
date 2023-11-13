@@ -1,5 +1,5 @@
-import { Avatar, Box, Flex, Heading, Text } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import { Avatar, Box, Flex, Heading, Image, Text } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCookie } from "../../utils/cookies";
 import { getUnfollowedUsers } from "../../redux/user/userAction";
@@ -12,6 +12,9 @@ import {
 import { State } from "../../redux/store";
 
 const UnfollowedUsers = () => {
+  const [followButtonLoading, setFollowButtonLoading] = useState<number | null>(
+    null
+  );
   const { unfollowedUsers } = useSelector((state: State) => state.userReducer);
   const { login_user } = useSelector((state: State) => state.userReducer);
   const { loginUserFollowing: following } = useSelector(
@@ -78,15 +81,29 @@ const UnfollowedUsers = () => {
                 cursor="pointer"
                 onClick={() => {
                   if (isFollowing(following, users._id)) {
+                    setFollowButtonLoading(index);
                     dispatch(
                       onUnFollowAction(users._id, login_user?._id) as any
                     );
+                    setTimeout(() => {
+                      setFollowButtonLoading(null);
+                    }, 1200);
                   } else {
+                    setFollowButtonLoading(index);
                     dispatch(onFollowAction(users._id, login_user?._id) as any);
+                    setTimeout(() => {
+                      setFollowButtonLoading(null);
+                    }, 1200);
                   }
                 }}
               >
-                {isFollowing(following, users._id) ? "Following" : "Follow"}
+                {followButtonLoading === index ? (
+                  <Image src="https://i.gifer.com/ZKZg.gif" w="15px" h="15px" />
+                ) : isFollowing(following, users._id) ? (
+                  "Following"
+                ) : (
+                  "Follow"
+                )}
               </Text>
             </Flex>
           );

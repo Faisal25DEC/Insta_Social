@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import Message from "../message/Message";
 import { useEffect, useRef, useState } from "react";
-import { localBaseUrl } from "../../redux/util";
+import { baseUrl } from "../../redux/util";
 import { io } from "socket.io-client";
 import axios from "axios";
 import { calcLength } from "framer-motion";
@@ -42,7 +42,7 @@ const MessageTop = ({
     });
     try {
       setNewMessage("");
-      const res = await axios.post(`${localBaseUrl}/messages`, message);
+      const res = await axios.post(`${baseUrl}/messages`, message);
       setMessages([...messages, res.data]);
     } catch (err) {
       console.log(err);
@@ -55,7 +55,7 @@ const MessageTop = ({
         (ele) => ele !== currentUser._id
       );
       try {
-        const res = await axios.get(`${localBaseUrl}/users/single/${userId}`);
+        const res = await axios.get(`${baseUrl}/users/single/${userId}`);
         console.log(res.data);
         setUser(res.data);
       } catch (err) {
@@ -116,10 +116,8 @@ const MessageTop = ({
       <Flex h="6.5vh">
         <Input
           onKeyDown={(e) => {
-            
-            if (e.key === 'Enter') {
-            handleSubmit()
-              
+            if (e.key === "Enter") {
+              handleSubmit();
             }
           }}
           onChange={(e) => setNewMessage(e.target.value)}

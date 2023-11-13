@@ -21,7 +21,7 @@ import Conversation from "../../components/conversation/Conversations";
 import MessageTop from "../../components/messageTop/MessageTop";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
-import { localBaseUrl } from "../../redux/util";
+import { baseUrl, localBaseUrl } from "../../redux/util";
 import { io } from "socket.io-client";
 import { searching } from "../../redux/user/userAction";
 import ConversationIcon from "../../assets/conversation.png";
@@ -51,7 +51,7 @@ const Messages = () => {
 
   const createConversation = async (receiverId) => {
     try {
-      const res = await axios.post(`${localBaseUrl}/conversations`, {
+      const res = await axios.post(`${baseUrl}/conversations`, {
         senderId: login_user._id,
         receiverId,
       });
@@ -63,7 +63,7 @@ const Messages = () => {
   };
 
   useEffect(() => {
-    socket.current = io("ws://instagram-backend-2-production.up.railway.app");
+    socket.current = io("wss://instagram-backend-2-production.up.railway.app");
     socket.current.on("getMessage", (data) => {
       setArrivalMessage({
         sender: data.senderId,
@@ -87,7 +87,7 @@ const Messages = () => {
     const getConversations = async () => {
       try {
         const res = await axios.get(
-          `${localBaseUrl}/conversations/${login_user?._id}`
+          `${baseUrl}/conversations/${login_user?._id}`
         );
         setConversations(res.data);
       } catch (err) {
@@ -100,9 +100,7 @@ const Messages = () => {
   useEffect(() => {
     const getMessages = async () => {
       try {
-        const res = await axios.get(
-          `${localBaseUrl}/messages/${currentChat?._id}`
-        );
+        const res = await axios.get(`${baseUrl}/messages/${currentChat?._id}`);
         setMessages(res.data);
       } catch (err) {
         console.log(err);
