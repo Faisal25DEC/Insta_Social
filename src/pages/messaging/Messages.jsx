@@ -15,7 +15,9 @@ import {
   Input,
   Avatar,
   Image,
+  useMediaQuery,
 } from "@chakra-ui/react";
+import "./messages.css";
 import { useDispatch, useSelector } from "react-redux";
 import Conversation from "../../components/conversation/Conversations";
 import MessageTop from "../../components/messageTop/MessageTop";
@@ -37,6 +39,7 @@ const Messages = () => {
   const [arrivalMessage, setArrivalMessage] = useState({});
   const socket = useRef();
   const dispatch = useDispatch();
+  const [isLargerThan800] = useMediaQuery("(min-width: 800px)");
 
   let time_id;
 
@@ -111,63 +114,77 @@ const Messages = () => {
 
   return (
     <Flex h={"100vh"} w="85%" marginLeft={"auto"}>
-      <Box flex={"3.5"} borderRight={"solid 1px gray"} pt="5%" h="20vh">
-        <Flex
-          justifyContent={"space-between"}
-          borderBottom={"solid 1px gray"}
-          p={"0rem 2rem"}
-          alignItems={"center"}
+      {
+        <Box
+          display={isLargerThan800 ? "block" : currentChat ? "none" : "block"}
+          flex={{ lg: "3.5", base: "12" }}
+          borderRight={"solid 1px gray"}
+          pt="5%"
+          h="20vh"
         >
-          <Box pb="1rem">
-            <Heading>{login_user.userName}</Heading>
-            <Text color="gray">Conversations</Text>
+          <Flex
+            justifyContent={"space-between"}
+            borderBottom={"solid 1px gray"}
+            p={"0rem 2rem"}
+            alignItems={"center"}
+          >
+            <Box pb="1rem">
+              <Heading>{login_user.userName}</Heading>
+              <Text color="gray">Conversations</Text>
+            </Box>
+            <Image
+              src={ConversationIcon}
+              cursor={"pointer"}
+              _hover={{ opacity: 0.5 }}
+              w="1.75rem"
+              h="1.75rem"
+              mb="1rem"
+              onClick={onOpen}
+            />
+          </Flex>
+          <Box overflow={"scroll"} overflowX="hidden" height={"78vh"}>
+            {conversations?.map((conversation) => {
+              return (
+                <Box onClick={() => setCurrentChat(conversation)}>
+                  <Conversation
+                    conversation={conversation}
+                    currentUser={login_user}
+                  />
+                </Box>
+              );
+            })}
           </Box>
-          <Image
-            src={ConversationIcon}
-            w="1.75rem"
-            h="1.75rem"
-            mb="1rem"
-            onClick={onOpen}
-          />
-        </Flex>
-        <Box overflow={"scroll"} overflowX="hidden" height={"78vh"}>
-          {conversations?.map((conversation) => {
-            return (
-              <Box onClick={() => setCurrentChat(conversation)}>
-                <Conversation
-                  conversation={conversation}
-                  currentUser={login_user}
-                />
-              </Box>
-            );
-          })}
         </Box>
-      </Box>
+      }
+
       {currentChat ? (
         <Box flex={"8.5"}>
           <MessageTop
             conversation={currentChat}
             messages={messages}
+            setCurrentChat={setCurrentChat}
             setMessages={setMessages}
             currentUser={login_user}
             socket={socket}
           />
         </Box>
       ) : (
-        <Box
-          flex={"8.5"}
-          display={"flex"}
-          justifyContent={"center"}
-          alignItems="center"
-        >
-          <Button colorScheme="blue" onClick={onOpen}>
-            Start a conversation
-          </Button>
-        </Box>
+        isLargerThan800 && (
+          <Box
+            flex={"8.5"}
+            display={"flex"}
+            justifyContent={"center"}
+            alignItems="center"
+          >
+            <Button colorScheme="blue" onClick={onOpen}>
+              Start a conversation
+            </Button>
+          </Box>
+        )
       )}
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
-        <ModalContent maxW={"40%"} minW={"35%"}>
+        <ModalContent maxW={{ base: "80%", md: "60%", lg: "40%" }} minW={"35%"}>
           <ModalHeader>Search For Users</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
@@ -175,7 +192,12 @@ const Messages = () => {
               placeholder="Search for Users"
               onChange={(e) => OnSearch(e.target.value)}
             />
-            <Box h="35vh" overflow={"scroll"} overflowX={"hidden"}>
+            <Box
+              h="35vh"
+              overflow={"scroll"}
+              overflowX={"hidden"}
+              className="hide-scroll-bar"
+            >
               {search_results?.map(
                 (ele, idx) =>
                   ele._id !== login_user._id && (

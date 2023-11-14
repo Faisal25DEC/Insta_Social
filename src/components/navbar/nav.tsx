@@ -83,10 +83,10 @@ const Sidebar = () => {
       text: "Explore",
     },
     {
-      icon : <MessageLogo />,
-      link:'/messages',
+      icon: <MessageLogo />,
+      link: "/messages",
       text: "Message",
-    }
+    },
   ];
 
   let time_id: NodeJS.Timeout;
@@ -112,14 +112,15 @@ const Sidebar = () => {
 
   return (
     <Box
-      w={"15%"}
+      w={{ base: "max-content", md: "max-content" }}
       height={"100vh"}
-      borderRight={"1px solid gray"}
+      borderRight={"1px solid #ececec"}
       py={8}
       position={"fixed"}
       top={0}
       left={0}
-      px={{ base: 2, md: 4 }}
+      pr={{ base: 4, md: 8 }}
+      pl={{ base: 4, md: 8 }}
     >
       <Drawer
         size={{ base: "full", sm: "sm" }}

@@ -4,6 +4,7 @@ import { prettyNum } from "pretty-num";
 import {
   Avatar,
   Box,
+  Button,
   Card,
   CardBody,
   CardFooter,
@@ -60,6 +61,7 @@ const PostCard = ({
   _id,
   authorId,
 }: IPost) => {
+  const [likeLoading, setLikeLoading] = useState(false);
   const [commentInput, setCommentInput] = useState("");
 
   const [likeButtonClicked, setLikeButtonClicked] = useState(false);
@@ -127,8 +129,8 @@ const PostCard = ({
   }, []);
   console.log(post.likes);
   return (
-    <Box>
-      <Card maxW="md" m="auto">
+    <Box p={{ base: "1rem" }} margin={"auto"}>
+      <Card maxW={{ base: "100%", md: "80%" }} m="auto">
         <CardHeader>
           <Flex justifyContent={"space-between"}>
             <Link to={`/profile/${authorId}`}>
@@ -179,27 +181,37 @@ const PostCard = ({
           <Flex width="100%" mb="1rem">
             <Flex gap="1rem">
               {!isLiked(post.likes, login_user._id) ? (
-                <FaRegHeart
-                  className="reg-heart icon-size"
+                <button
+                  disabled={likeLoading}
                   onClick={() => {
                     const token = getCookie("insta_token");
+                    setLikeLoading(true);
                     dispatch(likePost(_id, token) as any).then(() => {
+                      setLikeLoading(false);
                       getPostLikes(_id);
                     });
                   }}
-                />
+                >
+                  <FaRegHeart className="reg-heart icon-size" />
+                </button>
               ) : (
-                <FaHeart
-                  className="icon-size"
-                  cursor={"pointer"}
-                  color="red"
+                <button
+                  disabled={likeLoading}
                   onClick={() => {
+                    setLikeLoading(true);
                     const token = getCookie("insta_token");
                     dispatch(unlikePost(_id, token) as any).then(() => {
+                      setLikeLoading(false);
                       getPostLikes(_id);
                     });
                   }}
-                />
+                >
+                  <FaHeart
+                    className="icon-size"
+                    cursor={"pointer"}
+                    color="red"
+                  />
+                </button>
               )}
               <FaRegComment className="icon-size" onClick={onOpen} />
             </Flex>
@@ -269,6 +281,7 @@ const PostCard = ({
             <Flex>
               {" "}
               <Image
+                display={{ base: "none", md: "none", lg: "block" }}
                 src={post.image}
                 maxW={"60rem"}
                 maxHeight={"90vh"}

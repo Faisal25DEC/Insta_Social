@@ -103,22 +103,21 @@ const Profile = () => {
 
   return (
     <>
-      <Flex w="100%">
+      <Flex w="85%" marginLeft={"auto"}>
         {/* <Box
         // w="20%"
         >
           <Sidebar />
         </Box> */}
 
-        <Spacer />
+        {/* <Spacer /> */}
         <Container
           // border={"2px"}
           // centerContent
-          maxW="90%"
+          maxW="100%"
           // w="100%"
           paddingY={"2rem"}
           minW="80%"
-          marginX="auto"
         >
           <Box w={{ base: "100%", md: "80%", lg: "70%" }} marginX={"auto"}>
             <VStack>

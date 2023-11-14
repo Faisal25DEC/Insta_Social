@@ -17,7 +17,7 @@ const Following = () => {
     (store: RootState) => store.searchUserReducer
   );
   return (
-    <Flex w="100%">
+    <Flex w="85%" marginLeft={"auto"}>
       <Box></Box>
       <Box w="100%" paddingX="4" paddingY="4">
         {searchUserFollowing.map((ele) => (

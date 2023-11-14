@@ -94,8 +94,8 @@ const ProfileCard = ({ isSameUser, onOpen }: ProfileCardProps) => {
             >
               <Image
                 borderRadius="full"
-                height="10rem"
-                width="10rem"
+                height={["5rem", "7rem", "10rem"]}
+                width={["5rem", "7rem", "10rem"]}
                 objectFit={"cover"}
                 src={profileImage}
               ></Image>
@@ -121,11 +121,15 @@ const ProfileCard = ({ isSameUser, onOpen }: ProfileCardProps) => {
               <Text>{userName}</Text>
               <Box display="flex" gap="3" alignItems="center">
                 {isSameUser ? (
-                  <EditProfileButton onOpen={onOpen}  />
+                  <EditProfileButton onOpen={onOpen} />
                 ) : (
                   <FollowButton _id={searchUserId} />
                 )}
-                  {isSameUser ? <ViewArchiveButton /> : <MessageButton _id={ searchUserId} />}
+                {isSameUser ? (
+                  <ViewArchiveButton />
+                ) : (
+                  <MessageButton _id={searchUserId} />
+                )}
 
                 {isSameUser ? (
                   <SettingPopUp

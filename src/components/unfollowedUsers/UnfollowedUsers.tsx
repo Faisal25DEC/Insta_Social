@@ -30,7 +30,12 @@ const UnfollowedUsers = () => {
     }
   }, []);
   return (
-    <Box marginRight={"10%"} marginTop={"2%"} minW="30%">
+    <Box
+      marginRight={"10%"}
+      marginTop={"2%"}
+      minW="30%"
+      display={{ base: "none", md: "none", lg: "block" }}
+    >
       <Link to={`profile/${login_user?._id}`}>
         <Heading color="gray" size="sm">
           Your Profile

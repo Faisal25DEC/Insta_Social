@@ -16,9 +16,9 @@ const Home = () => {
   }, []);
   return (
     <Box
-      width={"65%"}
+      width={{ base: "90%", md: "75%", lg: "75%" }}
       display="flex"
-      marginLeft="auto"
+      marginLeft={{ base: "auto", md: "27.5%" }}
       justifyContent={"space-between"}
     >
       <Box display={"flex"} flexDirection={"column"} gap="1.5rem">

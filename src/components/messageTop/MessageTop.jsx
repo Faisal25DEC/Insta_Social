@@ -6,6 +6,7 @@ import {
   Heading,
   Image,
   Input,
+  Spacer,
   Text,
 } from "@chakra-ui/react";
 import Message from "../message/Message";
@@ -13,11 +14,12 @@ import { useEffect, useRef, useState } from "react";
 import { baseUrl } from "../../redux/util";
 import { io } from "socket.io-client";
 import axios from "axios";
-import { calcLength } from "framer-motion";
+import { IoCloseOutline } from "react-icons/io5";
 
 const MessageTop = ({
   messages,
   conversation,
+  setCurrentChat,
   currentUser,
   setMessages,
   socket,
@@ -43,7 +45,10 @@ const MessageTop = ({
     try {
       setNewMessage("");
       // const res = await axios.post(`${baseUrl}/messages`, message);
-      const res = await axios.post("https://instagram-backend-2-production.up.railway.app/messages", message);
+      const res = await axios.post(
+        "https://instagram-backend-2-production.up.railway.app/messages",
+        message
+      );
       setMessages([...messages, res.data]);
     } catch (err) {
       console.log(err);
@@ -57,7 +62,9 @@ const MessageTop = ({
       );
       try {
         // const res = await axios.get(`${baseUrl}/users/single/${userId}`);
-        const res = await axios.get(`https://instagram-backend-2-production.up.railway.app/users/single/${userId}`);
+        const res = await axios.get(
+          `https://instagram-backend-2-production.up.railway.app/users/single/${userId}`
+        );
         console.log(res.data);
         setUser(res.data);
       } catch (err) {
@@ -81,6 +88,14 @@ const MessageTop = ({
       >
         <Avatar src={user?.profileImage} />
         <Text fontWeight={"bold"}>{user?.userName}</Text>
+        <Spacer />
+        <IoCloseOutline
+          size={24}
+          cursor={"pointer"}
+          onClick={() => {
+            setCurrentChat(null);
+          }}
+        />
       </Flex>
       <Box h="83.5vh" overflow={"scroll"} overflowX={"hidden"}>
         <Box
